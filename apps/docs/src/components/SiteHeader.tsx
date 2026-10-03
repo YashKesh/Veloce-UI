@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from '../theme'
+import { useGithubStars } from '../useGithubStars'
+
+export const REPO_OWNER = 'YashKesh'
+export const REPO_NAME = 'Veloce-UI'
+export const REPO_URL = `https://github.com/${REPO_OWNER}/${REPO_NAME}`
 
 export function Logo() {
   return (
@@ -211,6 +216,35 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
   )
 }
 
+function GithubPill() {
+  const { formatted, loading } = useGithubStars(REPO_OWNER, REPO_NAME)
+  return (
+    <a
+      href={REPO_URL}
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 8, height: 32, padding: '0 11px',
+        borderRadius: 8, border: '1px solid var(--line-2)', fontSize: 13, color: 'var(--fg)',
+      }}
+    >
+      GitHub
+      <span
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 4,
+          fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-2)',
+          minWidth: 36, justifyContent: 'flex-end',
+          opacity: loading && !formatted ? 0 : 1,
+          transition: 'opacity 150ms var(--ease-swift-out)',
+        }}
+      >
+        <span style={{ color: 'var(--warn)' }}>★</span>
+        {formatted ?? ''}
+      </span>
+    </a>
+  )
+}
+
 function useHeaderViewport() {
   const read = () => {
     if (typeof window === 'undefined') return { isMobile: false, isTablet: false }
@@ -287,33 +321,22 @@ export function SiteHeader({ height = 56, onMenu }: { height?: number; onMenu?: 
       <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: isMobile ? 8 : 12 }}>
         {!isMobile && (
           <button
-            className="vl-input"
             onClick={() => setPaletteOpen(true)}
-            style={{ height: 32, width: isTablet ? 160 : 200, background: 'var(--bg-1)', border: '1px solid var(--line)', fontSize: 13, color: 'var(--fg-3)', justifyContent: 'space-between' }}
-          >
-            <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <span style={{ fontSize: 12 }}>⌕</span> Search docs
-            </span>
-            <kbd className="vl-kbd">⌘K</kbd>
-          </button>
-        )}
-        {!isMobile && (
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noreferrer"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8, height: 32, padding: '0 11px',
-              borderRadius: 8, border: '1px solid var(--line-2)', fontSize: 13, color: 'var(--fg)',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8,
+              height: 32, width: isTablet ? 160 : 200, padding: '0 8px 0 10px',
+              background: 'var(--bg-1)', border: '1px solid var(--line)', borderRadius: 8,
+              fontFamily: 'var(--font-sans)', fontSize: 13, color: 'var(--fg-3)', cursor: 'pointer',
             }}
           >
-            GitHub
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-2)' }}>
-              <span style={{ color: 'var(--warn)' }}>★</span> 12.4k
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ fontSize: 12 }}>⌕</span> Search docs
             </span>
-          </a>
+            <kbd className="vl-kbd" style={{ flex: '0 0 auto' }}>⌘K</kbd>
+          </button>
         )}
-        {!isMobile && (
+        {!isMobile && <GithubPill />}
+        {!isMobile && import.meta.env.DEV && (
           <Link
             to="/playground"
             style={{

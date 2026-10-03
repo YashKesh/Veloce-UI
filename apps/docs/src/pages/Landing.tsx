@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SiteHeader } from '../components/SiteHeader'
+import { NumberFlow } from 'veloce-ui'
+import { SiteHeader, REPO_OWNER, REPO_NAME } from '../components/SiteHeader'
 import { SiteFooter } from '../components/SiteFooter'
+import { useGithubStars } from '../useGithubStars'
 import './Landing.css'
 
 const INSTALL_CMD = 'npx veloce add button'
@@ -60,24 +62,25 @@ function ToastStack() {
 }
 
 function NumberFlowCard() {
+  const { stars, loading } = useGithubStars(REPO_OWNER, REPO_NAME)
   return (
     <div className="lp__counter">
       <div className="lp__counter-top">
         <span>GitHub stars</span>
-        <span style={{ color: 'var(--ok)' }}>▲ 3.2%</span>
-      </div>
-      <div className="lp__counter-num">
-        <span>12,4</span>
-        <span className="lp__roll">
-          <span className="lp__roll-track">
-            <span className="lp__roll-digit">6</span>
-            <span className="lp__roll-digit">7</span>
-            <span className="lp__roll-digit">8</span>
-          </span>
+        <span style={{ color: 'var(--fg-3)', fontFamily: 'var(--font-mono)', fontSize: 11 }}>
+          {REPO_OWNER}/{REPO_NAME}
         </span>
-        <span>2</span>
       </div>
-      <div className="lp__ann" style={{ marginTop: 10, color: 'var(--fg-3)' }}>{'<NumberFlow />'} · 250ms settle</div>
+      <div className="lp__counter-num" style={{ minHeight: '1em' }}>
+        {stars != null ? (
+          <NumberFlow value={stars} />
+        ) : loading ? (
+          <span style={{ color: 'var(--fg-3)' }}>—</span>
+        ) : (
+          <span style={{ color: 'var(--fg-3)' }}>0</span>
+        )}
+      </div>
+      <div className="lp__ann" style={{ marginTop: 10, color: 'var(--fg-3)' }}>{'<NumberFlow />'} · 500ms ease-out</div>
     </div>
   )
 }

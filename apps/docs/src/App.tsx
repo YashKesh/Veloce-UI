@@ -74,7 +74,9 @@ const ContactPage = lazy(() => import('./pages/legal/ContactPage'))
 const PrivacyPage = lazy(() => import('./pages/legal/PrivacyPage'))
 const TermsPage = lazy(() => import('./pages/legal/TermsPage'))
 const AboutPage = lazy(() => import('./pages/legal/AboutPage'))
-const Playground = lazy(() => import('./pages/Playground'))
+const Playground = import.meta.env.DEV
+  ? lazy(() => import('./pages/Playground'))
+  : null
 const Usage = lazy(() => import('./pages/Usage'))
 
 export default function App() {
@@ -148,7 +150,9 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/playground" element={<Playground />} />
+          {import.meta.env.DEV && Playground && (
+            <Route path="/playground" element={<Playground />} />
+          )}
           <Route path="/docs/dialog" element={<Navigate to="/components/dialog" replace />} />
           <Route path="/closeups" element={<Navigate to="/components/button" replace />} />
           <Route path="/feedback" element={<Navigate to="/components/toast" replace />} />

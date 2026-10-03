@@ -86,7 +86,9 @@ export const DOCS_SIDEBAR: SidebarGroup[] = [
     title: 'Getting started',
     items: [
       { label: 'Introduction', to: '/' },
-      { label: 'Playground', to: '/playground', chip: 'LIVE' },
+      ...(import.meta.env.DEV
+        ? [{ label: 'Playground', to: '/playground', chip: 'LIVE' }]
+        : []),
       { label: 'Installation', to: '/docs/installation' },
       { label: 'Usage', to: '/docs/usage' },
       { label: 'CLI', to: '/docs/installation#step-1' },
