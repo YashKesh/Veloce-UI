@@ -1,0 +1,32 @@
+/* Docs-only helper classes. Component styling now lives in veloce-ui/styles.css. */
+
+/* ---------- Caret / Kbd ---------- */
+.vl-caret{display:inline-block;width:1.5px;height:1em;background:var(--fg);animation:vl-caret 1s steps(1) infinite;vertical-align:text-bottom}
+.vl-kbd{font-family:var(--font-mono);font-size:11px;padding:1px 5px;border:1px solid var(--line-2);border-radius:4px;color:var(--fg-3);background:var(--bg-1)}
+
+/* ---------- Form field helpers (docs only) ---------- */
+.vl-field-label{display:block;font-size:12.5px;font-weight:500;color:var(--fg-2);margin-bottom:6px}
+.vl-field-help{font-size:12px;color:var(--fg-3);margin-top:6px}
+
+/* ---------- Code blocks ---------- */
+.vl-code{border:1px solid var(--line);border-radius:10px;background:var(--bg-1);font-family:var(--font-mono);font-size:13px;line-height:1.65;overflow:hidden}
+.vl-code pre{padding:14px 16px;overflow-x:auto}
+.vl-code .p{color:var(--fg-3)}
+.vl-code .s{color:var(--ac-text)}
+
+/* ---------- Labels / eyebrows ---------- */
+.vl-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.vl-eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ac-text)}
+
+/* ---------- Panels / stage ---------- */
+.vl-panel{border:1px solid var(--line);border-radius:12px;background:var(--bg-1)}
+.vl-stage{background:radial-gradient(var(--line) 1px,transparent 1px) 0 0/16px 16px,var(--bg-1)}
+.vl-stage--sm{background:radial-gradient(var(--line) 1px,transparent 1px) 0 0/14px 14px,var(--bg-1)}
+
+/* ---------- Tabs (segmented, docs only) ---------- */
+.vl-seg{display:inline-flex;padding:3px;border-radius:9px;background:var(--bg-2);border:1px solid var(--line);gap:2px}
+.vl-seg__item{padding:7px 14px;border-radius:6px;font-size:13.5px;color:var(--fg-2)}
+.vl-seg__item--active{background:var(--bg);color:var(--fg);font-weight:500;box-shadow:var(--shadow-sm)}
+
+/* ---------- Section heading used on spec-sheet pages ---------- */
+.vl-h2{font-size:18px;letter-spacing:-0.02em;font-weight:600}

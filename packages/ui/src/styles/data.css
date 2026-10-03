@@ -1,0 +1,73 @@
+/* Veloce UI — data display (Table / DataGrid).
+   Will be merged into components.css by hand. */
+@layer veloce-ui {
+  [data-vl-table] {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+  }
+  [data-vl-table] caption {
+    text-align: start;
+    padding: 8px 12px;
+    color: var(--fg-3);
+    font-size: 12px;
+    caption-side: top;
+  }
+  [data-vl-table] thead th {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    color: var(--fg-3);
+    text-transform: uppercase;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    text-align: start;
+  }
+  [data-vl-table] tbody tr {
+    border-top: 1px solid var(--line);
+  }
+  [data-vl-table][data-variant="striped"] tbody tr:nth-child(even) {
+    --vl-table-row-bg: var(--bg-2);
+  }
+  [data-vl-table][data-hoverable="true"] tbody tr:hover {
+    --vl-table-row-bg: color-mix(in oklch, var(--fg) 5%, transparent);
+  }
+  [data-vl-table] tbody tr[data-selected] {
+    --vl-table-row-bg: var(--ac-soft);
+    box-shadow: inset 2px 0 0 var(--ac);
+  }
+  [data-vl-table] tbody tr[data-disabled] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  [data-vl-table] tbody tr[data-tone="ok"] {
+    --vl-table-row-bg: color-mix(in oklch, var(--ok) 10%, transparent);
+  }
+  [data-vl-table] tbody tr[data-tone="warn"] {
+    --vl-table-row-bg: color-mix(in oklch, var(--warn) 10%, transparent);
+  }
+  [data-vl-table] tbody tr[data-tone="err"] {
+    --vl-table-row-bg: color-mix(in oklch, var(--err) 10%, transparent);
+  }
+  [data-vl-table] tfoot td {
+    border-top: 1px solid var(--line-2, var(--line));
+    background: var(--bg-1);
+    font-weight: 500;
+  }
+
+  /* DataGrid: layout is primarily inline-styled by the component.
+     Only hover and focus affordances live here so they can respond to :hover/:focus-visible. */
+  [data-vl-datagrid] tbody tr:not([data-selected]):hover > td {
+    background: color-mix(in oklch, var(--bg-2) 60%, transparent) !important;
+  }
+  [data-vl-datagrid] tbody tr:focus {
+    outline: 2px solid var(--ac);
+    outline-offset: -2px;
+  }
+  [data-vl-datagrid-sort]:hover {
+    color: var(--fg) !important;
+  }
+}

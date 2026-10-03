@@ -1,0 +1,111 @@
+/* Veloce UI — shell components (Navbar / Sidebar).
+   Will be merged into components.css by hand. */
+@layer veloce-ui {
+  /* ─────────────────────── Navbar ─────────────────────── */
+  [data-vl-navbar] {
+    font-family: var(--font-sans);
+    color: var(--fg);
+    background: var(--bg-1);
+  }
+  [data-vl-navbar][data-variant='transparent'] {
+    background: transparent;
+  }
+  [data-vl-navbar][data-variant='marketing'] {
+    background: var(--bg-1);
+  }
+  [data-vl-navbar][data-border] {
+    border-bottom: 1px solid var(--line);
+  }
+  [data-vl-navbar][data-blur] {
+    background: color-mix(in oklch, var(--bg-1) 85%, transparent);
+  }
+
+  [data-vl-navbar-announcement] {
+    background: var(--ac-soft);
+    color: var(--ac-text);
+    border-bottom: 1px solid color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+
+  [data-vl-navbar-brand] {
+    color: var(--fg);
+    text-decoration: none;
+  }
+  [data-vl-navbar-brand]:hover {
+    color: var(--fg);
+  }
+
+  [data-vl-navbar-link] {
+    transition: color 120ms var(--ease-swift-out, ease-out),
+      background 120ms var(--ease-swift-out, ease-out);
+  }
+  [data-vl-navbar-link]:hover {
+    --vl-navbar-link-fg: var(--fg);
+    --vl-navbar-link-bg: var(--bg-2);
+  }
+  [data-vl-navbar-link]:focus-visible {
+    outline: 2px solid var(--ac);
+    outline-offset: 2px;
+  }
+  [data-vl-navbar-link][data-disabled] {
+    color: var(--fg-3);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (max-width: 720px) {
+    [data-vl-navbar-nav] {
+      display: none;
+    }
+  }
+
+  /* ─────────────────────── Sidebar ─────────────────────── */
+  [data-vl-sidebar] {
+    font-family: var(--font-sans);
+    color: var(--fg-2);
+    background: var(--bg-1);
+    border-right: 1px solid var(--line);
+  }
+
+  [data-vl-sidebar-group-trigger],
+  [data-vl-sidebar-section-trigger] {
+    transition: color 120ms var(--ease-swift-out, ease-out),
+      background 120ms var(--ease-swift-out, ease-out);
+  }
+  [data-vl-sidebar-group-trigger]:hover {
+    color: var(--fg-2);
+  }
+  [data-vl-sidebar-section-trigger]:hover {
+    background: var(--bg-2);
+    color: var(--fg);
+  }
+  [data-vl-sidebar-group-trigger]:focus-visible,
+  [data-vl-sidebar-section-trigger]:focus-visible,
+  [data-vl-sidebar-item]:focus-visible,
+  [data-vl-sidebar-sub]:focus-visible {
+    outline: 2px solid var(--ac);
+    outline-offset: -2px;
+  }
+
+  [data-vl-sidebar-item] {
+    transition: color 120ms var(--ease-swift-out, ease-out),
+      background 120ms var(--ease-swift-out, ease-out);
+  }
+  [data-vl-sidebar-item]:hover {
+    --vl-sidebar-item-fg: var(--fg);
+    --vl-sidebar-item-bg: var(--bg-2);
+  }
+  [data-vl-sidebar-item][data-active]:hover {
+    --vl-sidebar-item-fg: var(--ac-text);
+    --vl-sidebar-item-bg: var(--ac-soft);
+  }
+  [data-vl-sidebar-item][data-disabled] {
+    color: var(--fg-3);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  [data-vl-sidebar-sub]:hover {
+    color: var(--fg-2);
+    background: var(--bg-2);
+  }
+}

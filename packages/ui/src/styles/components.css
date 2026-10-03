@@ -1,0 +1,364 @@
+/* Veloce UI — interactive states (hover / focus-visible / active / disabled).
+   Base layout + colors stay inline on each component. This layer only adds
+   state transitions, so SSR output is unchanged until the user imports
+   @veloce/ui/styles.css. All rules live inside the `veloce-ui` cascade layer,
+   so any un-layered consumer CSS wins without needing !important. */
+
+@layer veloce-ui {
+  /* ---------- Button ----------
+     Base visual lives INLINE via `var(--vl-btn-bg, …fallback…)` so aggressive
+     consumer resets (e.g. un-layered `button { background: none }`) cannot
+     blank the component — inline styles beat un-layered CSS. The rules below
+     only UPDATE the variables for hover/active state. */
+  [data-vl-btn] {
+    transition:
+      background 150ms var(--ease-swift-out),
+      border-color 150ms var(--ease-swift-out),
+      color 150ms var(--ease-swift-out),
+      box-shadow 150ms var(--ease-swift-out),
+      transform 100ms var(--ease-press);
+  }
+  [data-vl-btn][data-variant="primary"]:hover:not(:disabled) {
+    --vl-btn-bg: var(--ac-h);
+  }
+  [data-vl-btn][data-variant="ghost"]:hover:not(:disabled) {
+    --vl-btn-bg: color-mix(in oklch, var(--fg) 6%, transparent);
+  }
+  [data-vl-btn][data-variant="outline"]:hover:not(:disabled) {
+    --vl-btn-bg: color-mix(in oklch, var(--fg) 4%, transparent);
+    --vl-btn-border: var(--line);
+  }
+  [data-vl-btn][data-variant="destructive"]:hover:not(:disabled) {
+    --vl-btn-bg: color-mix(in oklch, var(--err) 90%, black);
+  }
+  [data-vl-btn]:active:not(:disabled) {
+    transform: translateY(0.5px);
+  }
+  [data-vl-btn]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+  [data-vl-btn]:disabled {
+    cursor: not-allowed;
+  }
+
+  /* ---------- Chip ---------- */
+  [data-vl-chip] {
+    transition:
+      background 150ms var(--ease-swift-out),
+      border-color 150ms var(--ease-swift-out),
+      color 150ms var(--ease-swift-out);
+  }
+  [data-vl-chip][data-variant="solid"]:hover {
+    filter: brightness(1.08);
+  }
+  [data-vl-chip][data-variant="soft"]:hover {
+    --vl-chip-bg: color-mix(in oklch, var(--fg) 10%, transparent);
+  }
+  [data-vl-chip][data-variant="outline"]:hover {
+    --vl-chip-bg: color-mix(in oklch, var(--fg) 5%, transparent);
+  }
+  [data-vl-chip]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+  [data-vl-chip-remove] {
+    transition: background 120ms var(--ease-swift-out), color 120ms var(--ease-swift-out);
+  }
+  [data-vl-chip-remove]:hover {
+    --vl-chip-remove-bg: color-mix(in oklch, currentColor 18%, transparent);
+  }
+  [data-vl-chip-remove]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ac);
+  }
+
+  /* ---------- Input ---------- */
+  [data-vl-input] {
+    transition:
+      border-color 150ms var(--ease-swift-out),
+      box-shadow 150ms var(--ease-swift-out),
+      background 150ms var(--ease-swift-out);
+  }
+  [data-vl-input]:hover:not([data-invalid]) {
+    --vl-input-border: color-mix(in oklch, var(--fg) 28%, transparent);
+  }
+  [data-vl-input]:focus-within {
+    --vl-input-border: var(--ac);
+    --vl-input-ring: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+  [data-vl-input][data-invalid]:focus-within {
+    --vl-input-border: var(--err);
+    --vl-input-ring: 0 0 0 3px color-mix(in oklch, var(--err) 25%, transparent);
+  }
+
+  /* ---------- Textarea ---------- */
+  [data-vl-textarea] {
+    transition:
+      border-color 150ms var(--ease-swift-out),
+      box-shadow 150ms var(--ease-swift-out);
+  }
+  [data-vl-textarea]:hover:not([data-invalid]) {
+    --vl-textarea-border: color-mix(in oklch, var(--fg) 28%, transparent);
+  }
+  [data-vl-textarea]:focus {
+    outline: none;
+    --vl-textarea-border: var(--ac);
+    --vl-textarea-ring: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+  [data-vl-textarea][data-invalid]:focus {
+    --vl-textarea-border: var(--err);
+    --vl-textarea-ring: 0 0 0 3px color-mix(in oklch, var(--err) 25%, transparent);
+  }
+
+  /* ---------- Card ---------- */
+  [data-vl-card] {
+    transition: box-shadow 200ms var(--ease-swift-out), border-color 200ms var(--ease-swift-out);
+  }
+  [data-vl-card][data-elevated]:hover {
+    box-shadow: var(--shadow-lg);
+    border-color: var(--line-2);
+  }
+
+  /* ---------- Badge ---------- */
+  [data-vl-badge]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+
+  /* ---------- Alert ---------- */
+  [data-vl-alert-close] {
+    transition: background 120ms var(--ease-swift-out), color 120ms var(--ease-swift-out);
+    border-radius: var(--r-sm);
+  }
+  [data-vl-alert-close]:hover {
+    --vl-alert-close-bg: color-mix(in oklch, var(--fg) 8%, transparent);
+    --vl-alert-close-fg: var(--fg);
+  }
+  [data-vl-alert-close]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ac);
+  }
+
+  /* ---------- Dialog ---------- */
+  [data-vl-dialog-close] {
+    transition: background 120ms var(--ease-swift-out), color 120ms var(--ease-swift-out);
+  }
+  [data-vl-dialog-close]:hover {
+    background: color-mix(in oklch, var(--fg) 8%, transparent);
+    color: var(--fg);
+  }
+  [data-vl-dialog-close]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ac);
+  }
+
+  /* ---------- Avatar ---------- */
+  [data-vl-avatar][data-interactive] {
+    transition: box-shadow 150ms var(--ease-swift-out), transform 100ms var(--ease-press);
+    cursor: pointer;
+  }
+  [data-vl-avatar][data-interactive]:hover {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+  [data-vl-avatar][data-interactive]:active {
+    transform: translateY(0.5px);
+  }
+  [data-vl-avatar][data-interactive]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+
+  /* ---------- Checkbox ---------- */
+  [data-vl-checkbox] [data-vl-checkbox-box] {
+    transition:
+      background 150ms var(--ease-swift-out),
+      border-color 150ms var(--ease-swift-out),
+      box-shadow 150ms var(--ease-swift-out);
+  }
+  [data-vl-checkbox]:hover [data-vl-checkbox-box] {
+    --vl-checkbox-border: color-mix(in oklch, var(--fg) 28%, transparent);
+  }
+  [data-vl-checkbox] input:checked ~ [data-vl-checkbox-box],
+  [data-vl-checkbox] input:indeterminate ~ [data-vl-checkbox-box] {
+    --vl-checkbox-bg: var(--ac);
+    --vl-checkbox-border: var(--ac);
+    color: var(--ac-fg);
+  }
+  [data-vl-checkbox] input:focus-visible ~ [data-vl-checkbox-box] {
+    --vl-checkbox-ring: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+  [data-vl-checkbox][data-invalid] [data-vl-checkbox-box],
+  [data-vl-checkbox][data-invalid]:hover [data-vl-checkbox-box] {
+    --vl-checkbox-border: var(--err);
+    --vl-checkbox-ring: 0 0 0 3px color-mix(in oklch, var(--err) 20%, transparent);
+  }
+
+  /* ---------- Radio ---------- */
+  [data-vl-radio] [data-vl-radio-box] {
+    transition:
+      background 150ms var(--ease-swift-out),
+      border-color 150ms var(--ease-swift-out),
+      box-shadow 150ms var(--ease-swift-out);
+  }
+  [data-vl-radio]:hover [data-vl-radio-box] {
+    --vl-radio-border: color-mix(in oklch, var(--fg) 28%, transparent);
+  }
+  [data-vl-radio][data-checked] [data-vl-radio-box] {
+    --vl-radio-border: var(--ac);
+  }
+  [data-vl-radio] input:focus-visible ~ [data-vl-radio-box] {
+    --vl-radio-ring: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+
+  /* ---------- Switch ---------- */
+  [data-vl-switch] {
+    transition: background 180ms var(--ease-swift-out), border-color 180ms var(--ease-swift-out);
+  }
+  [data-vl-switch] [data-vl-switch-thumb] {
+    transition: left 180ms var(--ease-swift-out);
+  }
+  [data-vl-switch]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+
+  /* ---------- Select ---------- */
+  [data-vl-select] {
+    transition: border-color 150ms var(--ease-swift-out), box-shadow 150ms var(--ease-swift-out);
+  }
+  [data-vl-select]:hover:not([data-invalid]) {
+    --vl-select-border: color-mix(in oklch, var(--fg) 28%, transparent);
+  }
+  [data-vl-select]:focus-within {
+    --vl-select-border: var(--ac);
+    --vl-select-ring: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+
+  /* ---------- Slider ---------- */
+  [data-vl-slider] {
+    --vl-slider-pct: 0%;
+  }
+  [data-vl-slider]::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(to right, var(--ac) 0 var(--vl-slider-pct), var(--bg-2) var(--vl-slider-pct) 100%);
+  }
+  [data-vl-slider]::-moz-range-track {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--bg-2);
+  }
+  [data-vl-slider]::-moz-range-progress {
+    height: 4px;
+    border-radius: 999px;
+    background: var(--ac);
+  }
+  [data-vl-slider]::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--ac);
+    margin-top: -5px;
+    cursor: pointer;
+  }
+  [data-vl-slider]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid var(--ac);
+    cursor: pointer;
+  }
+  [data-vl-slider]:focus-visible::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+
+  /* ---------- ToggleGroup ---------- */
+  [data-vl-toggle-group-item] {
+    transition: background 150ms var(--ease-swift-out), color 150ms var(--ease-swift-out);
+  }
+  [data-vl-toggle-group-item]:hover:not(:disabled) {
+    --vl-toggle-bg: color-mix(in oklch, var(--fg) 5%, transparent);
+    --vl-toggle-fg: var(--fg);
+  }
+  [data-vl-toggle-group-item]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+
+  /* ---------- Tabs ---------- */
+  [data-vl-tabs-list] {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  [data-vl-tabs-trigger] {
+    transition: color 150ms var(--ease-swift-out), border-color 150ms var(--ease-swift-out), box-shadow 180ms var(--ease-swift-out);
+  }
+  [data-vl-tabs-trigger]:hover {
+    --vl-tabs-fg: var(--fg);
+  }
+  [data-vl-tabs-trigger]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ac);
+  }
+
+  /* ---------- Progress ---------- */
+  @keyframes vl-indet {
+    0% { left: -40%; }
+    100% { left: 100%; }
+  }
+
+  /* ---------- Breadcrumbs ---------- */
+  [data-vl-breadcrumbs-link] {
+    transition: color 120ms var(--ease-swift-out);
+  }
+  [data-vl-breadcrumbs-link]:hover {
+    --vl-breadcrumbs-fg: var(--fg);
+  }
+
+  /* ---------- Pagination ---------- */
+  [data-vl-pagination-page],
+  [data-vl-pagination-prev],
+  [data-vl-pagination-next] {
+    transition: background 120ms var(--ease-swift-out), border-color 120ms var(--ease-swift-out);
+  }
+  [data-vl-pagination-page]:hover:not(:disabled):not([aria-current]),
+  [data-vl-pagination-prev]:hover:not(:disabled),
+  [data-vl-pagination-next]:hover:not(:disabled) {
+    --vl-pagination-bg: color-mix(in oklch, var(--fg) 5%, transparent);
+    --vl-pagination-border: var(--line-2);
+  }
+  [data-vl-pagination-page]:focus-visible,
+  [data-vl-pagination-prev]:focus-visible,
+  [data-vl-pagination-next]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ac);
+  }
+
+  /* ---------- Accordion ---------- */
+  [data-vl-accordion-trigger] {
+    transition: color 150ms var(--ease-swift-out);
+  }
+  [data-vl-accordion-trigger]:hover {
+    --vl-accordion-fg: var(--ac);
+  }
+  [data-vl-accordion-trigger]:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--ac);
+    border-radius: var(--r-sm);
+  }
+
+  /* ---------- Dropdown ---------- */
+  [data-vl-dropdown-item] {
+    transition: background 100ms var(--ease-swift-out);
+  }
+  [data-vl-dropdown-item]:hover:not([aria-disabled="true"]),
+  [data-vl-dropdown-item]:focus-visible {
+    --vl-dropdown-item-bg: color-mix(in oklch, var(--fg) 6%, transparent);
+    outline: none;
+  }
+}

@@ -1,0 +1,69 @@
+/* Veloce UI — overlay components (Sheet / Toast / Command).
+   Will be merged into components.css by hand. */
+@layer veloce-ui {
+  /* ----- Sheet ----- */
+  [data-vl-sheet-backdrop] {
+    cursor: default;
+  }
+  [data-vl-sheet-panel] {
+    background: var(--bg-1);
+    color: var(--fg);
+  }
+  [data-vl-sheet-panel]:focus-visible {
+    box-shadow: var(--shadow-lg), 0 0 0 2px var(--accent);
+  }
+  [data-vl-sheet-panel] .vl-sheet__header {
+    background: var(--bg-1);
+  }
+
+  /* ----- Toast ----- */
+  [data-vl-toast-root] {
+    font-family: var(--font-sans);
+  }
+  [data-vl-toast] {
+    transition: transform 200ms var(--ease-swift-out), opacity 200ms var(--ease-swift-out);
+  }
+  [data-vl-toast][data-tone='info'] [data-vl-toast-stripe] {
+    background: var(--accent, #3ecf94);
+  }
+  [data-vl-toast][data-tone='ok'] [data-vl-toast-stripe] {
+    background: var(--ok, #22c55e);
+  }
+  [data-vl-toast][data-tone='warn'] [data-vl-toast-stripe] {
+    background: var(--warn, #f59e0b);
+  }
+  [data-vl-toast][data-tone='err'] [data-vl-toast-stripe] {
+    background: var(--err, #ef4444);
+  }
+  [data-vl-toast-close]:hover {
+    --vl-toast-close-fg: var(--fg);
+  }
+  [data-vl-toast-action]:hover {
+    text-decoration: underline;
+  }
+
+  /* ----- Command ----- */
+  [data-vl-command] {
+    background: var(--bg-1);
+  }
+  [data-vl-command-input]::placeholder {
+    color: var(--fg-2);
+  }
+  [data-vl-command-item] {
+    user-select: none;
+  }
+  [data-vl-command-item]:hover {
+    --vl-command-item-bg: var(--bg-2, oklch(from var(--bg-1) calc(l + 0.04) c h));
+  }
+  [data-vl-command-item][data-highlighted] {
+    --vl-command-item-bg: var(--bg-2, oklch(from var(--bg-1) calc(l + 0.06) c h));
+    color: var(--fg);
+  }
+  [data-vl-command-item][data-disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  [data-vl-command-group][data-hidden] {
+    display: none;
+  }
+}

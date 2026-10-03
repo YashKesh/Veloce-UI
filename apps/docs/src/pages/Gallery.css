@@ -1,0 +1,27 @@
+/* 1c · Gallery — page-scoped styles */
+.gal{display:flex;flex-direction:column;gap:28px}
+.gal__head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.gal__h1{margin:0;font-size:36px;font-weight:600;letter-spacing:-0.035em}
+.gal__sub{margin:0;font-size:16px;color:var(--fg-2)}
+
+.gal__pills{display:flex;gap:6px;font-size:13px}
+.gal__pill{padding:6px 12px;border-radius:999px;border:1px solid var(--line-2);color:var(--fg-2);font-size:13px;transition:background var(--dur-100) var(--ease-press),color var(--dur-100) var(--ease-press)}
+.gal__pill:hover{color:var(--fg);background:var(--bg-2)}
+.gal__pill--active{background:var(--fg);color:var(--bg);font-weight:500;border-color:var(--fg)}
+.gal__pill--active:hover{background:var(--fg);color:var(--bg)}
+
+.gal__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:1100px){.gal__grid{grid-template-columns:repeat(2,1fr)}}
+
+.gal__tile{border:1px solid var(--line);border-radius:12px;background:var(--bg-1);overflow:hidden;display:flex;flex-direction:column;color:inherit;
+  transition:transform var(--dur-200) var(--ease-swift-out),box-shadow var(--dur-200) var(--ease-swift-out),border-color var(--dur-200) var(--ease-swift-out)}
+.gal__tile:hover{border-color:var(--ac-line);transform:translateY(-3px);box-shadow:var(--shadow-lg),0 0 0 1px var(--ac-line)}
+.gal__stage{height:176px;display:grid;place-items:center;background:radial-gradient(var(--line) 1px,transparent 1px) 0 0/14px 14px;position:relative}
+/* replay each mini's enter choreography on hover */
+.gal__tile:hover .gal__stage>*{animation:vl-in .25s cubic-bezier(.16,1,.3,1) both}
+.gal__foot{padding:12px 14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:13.5px}
+.gal__name{font-weight:500}
+.gal__tag{font-family:var(--font-mono);font-size:11px;color:var(--fg-3)}
+.gal__tile:hover .gal__tag{color:var(--ac-text)}
+
+.gal__mini-dialog{position:relative;width:200px;padding:14px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line-2);box-shadow:var(--shadow-lg);animation:vl-in .2s cubic-bezier(.16,1,.3,1) both}

@@ -1,0 +1,24 @@
+/* 1f · Accent variants — page-scoped styles */
+.acc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:24px}
+.acc__card{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:12px;overflow:hidden;position:relative;padding:32px;display:flex;flex-direction:column;gap:24px}
+.acc__glow{position:absolute;inset:0;background:radial-gradient(400px 220px at 80% -10%,var(--ac-soft),transparent 70%);pointer-events:none}
+.acc__row{position:relative;display:flex;justify-content:space-between;align-items:center}
+.acc__logo{display:flex;align-items:center;gap:10px}
+.acc__logo-mark{width:22px;height:22px;border-radius:6px;background:var(--ac);display:grid;place-items:center}
+.acc__logo-bar{width:3px;height:12px;border-radius:2px;background:var(--ac-fg);transform:skewX(-22deg) translateX(1px)}
+.acc__css{font-family:var(--font-mono);font-size:11.5px;color:var(--fg-3)}
+.acc__hero{position:relative;display:flex;flex-direction:column;gap:8px}
+.acc__label{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;color:var(--ac-text)}
+.acc__h{font-size:40px;font-weight:600;letter-spacing:-0.04em;line-height:1}
+.acc__blurb{font-size:14px;line-height:1.5;color:var(--fg-2)}
+.acc__btns{position:relative;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.acc__btn{display:inline-flex;align-items:center;height:36px;padding:0 14px;border-radius:9px;font-size:14px;font-weight:500}
+.acc__btn--solid{background:var(--ac);color:var(--ac-fg);box-shadow:inset 0 1px 0 oklch(1 0 0/.2)}
+.acc__btn--soft{background:var(--ac-soft);color:var(--ac-text)}
+.acc__btn--focus{border:1px solid var(--line-2);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ac)}
+.acc__switch{position:relative;width:38px;height:22px;border-radius:999px;background:var(--ac);display:block}
+.acc__switch-thumb{position:absolute;top:2px;left:18px;width:18px;height:18px;border-radius:50%;background:oklch(0.99 0 0)}
+.acc__toast{position:relative;display:flex;gap:12px;padding:14px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);box-shadow:var(--shadow-md)}
+.acc__toast-dot{width:8px;height:8px;border-radius:50%;background:var(--ac);margin-top:5px;flex:none}
+.acc__ramp{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.acc__step{height:22px;border-radius:4px}
