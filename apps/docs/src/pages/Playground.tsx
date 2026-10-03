@@ -1090,7 +1090,7 @@ function DataGridDemo() {
           rowKey={(r) => String(r.id)}
           virtualize={virtualize}
           pageSize={virtualize ? bigRows.length : 25}
-          onCellEdit={(row, key, value) => {
+          onCellEdit={(row: BigRow, key: string, value: string | number) => {
             setEditedRows((prev) => ({
               ...prev,
               [row.id]: { ...(prev[row.id] ?? {}), [key]: value },
@@ -1118,7 +1118,7 @@ function DataGridDemo() {
             <span style={labelStyle}>Search</span>
             <Input
               value={filter}
-              onChange={(e) => { setFilter(e.target.value); setPageIndex(0) }}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setFilter(e.target.value); setPageIndex(0) }}
               placeholder="Search project, owner, region…"
               style={{ width: 220 }}
             />
@@ -1127,7 +1127,7 @@ function DataGridDemo() {
             <span style={labelStyle}>Status</span>
             <Select
               value={statusFilter}
-              onValueChange={(v) => { setStatusFilter(v); setPageIndex(0) }}
+              onValueChange={(v: string) => { setStatusFilter(v); setPageIndex(0) }}
               options={[{ label: 'All', value: 'all' }, ...statuses.map((s) => ({ label: s, value: s }))]}
               style={{ width: 140 }}
             />
@@ -1136,7 +1136,7 @@ function DataGridDemo() {
             <span style={labelStyle}>Region</span>
             <Select
               value={regionFilter}
-              onValueChange={(v) => { setRegionFilter(v); setPageIndex(0) }}
+              onValueChange={(v: string) => { setRegionFilter(v); setPageIndex(0) }}
               options={[{ label: 'All', value: 'all' }, ...regions.map((r) => ({ label: r, value: r }))]}
               style={{ width: 140 }}
             />
@@ -1145,7 +1145,7 @@ function DataGridDemo() {
             <span style={labelStyle}>Rows / page</span>
             <Select
               value={String(pageSize)}
-              onValueChange={(v) => { setPageSize(Number(v)); setPageIndex(0) }}
+              onValueChange={(v: string) => { setPageSize(Number(v)); setPageIndex(0) }}
               options={[10, 25, 50, 100].map((n) => ({ label: String(n), value: String(n) }))}
               style={{ width: 90 }}
             />
