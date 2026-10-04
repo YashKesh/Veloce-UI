@@ -1,116 +1,119 @@
-# @veloce/ui
+# Veloce UI
 
-Motion-first React UI primitives. Zero runtime, OKLCH-themed, SSR-safe.
+> Motion-first React 19 component library — 38 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe.
+
+[![npm](https://img.shields.io/npm/v/veloce-ui.svg)](https://www.npmjs.com/package/veloce-ui)
+[![MIT](https://img.shields.io/npm/l/veloce-ui.svg)](https://github.com/YashKesh/Veloce-UI/blob/main/LICENSE)
+[![tests](https://img.shields.io/badge/tests-310%20passing-brightgreen)](https://github.com/YashKesh/Veloce-UI)
+
+---
 
 ## Install
 
 ```bash
-npm i @veloce/ui
+npm install veloce-ui
 ```
 
-Peer deps: `react ^19`, `react-dom ^19`.
+Peer deps: `react@>=19`, `react-dom@>=19`.
 
-## Usage
+## Use
 
 ```tsx
-import { Button, Dialog } from "@veloce/ui"
-import "@veloce/ui/styles.css"
+import { Button, DataGrid, LineChart } from 'veloce-ui'
+import 'veloce-ui/styles.css'
 
 export function App() {
-  return <Button variant="primary">Hello</Button>
+  return (
+    <>
+      <Button variant="primary">Deploy</Button>
+      <LineChart
+        data={[
+          { label: 'Jan', value: 24 },
+          { label: 'Feb', value: 38 },
+          { label: 'Mar', value: 52 },
+        ]}
+        height={220}
+      />
+    </>
+  )
 }
 ```
 
-Import `@veloce/ui/styles.css` once at your app root. The stylesheet provides the OKLCH tokens (`--bg`, `--fg`, `--ac`, etc.) and the `vl-spin` / `vl-shimmer` keyframes used by Spinner / Skeleton.
+That's it — no provider required for most components. `TooltipProvider` and `ToastProvider` are optional for apps that use those primitives.
 
-## Components
+## What's in the box
 
-- `Button` — primary / ghost / outline / destructive; sm / md / lg; `isLoading`, `leftIcon`, `rightIcon`.
-- `Badge` — tone + solid / soft / outline.
-- `Chip` — Badge with optional `onRemove`.
-- `Card` — padded container; `Card.Header`, `Card.Body`, `Card.Footer`.
-- `Avatar` — image or auto-colored initials.
-- `Separator` — thin divider, horizontal or vertical.
-- `Input` — styled text input with prefix / suffix / invalid.
-- `Textarea` — multi-line input, optional `autoResize`.
-- `Spinner` — circular loader.
-- `Skeleton` — shimmer placeholder, text / block / circle.
-- `Alert` — info / ok / warn / err with title + dismiss.
-- `Dialog` — controlled modal with Esc + backdrop close + focus trap.
+**38 primitives**
+Button · Badge · Chip · Card · Avatar · Separator · Input · Textarea · Select · Checkbox · Radio · Switch · Slider · ToggleGroup · Tabs · Dialog · Sheet · DropdownMenu · Popover · Tooltip · Command · Toast · Alert · Progress · Spinner · Skeleton · EmptyState · Breadcrumbs · Pagination · Stepper · Accordion · Navbar · Sidebar · Table · DataGrid
+
+**13 chart types**
+LineChart · AreaChart · BarChart · SparklineChart · PieChart · ScatterChart · CandleChart · RadarChart · FunnelChart · WaterfallChart · TreemapChart · HeatmapChart · GaugeChart
+
+**4 layout primitives**
+Container · Grid · Stack · AspectRatio
+
+**4 motion utilities**
+`<Presence>` · `<Stagger>` · `<NumberFlow>` · `useMotionPreference()`
+
+## Why Veloce UI
+
+- **Motion-first.** Every component ships with the right enter/exit, hover, press, and focus animations. Reduced-motion respected everywhere.
+- **Zero runtime.** No `styled-components`, no Emotion, no CSS-in-JS cost. Shipped as plain CSS wrapped in `@layer veloce-ui` so your own styles beat it without `!important`.
+- **OKLCH-themed.** Three accent palettes (Violet / Lime / Cyan) via a single `data-accent` attribute. Dark + light modes via `data-mode`. All tokens live as CSS custom properties — override at any scope.
+- **SSR-safe.** No `window` reads at module scope. Works in Next.js, Remix, Astro, plain SPA.
+- **Full data grid.** Virtualized rows (via `@tanstack/react-virtual`), column pinning, resizing, visibility menu, inline editing, quick filter, multi-sort, selection — in one component.
+- **Charts you'd actually ship.** Not toys. Hover tooltips, mount animations, threshold bands, legends, OKLCH-palette fallbacks, forwardRef on every `<svg>`.
 
 ## Theming
 
-Override any OKLCH token on `:root` or a scoped container:
+Scope colors with a `data-accent` attribute anywhere in the DOM:
+
+```html
+<html data-mode="dark" data-accent="violet">
+  …
+  <div data-accent="lime">
+    <Button variant="primary">Lime button in a violet page</Button>
+  </div>
+</html>
+```
+
+Override any token with CSS variables:
 
 ```css
 :root {
-  --ac: oklch(0.72 0.2 160);     /* accent */
-  --ac-fg: oklch(0.15 0.03 160); /* accent foreground */
-  --bg: oklch(0.14 0.01 240);    /* page background */
+  --ac: oklch(0.65 0.2 150);     /* main accent */
+  --ac-fg: oklch(0.99 0.01 150); /* foreground on accent */
+  --r-md: 10px;                   /* border radius */
 }
 ```
 
-The library also ships preset accents: `data-accent="lime" | "cyan" | ...`.
-
-## Customizing
-
-Every primitive is fully customizable without `!important` or workarounds.
-
-### 1. Pass `style` or `className` — both merge with defaults
+Per-component override via inline style (inline always beats layered CSS):
 
 ```tsx
-<Button
-  variant="primary"
-  style={{ background: 'oklch(0.6 0.22 30)' }}  // overrides background
-  className="my-cta"                             // appends to `vl-btn`
->
-  Call to action
-</Button>
+<Button style={{ background: 'oklch(0.65 0.2 25)' }}>Custom red</Button>
 ```
 
-The library's inline `style` keys you didn't set (border, radius, padding, height, …) stay intact; the keys you supplied win. `className` is concatenated, not replaced.
+## Docs & demos
 
-### 2. Override via plain CSS
+- Live site: [veloceui.codeloomdevv.co.in](https://veloceui.codeloomdevv.co.in)
+- Component gallery: [/components](https://veloceui.codeloomdevv.co.in/components)
+- Chart catalogue: [/charts](https://veloceui.codeloomdevv.co.in/charts)
+- GitHub: [YashKesh/Veloce-UI](https://github.com/YashKesh/Veloce-UI)
 
-All library CSS lives inside a cascade layer called `veloce-ui`. Any un-layered rule in your app automatically beats layered rules — no `!important` needed.
+## Size
 
-```css
-/* your app css */
-.my-cta { background: oklch(0.6 0.22 30); color: white; }
-```
+- Library bundle: ~209 KB ESM / ~215 KB CJS (minified, pre-gzip)
+- CSS: ~22 KB uncompressed, ~4 KB gzip
+- Tree-shakeable — import only what you use
 
-```tsx
-<Button className="my-cta">Call to action</Button>
-```
+## Browser support
 
-Every primitive exposes a stable base className for global targeting:
-
-| Component  | className |
-|---         |---        |
-| Button     | `vl-btn`  |
-| Badge      | `vl-badge` |
-| Chip       | `vl-chip` |
-| Card / Header / Body / Footer | `vl-card` / `vl-card__header` / `vl-card__body` / `vl-card__footer` |
-| Avatar     | `vl-avatar` |
-| Separator  | `vl-separator` |
-| Input      | `vl-input` |
-| Textarea   | `vl-textarea` |
-| Spinner    | `vl-spinner` |
-| Skeleton   | `vl-skeleton` |
-| Alert      | `vl-alert` |
-| Dialog / Header / Body / Footer | `vl-dialog` / `vl-dialog__header` / `vl-dialog__body` / `vl-dialog__footer` |
-
-### 3. Override tokens globally
-
-Redefine `--ac`, `--bg`, etc. in your own `:root` (or any ancestor selector). Because the library's tokens sit inside `@layer veloce-ui`, your un-layered `:root { ... }` wins:
-
-```css
-:root {
-  --ac: oklch(0.72 0.2 160);
-  --bg: oklch(0.14 0.01 240);
-}
-```
+Any evergreen browser that supports CSS `color-mix(in oklch, …)` — Chrome/Edge 111+, Firefox 113+, Safari 16.4+. For older targets, swap the OKLCH tokens for `oklab` or sRGB equivalents in your theme CSS.
 
 ## Status
 
-**v0.1** — primitives only. Coming next: Charts, Data Grid, Navbar, Sheet, Popover.
+v0.1.0 — API is stable for the shipped primitives. Minor versions may add new components; breaking changes to existing APIs will go in major versions with a migration note.
+
+## License
+
+MIT © [YashKesh](https://github.com/YashKesh)
