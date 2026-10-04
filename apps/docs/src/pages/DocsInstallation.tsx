@@ -127,7 +127,7 @@ export default function DocsInstallation() {
           <h1 style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em' }}>Installation</h1>
           <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--fg-2)' }}>
             Veloce UI ships as a single npm package. Install once, import the stylesheet once, then import
-            any of the 38 primitives, 13 charts, or 4 layout &amp; motion utilities from <code style={{ ...mono, fontSize: 14, color: 'var(--fg)' }}>veloce-ui</code>.
+            any of the 36 primitives, 13 charts, or 4 layout &amp; motion utilities from <code style={{ ...mono, fontSize: 14, color: 'var(--fg)' }}>veloce-ui</code>.
           </p>
         </div>
 

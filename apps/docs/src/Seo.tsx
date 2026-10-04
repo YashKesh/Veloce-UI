@@ -5,7 +5,7 @@ const SITE_URL = 'https://veloceui.codeloomdevv.co.in'
 const SITE_NAME = 'Veloce UI'
 const DEFAULT_TITLE = 'Veloce UI — Components that move'
 const DEFAULT_DESC =
-  'Motion-first React 19 component library. 38 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe.'
+  'Motion-first React 19 component library. 36 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe.'
 const DEFAULT_OG = `${SITE_URL}/og.png`
 
 export interface SeoProps {

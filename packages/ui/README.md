@@ -1,6 +1,6 @@
 # Veloce UI
 
-> Motion-first React 19 component library — 38 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe.
+> Motion-first React 19 component library — 36 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe.
 
 [![npm](https://img.shields.io/npm/v/veloce-ui.svg)](https://www.npmjs.com/package/veloce-ui)
 [![MIT](https://img.shields.io/npm/l/veloce-ui.svg)](https://github.com/YashKesh/Veloce-UI/blob/main/LICENSE)
@@ -43,7 +43,7 @@ That's it — no provider required for most components. `TooltipProvider` and `T
 
 ## What's in the box
 
-**38 primitives**
+**36 primitives**
 Button · Badge · Chip · Card · Avatar · Separator · Input · Textarea · Select · Checkbox · Radio · Switch · Slider · ToggleGroup · Tabs · Dialog · Sheet · DropdownMenu · Popover · Tooltip · Command · Toast · Alert · Progress · Spinner · Skeleton · EmptyState · Breadcrumbs · Pagination · Stepper · Accordion · Navbar · Sidebar · Table · DataGrid
 
 **13 chart types**

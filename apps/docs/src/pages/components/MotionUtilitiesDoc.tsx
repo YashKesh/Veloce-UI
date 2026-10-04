@@ -140,7 +140,7 @@ export default function MotionUtilitiesDoc() {
     <ComponentDoc
       slug="motion-utilities"
       name="Motion utilities"
-      description="Three JS helpers for what CSS can't express — exit animations, stagger choreography and value tweening. Each ships as an independent utility; together they weigh under 2 kB."
+      description="Three JS helpers for what CSS can't express — exit animations, stagger choreography and value tweening. Each ships as an independent utility; each respects prefers-reduced-motion."
       toc={TOC}
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22, minWidth: 340 }}>

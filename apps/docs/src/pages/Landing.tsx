@@ -153,7 +153,7 @@ export default function Landing() {
     <div className="lp">
       <Seo
         title={undefined}
-        description="Motion-first React 19 component library. 38 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe. Install with npm i veloce-ui."
+        description="Motion-first React 19 component library. 36 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe. Install with npm i veloce-ui."
         canonical="https://veloceui.codeloomdevv.co.in/"
       />
       <div className="lp__bg" aria-hidden>
@@ -190,7 +190,7 @@ export default function Landing() {
               </Link>
             </div>
             <div className="lp__stats">
-              <span><strong>38</strong> components</span>
+              <span><strong>36</strong> primitives + <strong>13</strong> charts</span>
               <span><strong>0 kB</strong> animation runtime</span>
               <span><strong>WCAG 2.2 AA</strong> across the board</span>
             </div>
