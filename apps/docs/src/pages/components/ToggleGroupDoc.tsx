@@ -98,7 +98,7 @@ export default function ToggleGroupDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ ToggleGroup, ToggleItem }'} <span className="p">from</span> <span className="s">"@/components/ui/toggle-group"</span>
+          <span className="p">import</span> {'{ ToggleGroup, ToggleItem }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [align, setAlign] = useState(<span className="s">"left"</span>)
           {'\n\n'}

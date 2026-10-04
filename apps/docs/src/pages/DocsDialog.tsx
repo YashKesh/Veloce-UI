@@ -67,7 +67,7 @@ function UsageCode() {
       className="vl-code"
       style={{ padding: '18px 20px', color: 'var(--fg-2)', margin: 0, border: '1px solid var(--line)', borderRadius: 10, background: 'var(--bg-1)', ...mono, fontSize: 13, lineHeight: 1.65, overflow: 'hidden' }}
     >
-      <span style={p}>import</span> {'{ Dialog }'} <span style={p}>from</span> <span style={s}>"@/components/ui/dialog"</span>
+      <span style={p}>import</span> {'{ Dialog }'} <span style={p}>from</span> <span style={s}>"veloce-ui"</span>
       {'\n\n'}
       <span style={p}>&lt;</span><span style={id}>Dialog.Root</span><span style={p}>&gt;</span>
       {'\n  '}
@@ -398,8 +398,8 @@ export default function DocsDialog() {
               padding: '10px 14px', borderTop: '1px solid var(--line)', ...mono, fontSize: 12.5, color: 'var(--fg-2)',
             }}
           >
-            <span><span style={{ color: 'var(--fg-3)' }}>$</span> npx veloce add dialog</span>
-            <CopyButton text="npx veloce add dialog" />
+            <span><span style={{ color: 'var(--fg-3)' }}>$</span> npm install veloce-ui</span>
+            <CopyButton text="npm install veloce-ui" />
           </div>
         </div>
 

@@ -87,7 +87,7 @@ export default function AvatarDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Avatar }'} <span className="p">from</span> <span className="s">"@/components/ui/avatar"</span>
+          <span className="p">import</span> {'{ Avatar }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Avatar{'\n'}
           {'  '}<span className="p">src=</span><span className="s">"/team/yash.png"</span>{'\n'}

@@ -76,7 +76,7 @@ export default function AlertDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Alert }'} <span className="p">from</span> <span className="s">"@/components/ui/alert"</span>
+          <span className="p">import</span> {'{ Alert }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Alert{'\n'}
           {'  '}<span className="p">variant=</span><span className="s">"success"</span>{'\n'}

@@ -47,7 +47,7 @@ export default function EmptyStateDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ EmptyState }'} <span className="p">from</span> <span className="s">"@/components/ui/empty-state"</span>
+          <span className="p">import</span> {'{ EmptyState }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>EmptyState{'\n'}
           {'  '}<span className="p">icon=</span>{'{'}<span className="p">&lt;</span>GridIcon <span className="p">/&gt;</span>{'}'}{'\n'}

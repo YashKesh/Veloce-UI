@@ -254,7 +254,7 @@ function CompositionCode() {
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
     <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
-{dim('import')}{' { Sidebar } '}{dim('from')} {str('"@/components/ui/sidebar"')}{'\n\n'}
+{dim('import')}{' { Sidebar } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Sidebar')} {dim('width=')}{val('{264}')} {dim('footer=')}{val('{<Footer />}')}{dim('>')}{'\n'}
 {'  '}{dim('{groups.map((g) => (')}{'\n'}
 {'    '}{dim('<')}{tag('Sidebar.Group')} {dim('key=')}{val('{g.id}')} {dim('title=')}{val('{g.title}')}{dim('>')}{'\n'}

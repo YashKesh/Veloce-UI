@@ -211,7 +211,7 @@ function CompositionCode() {
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
     <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
-{dim('import')}{' { Table } '}{dim('from')} {str('"@/components/ui/table"')}{'\n\n'}
+{dim('import')}{' { Table } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Table')} {dim('variant=')}{str('"striped"')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('Table.Header')} {dim('sticky>')}{'\n'}
 {'    '}{dim('<')}{tag('Table.Column')}{dim('>')}Project{dim('</')}{tag('Table.Column')}{dim('>')}{'\n'}

@@ -52,7 +52,7 @@ export default function TextareaDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Textarea }'} <span className="p">from</span> <span className="s">"@/components/ui/textarea"</span>
+          <span className="p">import</span> {'{ Textarea }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [notes, setNotes] = useState(<span className="s">""</span>)
           {'\n\n'}

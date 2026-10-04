@@ -7,7 +7,7 @@ import { useGithubStars } from '../useGithubStars'
 import { Seo } from '../Seo'
 import './Landing.css'
 
-const INSTALL_CMD = 'npx veloce add button'
+const INSTALL_CMD = 'npm install veloce-ui'
 
 function CopyButton() {
   const [copied, setCopied] = useState(false)

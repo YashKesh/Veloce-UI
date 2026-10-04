@@ -97,7 +97,7 @@ export default function ChipDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Chip }'} <span className="p">from</span> <span className="s">"@/components/ui/chip"</span>
+          <span className="p">import</span> {'{ Chip }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Chip{'\n'}
           {'  '}<span className="p">label=</span><span className="s">"typescript"</span>{'\n'}

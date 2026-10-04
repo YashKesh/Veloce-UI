@@ -107,7 +107,7 @@ export default function SheetDoc() {
       preview={<SheetDemo />}
       usage={
         <>
-          <span className="p">import</span> {'{ Sheet, SheetTrigger, SheetContent }'} <span className="p">from</span> <span className="s">"@/components/ui/sheet"</span>
+          <span className="p">import</span> {'{ Sheet, SheetTrigger, SheetContent }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Sheet<span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>SheetTrigger<span className="p">&gt;</span>Open sheet<span className="p">&lt;/</span>SheetTrigger<span className="p">&gt;</span>{'\n'}

@@ -64,7 +64,7 @@ export default function TooltipDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Tooltip }'} <span className="p">from</span> <span className="s">"@/components/ui/tooltip"</span>
+          <span className="p">import</span> {'{ Tooltip }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Tooltip <span className="p">content=</span><span className="s">"Copy link"</span> <span className="p">shortcut=</span><span className="s">"⌘C"</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>IconButton <span className="p">aria-label=</span><span className="s">"Copy link"</span><span className="p">&gt;</span>{'\n'}

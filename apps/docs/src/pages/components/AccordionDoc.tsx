@@ -66,7 +66,7 @@ export default function AccordionDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Accordion, AccordionItem }'} <span className="p">from</span> <span className="s">"@/components/ui/accordion"</span>
+          <span className="p">import</span> {'{ Accordion, AccordionItem }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Accordion <span className="p">type=</span><span className="s">"single"</span> <span className="p">defaultValue=</span><span className="s">"js"</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>AccordionItem <span className="p">value=</span><span className="s">"shake"</span> <span className="p">title=</span><span className="s">"Is it tree-shakeable?"</span><span className="p">&gt;</span>{'\n'}

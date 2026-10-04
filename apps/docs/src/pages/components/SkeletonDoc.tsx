@@ -77,7 +77,7 @@ export default function SkeletonDoc() {
 
   const usage = (
     <>
-      <span className="p">import</span> {'{'} Skeleton {'}'} <span className="p">from</span> <span className="s">"@/components/ui/skeleton"</span>{'\n'}
+      <span className="p">import</span> {'{'} Skeleton {'}'} <span className="p">from</span> <span className="s">"veloce-ui"</span>{'\n'}
       {'\n'}
       {'{'}isLoading <span className="p">?</span> (<span className="p">{'\n'}</span>
       {'  '}<span className="p">{'<'}</span>Skeleton className=<span className="s">"h-10 w-10 rounded-full"</span> <span className="p">{'/>'}</span>{'\n'}

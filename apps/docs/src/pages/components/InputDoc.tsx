@@ -48,7 +48,7 @@ export default function InputDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Input, Field }'} <span className="p">from</span> <span className="s">"@/components/ui/input"</span>
+          <span className="p">import</span> {'{ Input, Field }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Field <span className="p">label=</span><span className="s">"Workspace URL"</span> <span className="p">help=</span><span className="s">"Lowercase letters and dashes."</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Input{'\n'}

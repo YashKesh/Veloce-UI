@@ -146,7 +146,7 @@ export function ComponentDoc({
 
         <Section id="install" title="Installation">
           <CodeBlock>
-            <span className="p">$</span> npx veloce add {slug}
+            <span className="p">import</span> {`{ ${shipped ?? name} }`} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           </CodeBlock>
         </Section>
 

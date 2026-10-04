@@ -396,7 +396,7 @@ function CompositionCode() {
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
     <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
-{dim('import')}{' { Navbar } '}{dim('from')} {str('"@/components/ui/navbar"')}{'\n\n'}
+{dim('import')}{' { Navbar } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Navbar')} {dim('sticky height=')}{val('{56}')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('Navbar.Brand')} {dim('href=')}{str('"/"')} {dim('logo=')}{val('{<Logo />}')}{dim('>')}Veloce{dim('</')}{tag('Navbar.Brand')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('Navbar.Nav')}{dim('>')}{'\n'}

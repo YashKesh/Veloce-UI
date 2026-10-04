@@ -9,19 +9,19 @@ import { Seo } from '../Seo'
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
 const TOC: TocItem[] = [
-  { label: 'Initialise', id: 'step-1', active: true },
-  { label: 'Answer three questions', id: 'step-2' },
-  { label: 'Add components', id: 'step-3' },
-  { label: 'Use them', id: 'step-4' },
-  { label: 'Migrating from shadcn', id: 'migrate' },
+  { label: 'Install the package', id: 'step-1', active: true },
+  { label: 'Import the stylesheet', id: 'step-2' },
+  { label: 'Set theme attributes', id: 'step-3' },
+  { label: 'Import and use', id: 'step-4' },
+  { label: 'Coming from shadcn', id: 'migrate' },
 ]
 
 const FRAMEWORKS = ['Next.js', 'Vite', 'Remix', 'Astro', 'Manual'] as const
 type Pm = 'pnpm' | 'npm' | 'bun'
 const PM_CMDS: Record<Pm, { init: string; add: string }> = {
-  pnpm: { init: 'pnpm dlx veloce@latest init', add: 'pnpm dlx veloce add button dialog command' },
-  npm: { init: 'npx veloce@latest init', add: 'npx veloce add button dialog command' },
-  bun: { init: 'bunx veloce@latest init', add: 'bunx veloce add button dialog command' },
+  pnpm: { init: 'pnpm add veloce-ui', add: 'pnpm add veloce-ui' },
+  npm: { init: 'npm install veloce-ui', add: 'npm install veloce-ui' },
+  bun: { init: 'bun add veloce-ui', add: 'bun add veloce-ui' },
 }
 
 function Code({ children }: { children: ReactNode }) {
@@ -126,8 +126,8 @@ export default function DocsInstallation() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <h1 style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em' }}>Installation</h1>
           <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-            Veloce copies components into your project — you own the code. The CLI wires tokens, fonts and the
-            motion layer once; each component is one command after that.
+            Veloce UI ships as a single npm package. Install once, import the stylesheet once, then import
+            any of the 38 primitives, 13 charts, or 4 layout &amp; motion utilities from <code style={{ ...mono, fontSize: 14, color: 'var(--fg)' }}>veloce-ui</code>.
           </p>
         </div>
 
@@ -158,44 +158,50 @@ export default function DocsInstallation() {
 
         {/* numbered timeline */}
         <div style={{ display: 'flex', flexDirection: 'column', borderLeft: '1px solid var(--line)', marginLeft: 14 }}>
-          <Step badge="1" title="Initialise" id="step-1">
+          <Step badge="1" title="Install the package" id="step-1">
             <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-              Creates <Code>veloce.json</Code>, installs Geist, and writes the token layer to{' '}
-              <Code>app/globals.css</Code>.
+              Pulls <Code>veloce-ui</Code> from npm. Only runtime dependency is{' '}
+              <Code>@tanstack/react-virtual</Code> (used by DataGrid). Peer deps: <Code>react@^19</Code>, <Code>react-dom@^19</Code>.
             </p>
             <PmCodeBlock command={(pm) => PM_CMDS[pm].init} />
           </Step>
 
-          <Step badge="2" title="Answer three questions" id="step-2">
-            <div
-              className="vl-code"
-              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.75, color: 'var(--fg-2)' }}
-            >
-              <div><span style={{ color: 'var(--ac-text)' }}>?</span> Accent color › <span style={{ color: 'var(--fg)' }}>violet</span> <span style={{ color: 'var(--fg-3)' }}>(violet · lime · cyan · custom)</span></div>
-              <div><span style={{ color: 'var(--ac-text)' }}>?</span> Default color scheme › <span style={{ color: 'var(--fg)' }}>system</span></div>
-              <div><span style={{ color: 'var(--ac-text)' }}>?</span> Motion preset › <span style={{ color: 'var(--fg)' }}>standard</span> <span style={{ color: 'var(--fg-3)' }}>(standard · snappy · minimal)</span></div>
-              <div style={{ color: 'var(--ok)', marginTop: 6 }}>✓ Wrote 4 files · tokens, fonts, motion layer, cn()</div>
-            </div>
-          </Step>
-
-          <Step badge="3" title="Add components" id="step-3">
+          <Step badge="2" title="Import the stylesheet once" id="step-2">
             <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-              Dependencies between components resolve automatically — adding <Code>command</Code> also brings{' '}
-              <Code>dialog</Code> and <Code>input</Code>.
+              At your app root (e.g. <Code>main.tsx</Code>, <Code>app/layout.tsx</Code>, or <Code>_app.tsx</Code>).
+              The CSS lives inside <Code>@layer veloce-ui</Code> so your own styles beat it without <Code>!important</Code>.
             </p>
-            <PmCodeBlock command={(pm) => PM_CMDS[pm].add} />
-          </Step>
-
-          <Step badge="✓" accent title="Use them" last id="step-4">
             <pre
               className="vl-code"
               style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
             >
-              <span className="p">import</span> {'{ Button }'} <span className="p">from</span>{' '}
-              <span className="s">"@/components/ui/button"</span>
+              <span className="p">import</span> <span className="s">"veloce-ui/styles.css"</span>
+            </pre>
+          </Step>
+
+          <Step badge="3" title="Set theme attributes" id="step-3">
+            <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
+              On your <Code>&lt;html&gt;</Code> tag (or any ancestor), set the mode and accent. Three palettes ship:{' '}
+              <Code>violet</Code>, <Code>lime</Code>, <Code>cyan</Code>. Override any OKLCH token with CSS variables.
+            </p>
+            <pre
+              className="vl-code"
+              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
+            >
+              <span className="p">&lt;html</span> <span className="p">data-mode=</span><span className="s">"dark"</span> <span className="p">data-accent=</span><span className="s">"violet"</span><span className="p">&gt;</span>
+            </pre>
+          </Step>
+
+          <Step badge="✓" accent title="Import and use" last id="step-4">
+            <pre
+              className="vl-code"
+              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
+            >
+              <span className="p">import</span> {'{ Button, DataGrid, LineChart }'} <span className="p">from</span>{' '}
+              <span className="s">"veloce-ui"</span>
               {'\n\n'}
               <span className="p">&lt;</span><span style={{ color: 'var(--fg)' }}>Button</span>{' '}
-              <span className="p">variant=</span><span className="s">"soft"</span>{' '}
+              <span className="p">variant=</span><span className="s">"primary"</span>{' '}
               <span className="p">size=</span><span className="s">"lg"</span><span className="p">&gt;</span>
               Deploy<span className="p">&lt;/</span><span style={{ color: 'var(--fg)' }}>Button</span><span className="p">&gt;</span>
             </pre>
@@ -214,11 +220,11 @@ export default function DocsInstallation() {
         >
           <div style={{ width: 28, height: 28, borderRadius: 7, background: 'var(--bg-3)', display: 'grid', placeItems: 'center', fontSize: 13, flexShrink: 0, color: 'var(--fg)' }}>i</div>
           <div>
-            <div style={{ fontWeight: 600, color: 'var(--fg)' }}>Already on shadcn/ui?</div>
-            Veloce components share the same file layout and{' '}
-            <span style={{ ...mono, fontSize: 12.5, color: 'var(--fg)' }}>cn()</span> helper. Run{' '}
-            <span style={{ ...mono, fontSize: 12.5, color: 'var(--fg)' }}>veloce migrate</span> to swap components
-            one at a time and keep your overrides.
+            <div style={{ fontWeight: 600, color: 'var(--fg)' }}>Coming from shadcn/ui?</div>
+            Veloce UI is distribution-wise different: one npm package, not copy-pasted files. Prop surfaces are
+            close enough that most Button / Dialog / Dropdown usages drop in by swapping the import path to{' '}
+            <span style={{ ...mono, fontSize: 12.5, color: 'var(--fg)' }}>"veloce-ui"</span>. You lose the
+            ability to hand-edit the source, but gain motion built-in and automatic updates via <Code>npm update</Code>.
           </div>
         </div>
 

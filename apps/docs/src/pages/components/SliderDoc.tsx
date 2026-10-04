@@ -84,7 +84,7 @@ export default function SliderDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Slider }'} <span className="p">from</span> <span className="s">"@/components/ui/slider"</span>
+          <span className="p">import</span> {'{ Slider }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [volume, setVolume] = useState(<span className="p">64</span>)
           {'\n\n'}

@@ -64,7 +64,7 @@ export default function ProgressDoc() {
 
   const usage = (
     <>
-      <span className="p">import</span> {'{'} Progress {'}'} <span className="p">from</span> <span className="s">"@/components/ui/progress"</span>{'\n'}
+      <span className="p">import</span> {'{'} Progress {'}'} <span className="p">from</span> <span className="s">"veloce-ui"</span>{'\n'}
       {'\n'}
       <span className="p">{'<'}</span>Progress value=<span className="p">{'{'}</span>72<span className="p">{'}'}</span> label=<span className="s">"Uploading source maps"</span> <span className="p">{'/>'}</span>{'\n'}
       <span className="p">{'<'}</span>Progress variant=<span className="s">"circular"</span> value=<span className="p">{'{'}</span>72<span className="p">{'}'}</span> size=<span className="p">{'{'}</span>56<span className="p">{'}'}</span> <span className="p">{'/>'}</span>{'\n'}

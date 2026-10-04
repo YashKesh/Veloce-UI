@@ -78,7 +78,7 @@ export default function PopoverDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Popover }'} <span className="p">from</span> <span className="s">"@/components/ui/popover"</span>
+          <span className="p">import</span> {'{ Popover }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Popover.Root<span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Popover.Trigger<span className="p">&gt;</span>Share<span className="p">&lt;/</span>Popover.Trigger<span className="p">&gt;</span>{'\n'}

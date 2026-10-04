@@ -69,7 +69,7 @@ export default function PaginationDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Pagination }'} <span className="p">from</span> <span className="s">"@/components/ui/pagination"</span>
+          <span className="p">import</span> {'{ Pagination }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [page, setPage] = useState(<span className="p">1</span>)
           {'\n\n'}

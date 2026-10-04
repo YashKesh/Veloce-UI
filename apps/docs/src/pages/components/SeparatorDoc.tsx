@@ -50,7 +50,7 @@ export default function SeparatorDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Separator }'} <span className="p">from</span> <span className="s">"@/components/ui/separator"</span>
+          <span className="p">import</span> {'{ Separator }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Separator <span className="p">/&gt;</span>{'\n'}
           <span className="p">&lt;</span>Separator <span className="p">orientation=</span><span className="s">"vertical"</span> <span className="p">/&gt;</span>{'\n'}

@@ -116,7 +116,7 @@ export default function ToastDoc() {
 
   const usage = (
     <>
-      <span className="p">import</span> {'{'} toast {'}'} <span className="p">from</span> <span className="s">"@/components/ui/toast"</span>{'\n'}
+      <span className="p">import</span> {'{'} toast {'}'} <span className="p">from</span> <span className="s">"veloce-ui"</span>{'\n'}
       {'\n'}
       toast.success(<span className="s">"Deploy succeeded"</span>, {'{'} description: <span className="s">"main · 42s"</span> {'}'}){'\n'}
       toast.error(<span className="s">"Build failed"</span>, {'{'} action: {'{'} label: <span className="s">"View logs"</span>, onClick: viewLogs {'}'} {'}'}){'\n'}

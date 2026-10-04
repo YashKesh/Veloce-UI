@@ -92,7 +92,7 @@ export default function RadioDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ RadioGroup, Radio }'} <span className="p">from</span> <span className="s">"@/components/ui/radio"</span>
+          <span className="p">import</span> {'{ RadioGroup, Radio }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [plan, setPlan] = useState(<span className="s">"pro"</span>)
           {'\n\n'}

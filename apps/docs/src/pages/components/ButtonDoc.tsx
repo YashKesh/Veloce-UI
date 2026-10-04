@@ -40,7 +40,7 @@ export default function ButtonDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Button }'} <span className="p">from</span> <span className="s">"@/components/ui/button"</span>
+          <span className="p">import</span> {'{ Button }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">export function</span> Actions() {'{'}
           {'\n  '}<span className="p">return</span> ({'\n'}

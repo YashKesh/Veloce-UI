@@ -64,7 +64,7 @@ export default function TabsDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Tabs, TabsList, TabsTrigger, TabsContent }'} <span className="p">from</span> <span className="s">"@/components/ui/tabs"</span>
+          <span className="p">import</span> {'{ Tabs, TabsList, TabsTrigger, TabsContent }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Tabs <span className="p">defaultValue=</span><span className="s">"overview"</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>TabsList<span className="p">&gt;</span>{'\n'}

@@ -76,7 +76,7 @@ export default function CardDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Card, CardMedia, CardTitle, CardMeta }'} <span className="p">from</span> <span className="s">"@/components/ui/card"</span>
+          <span className="p">import</span> {'{ Card, CardMedia, CardTitle, CardMeta }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Card<span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>CardMedia <span className="p">src=</span><span className="s">"/edge.png"</span> <span className="p">/&gt;</span>{'\n'}

@@ -93,7 +93,7 @@ export default function StepperDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Stepper, Step }'} <span className="p">from</span> <span className="s">"@/components/ui/stepper"</span>
+          <span className="p">import</span> {'{ Stepper, Step }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [step, setStep] = useState(<span className="p">0</span>)
           {'\n\n'}

@@ -45,7 +45,7 @@ export default function BadgeDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Badge }'} <span className="p">from</span> <span className="s">"@/components/ui/badge"</span>
+          <span className="p">import</span> {'{ Badge }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Badge <span className="p">variant=</span><span className="s">"success"</span><span className="p">&gt;</span>Live<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>{'\n'}
           <span className="p">&lt;</span>Badge <span className="p">variant=</span><span className="s">"outline"</span> <span className="p">dot=</span><span className="s">"ok"</span><span className="p">&gt;</span>Operational<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>

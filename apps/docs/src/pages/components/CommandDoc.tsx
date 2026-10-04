@@ -81,7 +81,7 @@ export default function CommandDoc() {
       preview={<Palette />}
       usage={
         <>
-          <span className="p">import</span> {'{ Command }'} <span className="p">from</span> <span className="s">"@/components/ui/command"</span>
+          <span className="p">import</span> {'{ Command }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Command.Root <span className="p">shortcut=</span><span className="s">"mod+k"</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Command.Input <span className="p">placeholder=</span><span className="s">"Type a command…"</span> <span className="p">/&gt;</span>{'\n'}

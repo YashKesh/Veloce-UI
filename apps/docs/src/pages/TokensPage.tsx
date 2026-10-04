@@ -316,7 +316,7 @@ export default function TokensPage() {
               </div>
               <div style={typeRow}>
                 <span style={{ ...mono, fontSize: 11.5, color: 'var(--fg-3)' }}>mono · 13 / 0</span>
-                <span style={{ ...mono, fontSize: 13, color: 'var(--fg-2)' }}>npx veloce add dialog</span>
+                <span style={{ ...mono, fontSize: 13, color: 'var(--fg-2)' }}>import {'{ Dialog }'} from "veloce-ui"</span>
               </div>
             </div>
           </div>

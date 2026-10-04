@@ -78,7 +78,7 @@ export default function LayoutDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Stack, Grid, Container }'} <span className="p">from</span> <span className="s">"@/components/ui/layout"</span>
+          <span className="p">import</span> {'{ Stack, Grid, Container }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Container <span className="p">maxWidth=</span>{'{'}720{'}'}<span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Stack <span className="p">gap=</span>{'{'}12{'}'}<span className="p">&gt;</span>{'\n'}

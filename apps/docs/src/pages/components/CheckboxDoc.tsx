@@ -62,7 +62,7 @@ export default function CheckboxDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Checkbox }'} <span className="p">from</span> <span className="s">"@/components/ui/checkbox"</span>
+          <span className="p">import</span> {'{ Checkbox }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [runTests, setRunTests] = useState(<span className="p">true</span>)
           {'\n\n'}

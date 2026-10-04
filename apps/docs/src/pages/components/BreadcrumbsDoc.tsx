@@ -67,7 +67,7 @@ export default function BreadcrumbsDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Breadcrumbs }'} <span className="p">from</span> <span className="s">"@/components/ui/breadcrumbs"</span>
+          <span className="p">import</span> {'{ Breadcrumbs }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Breadcrumbs{'\n'}
           {'  '}<span className="p">maxItems=</span>{'{4}'}{'\n'}

@@ -72,7 +72,7 @@ export default function SelectDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Select }'} <span className="p">from</span> <span className="s">"@/components/ui/select"</span>
+          <span className="p">import</span> {'{ Select }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [region, setRegion] = useState(<span className="s">"us-east-1"</span>)
           {'\n\n'}

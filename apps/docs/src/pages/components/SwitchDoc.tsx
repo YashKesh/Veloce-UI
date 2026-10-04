@@ -54,7 +54,7 @@ export default function SwitchDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Switch }'} <span className="p">from</span> <span className="s">"@/components/ui/switch"</span>
+          <span className="p">import</span> {'{ Switch }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [enabled, setEnabled] = useState(<span className="p">true</span>)
           {'\n\n'}

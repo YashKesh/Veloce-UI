@@ -83,7 +83,7 @@ export default function SpinnerDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Spinner }'} <span className="p">from</span> <span className="s">"@/components/ui/spinner"</span>
+          <span className="p">import</span> {'{ Spinner }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Button <span className="p">disabled</span><span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Spinner <span className="p">size=</span><span className="s">"sm"</span> <span className="p">/&gt;</span>{'\n'}

@@ -80,7 +80,7 @@ export default function DropdownDoc() {
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Dropdown }'} <span className="p">from</span> <span className="s">"@/components/ui/dropdown"</span>
+          <span className="p">import</span> {'{ Dropdown }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Dropdown.Root<span className="p">&gt;</span>{'\n'}
           {'  '}<span className="p">&lt;</span>Dropdown.Trigger<span className="p">&gt;</span>Options<span className="p">&lt;/</span>Dropdown.Trigger<span className="p">&gt;</span>{'\n'}
