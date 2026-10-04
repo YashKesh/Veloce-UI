@@ -2,6 +2,7 @@ import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type
 import { ChartsShell, ChartsBreadcrumb, ChartsTitle, ChartsSourceTabs } from './ChartsShell'
 import type { ChartPage, TreeRow } from './chartsData'
 import { useViewport } from '../../components/DocsShell'
+import { Seo } from '../../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -158,6 +159,7 @@ export default function ChartDocPage({ page }: { page: ChartPage }) {
 
   return (
     <ChartsShell toc={TOC}>
+      <Seo title={page.name} description={page.tagline} />
       <ChartsBreadcrumb />
       <ChartsTitle title={page.name} lead={page.tagline} />
       <ChartsSourceTabs />

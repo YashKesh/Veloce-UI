@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { SiteHeader } from '../components/SiteHeader'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -135,6 +136,10 @@ const LIGHT_TOKENS = {
 export default function Closeups() {
   return (
     <div>
+      <Seo
+        title="Closeups"
+        description="Detail shots of every Veloce UI primitive — hover, focus, press, loading, invalid, and disabled states."
+      />
       <SiteHeader />
       <div style={{ padding: '56px 64px', display: 'flex', flexDirection: 'column', gap: 36 }}>
         {/* ---------- Button matrix ---------- */}

@@ -4,6 +4,7 @@ import { Alert, Button } from 'veloce-ui'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
 import { COMPONENTS, DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -54,6 +55,10 @@ function P({ children }: { children: React.ReactNode }) {
 export default function Usage() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} rail={<RightRail toc={TOC} />}>
+      <Seo
+        title="Usage"
+        description="How to install, theme, and compose Veloce UI primitives in your React app. Styling overrides, CSS layer order, and consumer resets."
+      />
       <h1 style={{ fontSize: 36, fontWeight: 650, letterSpacing: '-0.015em', margin: 0, color: 'var(--fg)' }}>
         Usage
       </h1>

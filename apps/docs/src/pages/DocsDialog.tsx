@@ -4,6 +4,7 @@ import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
 import { useTheme } from '../theme'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -274,6 +275,10 @@ export default function DocsDialog() {
 
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} rail={rail}>
+      <Seo
+        title="Dialog"
+        description="Modal dialog primitive. Portal-rendered, focus-trapped, scroll-locked, Esc-to-close. Composable Header, Body, Footer slots."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
         {/* breadcrumb */}
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>

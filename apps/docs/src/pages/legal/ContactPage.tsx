@@ -1,6 +1,7 @@
 import { Fragment, type CSSProperties } from 'react'
 import { DocsShell } from '../../components/DocsShell'
 import { DOCS_SIDEBAR } from '../../docsNav'
+import { Seo } from '../../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -13,6 +14,10 @@ const ROWS: [string, string][] = [
 export default function ContactPage() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR}>
+      <Seo
+        title="Contact"
+        description="Get in touch with the Veloce UI team — questions, bug reports, feature requests, and partnership inquiries."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>
           <span>Company</span><span>›</span>

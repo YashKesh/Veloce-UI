@@ -4,6 +4,7 @@ import { NumberFlow } from 'veloce-ui'
 import { SiteHeader, REPO_OWNER, REPO_NAME } from '../components/SiteHeader'
 import { SiteFooter } from '../components/SiteFooter'
 import { useGithubStars } from '../useGithubStars'
+import { Seo } from '../Seo'
 import './Landing.css'
 
 const INSTALL_CMD = 'npx veloce add button'
@@ -150,6 +151,11 @@ const PILLARS = [
 export default function Landing() {
   return (
     <div className="lp">
+      <Seo
+        title={undefined}
+        description="Motion-first React 19 component library. 38 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe. Install with npm i veloce-ui."
+        canonical="https://veloceui.codeloomdevv.co.in/"
+      />
       <div className="lp__bg" aria-hidden>
         <div className="lp__grid" />
         <div className="lp__glow lp__glow--tr" />

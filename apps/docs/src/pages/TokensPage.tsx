@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import { SiteHeader } from '../components/SiteHeader'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -115,6 +116,10 @@ const typeRow: CSSProperties = {
 export default function TokensPage() {
   return (
     <div>
+      <Seo
+        title="Design tokens"
+        description="OKLCH color scales, spacing, radii, shadows, typography, and motion tokens that drive every Veloce UI component."
+      />
       <SiteHeader />
       <div style={{ padding: '56px 64px', display: 'flex', flexDirection: 'column', gap: 40 }}>
         {/* header */}

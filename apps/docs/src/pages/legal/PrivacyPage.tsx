@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { DocsShell } from '../../components/DocsShell'
 import { DOCS_SIDEBAR } from '../../docsNav'
+import { Seo } from '../../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 const h2: CSSProperties = { margin: 0, fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }
@@ -19,6 +20,10 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 export default function PrivacyPage() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR}>
+      <Seo
+        title="Privacy policy"
+        description="How Veloce UI collects, uses, and protects your data when you use our documentation site and components."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>
           <span>Legal</span><span>›</span>

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -47,6 +48,10 @@ export default function DocsMotion() {
 
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} rail={<RightRail toc={TOC} />}>
+      <Seo
+        title="Motion system"
+        description="Veloce UI's five easing curves, five durations, and reduced-motion rules — the vocabulary every component speaks."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
         {/* heading */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

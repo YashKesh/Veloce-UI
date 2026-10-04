@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DocsShell } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 // ---------- Series color ramp (used literally per spec) ----------
 const AC = 'var(--ac)'
@@ -130,6 +131,10 @@ export default function ChartsPage() {
 
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} wide>
+      <Seo
+        title="Charts"
+        description="Dashboard-grade chart components from Veloce UI — line, area, bar, pie, scatter, candlestick, radar, funnel, waterfall, treemap, heatmap, gauge, sparkline."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
         {/* breadcrumb */}
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>

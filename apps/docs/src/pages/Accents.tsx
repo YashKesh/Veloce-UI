@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { useTheme } from '../theme'
 import { SiteHeader } from '../components/SiteHeader'
+import { Seo } from '../Seo'
 import './Accents.css'
 
 // 12-step OKLCH ramp — exact algorithm from the design spec (section B)
@@ -71,6 +72,10 @@ export default function Accents() {
   const { accent, setAccent } = useTheme()
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <Seo
+        title="Accents"
+        description="The three accent palettes — Violet, Lime, Cyan — rendered against every component so you can preview before you theme."
+      />
       <SiteHeader height={56} />
       <div className="acc">
       {CARDS.map((c) => (

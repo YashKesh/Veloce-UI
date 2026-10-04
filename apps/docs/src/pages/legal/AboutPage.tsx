@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DocsShell } from '../../components/DocsShell'
 import { DOCS_SIDEBAR } from '../../docsNav'
+import { Seo } from '../../Seo'
 
 const h2: CSSProperties = { margin: 0, fontSize: 20, fontWeight: 600, letterSpacing: '-0.02em' }
 const p: CSSProperties = { fontSize: 14.5, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }
@@ -30,6 +31,10 @@ const TEAM: [string, string][] = [
 export default function AboutPage() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR}>
+      <Seo
+        title="About"
+        description="The story behind Veloce UI — a motion-first React component library built for teams who care about craft."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>
           <span>Company</span><span>›</span>

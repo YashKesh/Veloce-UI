@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -111,6 +112,10 @@ export default function DocsInstallation() {
 
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} rail={<RightRail toc={TOC} />}>
+      <Seo
+        title="Installation"
+        description="Install veloce-ui from npm in a React 19 project. Zero config, SSR-safe, ships ESM + CJS + TypeScript types."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
         {/* breadcrumb */}
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>

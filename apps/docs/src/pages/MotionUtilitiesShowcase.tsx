@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { DocsShell } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -326,6 +327,10 @@ function ChoreographyPanel() {
 export default function MotionUtilitiesShowcase() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} wide>
+      <Seo
+        title="Motion utilities showcase"
+        description="Presence, Stagger, and NumberFlow demonstrated side-by-side. Each respects prefers-reduced-motion."
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
         {/* breadcrumb */}
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>

@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { SiteHeader } from '../components/SiteHeader'
+import { Seo } from '../Seo'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -112,6 +113,10 @@ const pageBtn = (current?: boolean): CSSProperties => ({
 export default function Feedback() {
   return (
     <div>
+      <Seo
+        title="Toast & feedback"
+        description="Toast system with four tones, four positions, auto-dismiss, custom actions, and a hooks-first API."
+      />
       <SiteHeader />
       <div style={{ padding: '56px 64px', display: 'flex', flexDirection: 'column', gap: 36 }}>
         {/* header */}

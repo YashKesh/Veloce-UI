@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { DocsShell, RightRail } from './DocsShell'
 import type { TocItem } from './DocsShell'
 import { DOCS_SIDEBAR, prevNext } from '../docsNav'
+import { Seo } from '../Seo'
 
 /** Slugs → the exported name(s) shipped by veloce-ui.
  * Any slug listed here renders the "Ships in veloce-ui@0.1" callout on its doc page. */
@@ -116,6 +117,7 @@ export function ComponentDoc({
   const shipped = SHIPPED_IN_UI[slug]
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} rail={<RightRail toc={toc ?? TOC} />}>
+      <Seo title={name} description={description} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
         <div style={{ display: 'flex', gap: 8, fontSize: 13, color: 'var(--fg-3)' }}>
           <Link to="/components" style={{ color: 'inherit' }}>Components</Link>

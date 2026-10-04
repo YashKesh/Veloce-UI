@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import { DOCS_SIDEBAR, CATALOGUE_SERIES } from '../docsNav'
+import { Seo } from '../Seo'
 
 const AC = 'var(--ac)'
 const MIX75 = 'color-mix(in oklch,var(--ac) 75%,var(--bg-3))'
@@ -266,6 +267,10 @@ const CATALOGUE_TOC = [
 export default function ChartsCataloguePage() {
   return (
     <DocsShell sidebar={DOCS_SIDEBAR} wide rail={<RightRail toc={CATALOGUE_TOC} />}>
+      <Seo
+        title="Charts catalogue"
+        description="Every chart primitive at a glance — 16 series types, grouped by family. Click into any tile to see anatomy, variants, and the full prop surface."
+      />
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
       {/* Page header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', paddingBottom: 20, borderBottom: '1px solid var(--line-2)' }}>

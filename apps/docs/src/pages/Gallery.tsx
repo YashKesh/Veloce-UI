@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { DocsShell } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
+import { Seo } from '../Seo'
 import './Gallery.css'
 
 type Category = 'Primitives' | 'Forms' | 'Overlays' | 'Feedback' | 'Navigation' | 'Data' | 'Layout' | 'Motion'
@@ -622,6 +623,10 @@ export default function Gallery() {
 
   return (
     <DocsShell sidebar={DOCS_SIDEBAR}>
+      <Seo
+        title="Components"
+        description="Browse all 38 Veloce UI components — buttons, forms, overlays, data grid, charts, layout and motion utilities. Filter by category."
+      />
       <div className="gal">
         <div className="gal__head">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
