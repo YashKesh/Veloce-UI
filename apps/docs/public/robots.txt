@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /playground
+
+Sitemap: https://veloceui.codeloomdevv.co.in/sitemap.xml
