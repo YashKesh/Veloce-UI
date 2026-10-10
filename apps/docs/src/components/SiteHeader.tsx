@@ -391,7 +391,11 @@ function useHeaderViewport() {
 export function SiteHeader({ height = 56, onMenu }: { height?: number; onMenu?: () => void }) {
   const { pathname } = useLocation()
   const [paletteOpen, setPaletteOpen] = useState(false)
+  const [navOpen, setNavOpen] = useState(false)
   const { isMobile, isTablet } = useHeaderViewport()
+
+  // Close the built-in drawer on route change.
+  useEffect(() => setNavOpen(false), [pathname])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -415,7 +419,7 @@ export function SiteHeader({ height = 56, onMenu }: { height?: number; onMenu?: 
       {isMobile && (
         <button
           data-mobile-menu
-          onClick={onMenu ?? (() => {})}
+          onClick={onMenu ?? (() => setNavOpen((o) => !o))}
           aria-label="Toggle menu"
           style={{
             width: 36, height: 32, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -472,6 +476,50 @@ export function SiteHeader({ height = 56, onMenu }: { height?: number; onMenu?: 
         {!isMobile && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-3)' }}>v1.0.4</span>}
       </div>
       {paletteOpen && <CommandPalette onClose={() => setPaletteOpen(false)} />}
+      {isMobile && !onMenu && navOpen && (
+        <>
+          <div
+            onClick={() => setNavOpen(false)}
+            style={{ position: 'fixed', inset: 0, background: 'oklch(0 0 0/.5)', zIndex: 150 }}
+          />
+          <nav
+            style={{
+              position: 'fixed', top: 0, left: 0, bottom: 0, width: 280, zIndex: 151,
+              background: 'var(--bg)', borderRight: '1px solid var(--line)',
+              padding: '16px 14px', display: 'flex', flexDirection: 'column', gap: 4,
+              overflowY: 'auto',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <Logo />
+              <button
+                onClick={() => setNavOpen(false)}
+                aria-label="Close menu"
+                style={{ fontSize: 18, color: 'var(--fg-3)', padding: '2px 8px', cursor: 'pointer' }}
+              >
+                ✕
+              </button>
+            </div>
+            {NAV.map((n) => {
+              const active = n.match(pathname)
+              return (
+                <Link
+                  key={n.label}
+                  to={n.to}
+                  onClick={() => setNavOpen(false)}
+                  style={{
+                    padding: '10px 12px', borderRadius: 8, fontSize: 15,
+                    color: active ? 'var(--fg)' : 'var(--fg-2)', fontWeight: active ? 600 : 400,
+                    background: active ? 'var(--bg-2)' : 'transparent',
+                  }}
+                >
+                  {n.label}
+                </Link>
+              )
+            })}
+          </nav>
+        </>
+      )}
     </header>
   )
 }
