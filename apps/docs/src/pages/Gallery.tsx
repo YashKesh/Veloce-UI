@@ -1,10 +1,59 @@
 import { useEffect, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Label, Toggle, Collapsible } from 'veloce-ui'
 import { DocsShell } from '../components/DocsShell'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
 import './Gallery.css'
+
+function MiniLabel() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+      <Label required>Email</Label>
+      <span style={{ fontSize: 11, color: 'var(--fg-3)' }}>required · optional affordances</span>
+    </div>
+  )
+}
+
+function MiniToggle() {
+  return (
+    <div style={{ display: 'inline-flex', gap: 4, padding: 3, border: '1px solid var(--line)', borderRadius: 7, background: 'var(--bg-1)' }}>
+      <Toggle size="sm" defaultPressed><b>B</b></Toggle>
+      <Toggle size="sm"><i>I</i></Toggle>
+      <Toggle size="sm"><u>U</u></Toggle>
+    </div>
+  )
+}
+
+function MiniCollapsible() {
+  return (
+    <div style={{ width: 140 }}>
+      <Collapsible defaultOpen>
+        <Collapsible.Trigger style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '6px 10px', border: '1px solid var(--line)', borderRadius: 6, fontSize: 12, background: 'var(--bg-1)', color: 'var(--fg)' }}>
+          <span>Advanced</span>
+          <span style={{ color: 'var(--fg-3)' }}>⌃</span>
+        </Collapsible.Trigger>
+        <Collapsible.Content>
+          <div style={{ padding: '6px 10px', fontSize: 11, color: 'var(--fg-3)' }}>Toggle region</div>
+        </Collapsible.Content>
+      </Collapsible>
+    </div>
+  )
+}
+
+function MiniAlertDialog() {
+  return (
+    <div style={{ width: 160, padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 8, background: 'var(--bg-2)' }}>
+      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--fg)', marginBottom: 2 }}>Delete?</div>
+      <div style={{ fontSize: 11, color: 'var(--fg-3)', marginBottom: 8 }}>Permanent.</div>
+      <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
+        <span style={{ fontSize: 10.5, padding: '3px 8px', borderRadius: 5, border: '1px solid var(--line-2)', color: 'var(--fg-2)' }}>Cancel</span>
+        <span style={{ fontSize: 10.5, padding: '3px 8px', borderRadius: 5, background: 'var(--err)', color: 'oklch(0.99 0 0)' }}>Delete</span>
+      </div>
+    </div>
+  )
+}
 
 type Category = 'Primitives' | 'Forms' | 'Overlays' | 'Feedback' | 'Navigation' | 'Data' | 'Layout' | 'Motion'
 const FILTERS: Array<'All' | Category> = ['All', 'Primitives', 'Forms', 'Overlays', 'Feedback', 'Navigation', 'Data', 'Layout', 'Motion']
@@ -608,7 +657,59 @@ const TILES: Tile[] = [
   { name: 'Sidebar', tag: 'collapse 200ms', cat: 'Navigation', to: '/components/sidebar', mini: <MiniSidebar /> },
   { name: 'Layout', tag: 'zero JS', cat: 'Layout', to: '/components/layout', mini: <MiniLayout /> },
   { name: 'Motion utils', tag: 'stagger 60ms', cat: 'Motion', to: '/components/motion-utilities', mini: <MiniMotionUtils /> },
+
+  // New primitives
+  { name: 'Label', tag: 'required · optional', cat: 'Forms', to: '/components/label', mini: <MiniLabel /> },
+  { name: 'Toggle', tag: 'press 150ms', cat: 'Forms', to: '/components/toggle', mini: <MiniToggle /> },
+  { name: 'Collapsible', tag: 'grid-rows 220ms', cat: 'Navigation', to: '/components/collapsible', mini: <MiniCollapsible /> },
+  { name: 'Alert dialog', tag: 'blocking confirm', cat: 'Overlays', to: '/components/alert-dialog', mini: <MiniAlertDialog /> },
+
+  // Wave 2 — foundations
+  { name: 'Portal', tag: 'body-escape', cat: 'Primitives', to: '/components/portal', mini: <MiniText>⇡ body</MiniText> },
+  { name: 'Visually hidden', tag: 'sr-only', cat: 'Primitives', to: '/components/visually-hidden', mini: <MiniText>a11y</MiniText> },
+  { name: 'Slot', tag: 'asChild merge', cat: 'Primitives', to: '/components/slot', mini: <MiniText>{'<Slot/>'}</MiniText> },
+  { name: 'Kbd', tag: 'key badge', cat: 'Primitives', to: '/components/kbd', mini: <MiniText mono>⌘ K</MiniText> },
+  { name: 'Code', tag: 'inline / block', cat: 'Primitives', to: '/components/code', mini: <MiniText mono>npm i</MiniText> },
+  { name: 'Mark', tag: 'highlight', cat: 'Primitives', to: '/components/mark', mini: <MiniMark /> },
+  { name: 'Blockquote', tag: 'cite rule', cat: 'Primitives', to: '/components/blockquote', mini: <MiniText>" less"</MiniText> },
+
+  // Inputs
+  { name: 'Number input', tag: 'step / clamp', cat: 'Forms', to: '/components/number-input', mini: <MiniText mono>42</MiniText> },
+  { name: 'Pin input', tag: 'OTP', cat: 'Forms', to: '/components/pin-input', mini: <MiniText mono>• • • •</MiniText> },
+  { name: 'Rating', tag: 'star', cat: 'Forms', to: '/components/rating', mini: <MiniText>★★★★☆</MiniText> },
+  { name: 'Combobox', tag: 'search select', cat: 'Forms', to: '/components/combobox', mini: <MiniText>⌕ pick</MiniText> },
+  { name: 'Multi select', tag: 'chip list', cat: 'Forms', to: '/components/multi-select', mini: <MiniText>+ chips</MiniText> },
+  { name: 'File upload', tag: 'dropzone', cat: 'Forms', to: '/components/file-upload', mini: <MiniText>⇡ drop</MiniText> },
+  { name: 'Form', tag: 'Field · Error', cat: 'Forms', to: '/components/form', mini: <MiniText>Form</MiniText> },
+  { name: 'Date picker', tag: 'calendar', cat: 'Forms', to: '/components/date-picker', mini: <MiniText>📅</MiniText> },
+
+  // Overlays
+  { name: 'Hover card', tag: 'rich hover', cat: 'Overlays', to: '/components/hover-card', mini: <MiniText>⌧</MiniText> },
+  { name: 'Context menu', tag: 'right-click', cat: 'Overlays', to: '/components/context-menu', mini: <MiniText>▸ ▸ ▸</MiniText> },
+  { name: 'Drawer', tag: 'bottom slide', cat: 'Overlays', to: '/components/drawer', mini: <MiniText>▁ panel</MiniText> },
+
+  // Navigation
+  { name: 'Scroll area', tag: 'slim bars', cat: 'Navigation', to: '/components/scroll-area', mini: <MiniText mono>▼▼</MiniText> },
+  { name: 'Carousel', tag: 'slides', cat: 'Navigation', to: '/components/carousel', mini: <MiniText>◀ ● ▶</MiniText> },
+  { name: 'Timeline', tag: 'vertical', cat: 'Navigation', to: '/components/timeline', mini: <MiniText>● • ●</MiniText> },
+  { name: 'Tree', tag: 'nested', cat: 'Navigation', to: '/components/tree', mini: <MiniText>▸ ▾ ▸</MiniText> },
 ]
+
+function MiniText({ children, mono }: { children: ReactNode; mono?: boolean }) {
+  return (
+    <span style={{ fontFamily: mono ? 'var(--font-mono)' : 'var(--font-sans)', fontSize: 13, color: 'var(--fg-2)' }}>
+      {children}
+    </span>
+  )
+}
+
+function MiniMark() {
+  return (
+    <span style={{ fontSize: 13, color: 'var(--fg-2)' }}>
+      zero <mark style={{ background: 'color-mix(in oklch, var(--ac) 25%, transparent)', color: 'var(--fg)', padding: '0 3px', borderRadius: 2 }}>runtime</mark>
+    </span>
+  )
+}
 
 export default function Gallery() {
   const { hash } = useLocation()

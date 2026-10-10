@@ -1,28 +1,14 @@
 import { useState } from 'react'
-import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { Switch } from 'veloce-ui'
+import { ComponentDoc, Section, CodeBlock } from '../../components/ComponentDoc'
+import { Link } from 'react-router-dom'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'States', id: 'states' },
 ]
-
-function Toggle({ on, disabled, focus, onClick }: { on: boolean; disabled?: boolean; focus?: boolean; onClick?: () => void }) {
-  return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={on}
-      disabled={disabled}
-      onClick={onClick}
-      className={`vl-switch${on ? ' vl-switch--on' : ''}${focus ? ' vl-switch--focus' : ''}`}
-      style={{ display: 'block', cursor: disabled ? 'default' : 'pointer', opacity: disabled ? 0.45 : undefined }}
-    >
-      <span className="thumb" />
-    </button>
-  )
-}
 
 export default function SwitchDoc() {
   const [notify, setNotify] = useState(true)
@@ -36,17 +22,17 @@ export default function SwitchDoc() {
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 18, minWidth: 300 }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 13.5, color: 'var(--fg)' }}>
-            <Toggle on={notify} onClick={() => setNotify((v) => !v)} />
+            <Switch checked={notify} onCheckedChange={setNotify} />
             <span style={{ flex: 1 }}>Deploy notifications</span>
             <span className={`vl-badge ${notify ? 'vl-badge--accent' : 'vl-badge--outline'}`}>{notify ? 'On' : 'Off'}</span>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 13.5, color: 'var(--fg)' }}>
-            <Toggle on={preview} onClick={() => setPreview((v) => !v)} />
+            <Switch checked={preview} onCheckedChange={setPreview} />
             <span style={{ flex: 1 }}>Preview deployments</span>
             <span className={`vl-badge ${preview ? 'vl-badge--accent' : 'vl-badge--outline'}`}>{preview ? 'On' : 'Off'}</span>
           </label>
           <label style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 13.5, color: 'var(--fg-3)' }}>
-            <Toggle on={false} disabled />
+            <Switch checked={false} disabled />
             <span style={{ flex: 1 }}>Auto-rollback</span>
             <span className="vl-badge vl-badge--outline">Pro</span>
           </label>
@@ -61,29 +47,55 @@ export default function SwitchDoc() {
           <span className="p">&lt;</span>Switch{'\n'}
           {'  '}<span className="p">checked=</span>{'{'}enabled{'}'}{'\n'}
           {'  '}<span className="p">onCheckedChange=</span>{'{'}setEnabled{'}'}{'\n'}
-          {'  '}<span className="p">label=</span><span className="s">"Deploy notifications"</span>{'\n'}
           <span className="p">/&gt;</span>
         </>
       }
     >
       <Section id="states" title="States">
-        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-switch" style={{ display: 'block' }}><span className="thumb" /></span>
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 28, alignItems: 'center', justifyContent: 'start', fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Switch checked={false} />
             off
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-switch vl-switch--on" style={{ display: 'block' }}><span className="thumb" /></span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Switch checked />
             on
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-switch vl-switch--on vl-switch--focus" style={{ display: 'block' }}><span className="thumb" /></span>
-            focus
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-switch" style={{ display: 'block', opacity: 0.45 }}><span className="thumb" /></span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Switch checked disabled />
             disabled
           </div>
+        </div>
+      </Section>
+      <Section id="customization" title="Customization">
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Switch
+              checked
+              style={{
+                ['--vl-switch-track-on' as string]: 'oklch(0.65 0.22 12)',
+                ['--vl-switch-thumb' as string]: '#fff',
+              }}
+            />
+            <Switch
+              checked
+              style={{
+                ['--vl-switch-track-on' as string]: 'oklch(0.72 0.16 155)',
+              }}
+            />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>per-instance token overrides</span>
+          </div>
+          <CodeBlock>
+            <span className="p">&lt;</span>Switch{'\n'}
+            {'  '}<span className="p">style=</span>{'{{'}{'\n'}
+            {'    '}<span className="s">'--vl-switch-track-on'</span>: <span className="s">'oklch(0.65 0.22 12)'</span>,{'\n'}
+            {'    '}<span className="s">'--vl-switch-thumb'</span>: <span className="s">'#fff'</span>,{'\n'}
+            {'  '}{'}}'}{'\n'}
+            <span className="p">/&gt;</span>
+          </CodeBlock>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+            Tokens: <code>--vl-switch-track-on/off</code>, <code>--vl-switch-border-on/off</code>, <code>--vl-switch-thumb</code>. See <Link to="/docs/customization" style={{ color: 'var(--ac-text)' }}>/docs/customization</Link> for the full table.
+          </p>
         </div>
       </Section>
     </ComponentDoc>

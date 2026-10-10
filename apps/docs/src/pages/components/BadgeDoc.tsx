@@ -1,18 +1,11 @@
+import { Badge } from 'veloce-ui'
 import { ComponentDoc, Section } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'Variants', id: 'variants' },
-]
-
-const VARIANTS: Array<[string, string, string]> = [
-  ['accent', 'vl-badge--accent', 'Highlight new or experimental features'],
-  ['success', 'vl-badge--success', 'Healthy states — live, passing, ready'],
-  ['error', 'vl-badge--error', 'Failures that need attention'],
-  ['outline', 'vl-badge--outline', 'Neutral metadata — drafts, tiers, counts'],
-  ['inverted', 'vl-badge--inverted', 'Version tags and high-contrast labels'],
 ]
 
 export default function BadgeDoc() {
@@ -25,21 +18,17 @@ export default function BadgeDoc() {
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 22, alignItems: 'center' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-            <span className="vl-badge vl-badge--accent">Beta</span>
-            <span className="vl-badge vl-badge--success">Live</span>
-            <span className="vl-badge vl-badge--error">Failed</span>
-            <span className="vl-badge vl-badge--outline">Draft</span>
-            <span className="vl-badge vl-badge--inverted">v1.0</span>
+            <Badge tone="accent">Beta</Badge>
+            <Badge tone="ok">Live</Badge>
+            <Badge tone="err">Failed</Badge>
+            <Badge tone="warn">Preview</Badge>
+            <Badge variant="outline">Draft</Badge>
+            <Badge tone="neutral">v1.0</Badge>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-            <span className="vl-badge vl-badge--outline" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ok)' }} />
-              Operational
-            </span>
-            <span className="vl-badge vl-badge--outline" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--err)' }} />
-              Degraded
-            </span>
+            <Badge tone="ok" variant="soft">Operational</Badge>
+            <Badge tone="warn" variant="soft">Degraded</Badge>
+            <Badge tone="err" variant="soft">Down</Badge>
           </div>
         </div>
       }
@@ -47,31 +36,30 @@ export default function BadgeDoc() {
         <>
           <span className="p">import</span> {'{ Badge }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
-          <span className="p">&lt;</span>Badge <span className="p">variant=</span><span className="s">"success"</span><span className="p">&gt;</span>Live<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>{'\n'}
-          <span className="p">&lt;</span>Badge <span className="p">variant=</span><span className="s">"outline"</span> <span className="p">dot=</span><span className="s">"ok"</span><span className="p">&gt;</span>Operational<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>
+          <span className="p">&lt;</span>Badge <span className="p">tone=</span><span className="s">"ok"</span><span className="p">&gt;</span>Live<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>{'\n'}
+          <span className="p">&lt;</span>Badge <span className="p">tone=</span><span className="s">"accent"</span> <span className="p">variant=</span><span className="s">"soft"</span><span className="p">&gt;</span>Beta<span className="p">&lt;/</span>Badge<span className="p">&gt;</span>
         </>
       }
     >
       <Section id="variants" title="Variants">
-        <div className="vl-panel" style={{ padding: '20px 24px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '110px 180px 1fr', gap: '0 16px', fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-3)', letterSpacing: '.05em', paddingBottom: 10, borderBottom: '1px solid var(--line)' }}>
-            <span>VARIANT</span>
-            <span>CLASS</span>
-            <span>USE CASE</span>
-          </div>
-          {VARIANTS.map(([name, cls, use], i) => (
-            <div
-              key={name}
-              style={{
-                display: 'grid', gridTemplateColumns: '110px 180px 1fr', gap: '0 16px', alignItems: 'baseline',
-                padding: '11px 0', borderBottom: i < VARIANTS.length - 1 ? '1px solid var(--line)' : 'none',
-              }}
-            >
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg)' }}>{name}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ac-text)' }}>{cls}</span>
-              <span style={{ fontSize: 13.5, color: 'var(--fg-2)', lineHeight: 1.5 }}>{use}</span>
-            </div>
-          ))}
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(5, auto)', gap: '20px 24px', alignItems: 'center', fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+          <span>tone →</span>
+          <span>neutral</span><span>accent</span><span>ok</span><span>warn</span>
+          <span>solid</span>
+          <Badge tone="neutral" variant="solid">Draft</Badge>
+          <Badge tone="accent" variant="solid">Beta</Badge>
+          <Badge tone="ok" variant="solid">Live</Badge>
+          <Badge tone="warn" variant="solid">Soon</Badge>
+          <span>soft</span>
+          <Badge tone="neutral" variant="soft">Draft</Badge>
+          <Badge tone="accent" variant="soft">Beta</Badge>
+          <Badge tone="ok" variant="soft">Live</Badge>
+          <Badge tone="warn" variant="soft">Soon</Badge>
+          <span>outline</span>
+          <Badge tone="neutral" variant="outline">Draft</Badge>
+          <Badge tone="accent" variant="outline">Beta</Badge>
+          <Badge tone="ok" variant="outline">Live</Badge>
+          <Badge tone="warn" variant="outline">Soon</Badge>
         </div>
       </Section>
     </ComponentDoc>

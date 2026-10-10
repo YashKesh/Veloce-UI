@@ -123,9 +123,12 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
           justifyContent: 'center',
           flexShrink: 0,
           background: 'var(--vl-radio-bg, var(--bg))',
-          border: `1.5px solid var(--vl-radio-border, ${checked ? 'var(--ac)' : 'color-mix(in oklch, var(--fg) 28%, transparent)'})`,
+          border: `1.5px solid ${checked
+            ? 'var(--vl-radio-border-checked, var(--vl-radio-border, var(--ac)))'
+            : 'var(--vl-radio-border, color-mix(in oklch, var(--fg) 28%, transparent))'}`,
           boxShadow: 'var(--vl-radio-ring, none)',
-          color: 'var(--ac)',
+          color: 'var(--vl-radio-dot, var(--ac))',
+          transition: 'border-color 150ms var(--ease-swift-out)',
         }}
       >
         {checked && <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'currentColor' }} />}

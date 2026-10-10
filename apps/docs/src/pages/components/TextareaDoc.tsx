@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { Textarea } from 'veloce-ui'
+import { Link } from 'react-router-dom'
+import { ComponentDoc, Section, CodeBlock } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'States', id: 'states' },
@@ -10,16 +12,8 @@ const TOC = [
 
 const MAX = 280
 
-const baseStyle: React.CSSProperties = {
-  width: '100%', minHeight: 84, padding: '10px 12px', borderRadius: 8,
-  border: '1px solid var(--line-2)', background: 'var(--bg)',
-  fontSize: 13.5, lineHeight: 1.55, color: 'var(--fg)', resize: 'vertical',
-  outline: 'none', fontFamily: 'inherit',
-}
-
 export default function TextareaDoc() {
   const [value, setValue] = useState('Rolled out the new edge cache. Watch p99 latency for the next hour.')
-  const [focused, setFocused] = useState(false)
 
   return (
     <ComponentDoc
@@ -32,18 +26,12 @@ export default function TextareaDoc() {
           <label htmlFor="deploy-notes" style={{ fontSize: 13, fontWeight: 500, color: 'var(--fg)' }}>
             Deploy notes
           </label>
-          <textarea
+          <Textarea
             id="deploy-notes"
             value={value}
             maxLength={MAX}
+            autoResize
             onChange={(e) => setValue(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            style={{
-              ...baseStyle,
-              boxShadow: focused ? '0 0 0 2px var(--bg-1),0 0 0 4px var(--ac)' : undefined,
-              transition: 'box-shadow 150ms',
-            }}
           />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--fg-3)', alignSelf: 'flex-end' }}>
             {value.length} / {MAX}
@@ -58,8 +46,8 @@ export default function TextareaDoc() {
           {'\n\n'}
           <span className="p">&lt;</span>Textarea{'\n'}
           {'  '}<span className="p">value=</span>{'{'}notes{'}'}{'\n'}
-          {'  '}<span className="p">onValueChange=</span>{'{'}setNotes{'}'}{'\n'}
-          {'  '}<span className="p">label=</span><span className="s">"Deploy notes"</span>{'\n'}
+          {'  '}<span className="p">onChange=</span>{'{'}e {'=>'} setNotes(e.target.value){'}'}{'\n'}
+          {'  '}<span className="p">autoResize</span>{'\n'}
           {'  '}<span className="p">maxLength=</span>{'{'}280{'}'}{'\n'}
           <span className="p">/&gt;</span>
         </>
@@ -67,25 +55,38 @@ export default function TextareaDoc() {
     >
       <Section id="states" title="States">
         <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <textarea readOnly value="Ship it." style={{ ...baseStyle, minHeight: 64, resize: 'none' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Textarea defaultValue="Ship it." style={{ minHeight: 64, resize: 'none' }} />
             default
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <textarea readOnly value="Ship it." style={{ ...baseStyle, minHeight: 64, resize: 'none', boxShadow: '0 0 0 2px var(--bg-1),0 0 0 4px var(--ac)' }} />
-            focus
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Textarea size="sm" defaultValue="Compact size." style={{ minHeight: 64, resize: 'none' }} />
+            small
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <textarea readOnly value="" style={{ ...baseStyle, minHeight: 64, resize: 'none', border: '1px solid var(--err)' }} />
-              <span style={{ fontSize: 12, color: 'var(--err)', fontFamily: 'inherit' }}>Deploy notes are required.</span>
-            </div>
-            error
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Textarea invalid defaultValue="" placeholder="required" style={{ minHeight: 64, resize: 'none' }} />
+            invalid
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <textarea disabled value="Read-only after release." style={{ ...baseStyle, minHeight: 64, resize: 'none', background: 'var(--bg-1)', color: 'var(--fg-3)', opacity: 0.55 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Textarea disabled defaultValue="Read-only after release." style={{ minHeight: 64, resize: 'none' }} />
             disabled
           </div>
+        </div>
+      </Section>
+      <Section id="customization" title="Customization">
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <Textarea defaultValue="Emerald tinted" style={{ minHeight: 56, resize: 'none', ['--vl-textarea-border' as string]: 'oklch(0.72 0.16 155)', ['--vl-textarea-bg' as string]: 'color-mix(in oklch, oklch(0.72 0.16 155) 8%, var(--bg-2))' }} />
+          <CodeBlock>
+            <span className="p">&lt;</span>Textarea{'\n'}
+            {'  '}<span className="p">style=</span>{'{{'}{'\n'}
+            {'    '}<span className="s">'--vl-textarea-border'</span>: <span className="s">'oklch(0.72 0.16 155)'</span>,{'\n'}
+            {'    '}<span className="s">'--vl-textarea-bg'</span>: <span className="s">'color-mix(...)'</span>,{'\n'}
+            {'  '}{'}}'}{'\n'}
+            <span className="p">/&gt;</span>
+          </CodeBlock>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+            Tokens: <code>--vl-textarea-bg</code>, <code>-border</code>, <code>-ring</code>, <code>-color</code>. See <Link to="/docs/customization" style={{ color: 'var(--ac-text)' }}>/docs/customization</Link>.
+          </p>
         </div>
       </Section>
     </ComponentDoc>

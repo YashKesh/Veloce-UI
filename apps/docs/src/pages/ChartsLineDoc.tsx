@@ -1,5 +1,7 @@
 import { useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent, type ReactNode } from 'react'
-import { ChartsShell, ChartsBreadcrumb, ChartsTitle, ChartsSourceTabs } from './charts/ChartsShell'
+import { LineChart } from 'veloce-ui'
+import { ChartsShell, ChartsBreadcrumb, ChartsTitle } from './charts/ChartsShell'
+import { AccentSwitcher } from '../components/AccentSwitcher'
 import { useTheme } from '../theme'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
@@ -42,13 +44,74 @@ const tipLeft = '79.7%'
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 const TOC = [
-  { label: 'Basics', id: 'basics', active: true },
+  { label: 'Live example', id: 'live', active: true },
+  { label: 'Basics', id: 'basics' },
   { label: 'Area & stacking', id: 'area-stacking' },
   { label: 'Tooltip & crosshair', id: 'tooltip-crosshair' },
   { label: 'Draw-in motion', id: 'draw-in-motion' },
   { label: 'Components & API', id: 'components-api' },
   { label: 'Accessibility', id: 'accessibility' },
 ]
+
+const LIVE_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+const LIVE_SINGLE = LIVE_MONTHS.map((label, i) => ({ label, value: [12, 14, 20, 22, 28, 34, 42, 44, 50, 58, 62, 72][i] }))
+const LIVE_MULTI = {
+  data: LIVE_SINGLE,
+  series: [
+    { label: 'Users', data: [12, 14, 20, 22, 28, 34, 42, 44, 50, 58, 62, 72] },
+    { label: 'Sessions', data: [20, 24, 28, 34, 42, 48, 55, 60, 68, 76, 82, 92] },
+  ],
+}
+const LIVE_VARIANTS: { label: string; props: Record<string, unknown> }[] = [
+  { label: 'Single series', props: { data: LIVE_SINGLE, height: 280 } },
+  { label: 'Multi-series', props: { ...LIVE_MULTI, height: 280 } },
+  { label: 'Spline', props: { data: LIVE_SINGLE, curve: 'spline', height: 280 } },
+  { label: 'Step', props: { data: LIVE_SINGLE, curve: 'step', height: 280 } },
+]
+
+function LiveLineExample() {
+  const [idx, setIdx] = useState(0)
+  const active = LIVE_VARIANTS[idx]
+  return (
+    <section id="live" style={sectionStyle}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <h2 style={h2Style}>Live example</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ ...mono, fontSize: 12, color: 'var(--fg-3)' }}>accent</span>
+          <AccentSwitcher compact />
+        </div>
+      </div>
+      <div style={{ display: 'inline-flex', gap: 2, padding: 2, border: '1px solid var(--line)', borderRadius: 8, background: 'var(--bg-1)', alignSelf: 'flex-start' }}>
+        {LIVE_VARIANTS.map((v, i) => {
+          const on = i === idx
+          return (
+            <button
+              key={v.label}
+              onClick={() => setIdx(i)}
+              style={{
+                padding: '6px 12px', borderRadius: 6, fontSize: 12.5,
+                fontWeight: on ? 500 : 400,
+                background: on ? 'var(--bg-3)' : 'transparent',
+                color: on ? 'var(--fg)' : 'var(--fg-2)', cursor: 'pointer',
+              }}
+            >
+              {v.label}
+            </button>
+          )
+        })}
+      </div>
+      <div
+        style={{
+          border: '1px solid var(--line)', borderRadius: 12, background: 'var(--bg-1)', padding: 20,
+          minHeight: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+        }}
+      >
+        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        <LineChart {...(active.props as any)} style={{ width: '100%', height: 'auto', maxWidth: '100%', maxHeight: 320, display: 'block' }} />
+      </div>
+    </section>
+  )
+}
 
 const h2Style: CSSProperties = { margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }
 const proseStyle: CSSProperties = { margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'var(--fg-2)', maxWidth: 760 }
@@ -526,8 +589,7 @@ export default function ChartsLineDoc() {
         title="Line chart"
         lead="Plot one or more series over a continuous axis. Lines draw in along their path, points settle last, and the crosshair follows the pointer with the same easing every other Veloce component uses."
       />
-      <ChartsSourceTabs />
-
+      <LiveLineExample />
       {/* ---------------- Basics ---------------- */}
       <section id="basics" style={sectionStyle}>
         <h2 style={h2Style}>Basics</h2>

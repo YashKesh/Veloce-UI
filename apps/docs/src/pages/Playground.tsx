@@ -227,12 +227,12 @@ export default function Playground() {
             gap: 12,
             padding: '14px 16px',
             marginBottom: 20,
-            background: 'oklch(0.18 0.01 260)',
+            background: 'var(--bg-2)',
             borderRadius: 10,
             border: '1px solid var(--line)',
           }}
         >
-          <span style={{ ...labelStyle, marginBottom: 0, color: 'oklch(0.75 0.02 260)' }}>variants</span>
+          <span style={{ ...labelStyle, marginBottom: 0, color: 'var(--fg-3)' }}>variants</span>
           <Button variant="primary">primary</Button>
           <Button variant="outline">outline</Button>
           <Button variant="ghost">ghost</Button>

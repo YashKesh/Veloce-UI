@@ -4,9 +4,9 @@
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "npm run dev --workspace veloce-docs",
-    "build:ui": "npm run build --workspace @veloce/ui",
+    "build:ui": "npm run build --workspace veloce-ui",
     "build:docs": "npm run build --workspace veloce-docs",
     "build": "npm run build:ui && npm run build:docs",
-    "test": "npm run test --workspace @veloce/ui"
+    "test": "npm run test --workspace veloce-ui"
   }
 }

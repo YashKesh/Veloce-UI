@@ -18,7 +18,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
     width: '100%',
     height: 6,
     borderRadius: 999,
-    background: 'var(--bg-2)',
+    background: 'var(--vl-progress-track, var(--bg-2))',
     overflow: 'hidden',
     ...style,
   }
@@ -43,7 +43,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressProps>(function Progr
           bottom: 0,
           left: 0,
           width: isIndet ? '40%' : `${pct}%`,
-          background: 'var(--ac)',
+          background: 'var(--vl-progress-fill, var(--ac))',
           borderRadius: 999,
           transition: isIndet ? undefined : 'width 200ms var(--ease-swift-out)',
           animation: isIndet ? 'vl-indet 1.4s ease-in-out infinite' : undefined,

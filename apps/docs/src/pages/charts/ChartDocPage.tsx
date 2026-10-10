@@ -1,12 +1,23 @@
 import { useMemo, useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEvent } from 'react'
-import { ChartsShell, ChartsBreadcrumb, ChartsTitle, ChartsSourceTabs } from './ChartsShell'
-import type { ChartPage, TreeRow } from './chartsData'
+import { ChartsShell, ChartsBreadcrumb, ChartsTitle } from './ChartsShell'
+import type { ChartPage, LiveSample, TreeRow } from './chartsData'
 import { useViewport } from '../../components/DocsShell'
 import { Seo } from '../../Seo'
+import { AccentSwitcher } from '../../components/AccentSwitcher'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
-const TOC = [
+const TOC_WITH_LIVE = [
+  { label: 'Live example', id: 'live', active: true },
+  { label: 'Anatomy', id: 'anatomy' },
+  { label: 'Composition', id: 'composition' },
+  { label: 'Variants', id: 'variants' },
+  { label: 'Motion', id: 'motion' },
+  { label: 'Accessibility', id: 'accessibility' },
+  { label: 'API', id: 'api' },
+]
+
+const TOC_NO_LIVE = [
   { label: 'Anatomy', id: 'anatomy', active: true },
   { label: 'Composition', id: 'composition' },
   { label: 'Variants', id: 'variants' },
@@ -14,6 +25,79 @@ const TOC = [
   { label: 'Accessibility', id: 'accessibility' },
   { label: 'API', id: 'api' },
 ]
+
+function LiveExample({
+  Component,
+  sample,
+}: {
+  Component: React.ComponentType<any>
+  sample: LiveSample
+}) {
+  const variants = sample.variants ?? []
+  const [variantIdx, setVariantIdx] = useState(0)
+  const activeProps = variants[variantIdx]?.props ?? sample.props
+  const height = sample.height ?? 320
+  return (
+    <section id="live" style={sectionStyle}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        <h2 style={h2Style}>Live example</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 12, color: 'var(--fg-3)', ...mono }}>accent</span>
+          <AccentSwitcher compact />
+        </div>
+      </div>
+      {variants.length > 1 && (
+        <div style={{ display: 'inline-flex', gap: 2, padding: 2, border: '1px solid var(--line)', borderRadius: 8, background: 'var(--bg-1)', alignSelf: 'flex-start' }}>
+          {variants.map((v, i) => {
+            const active = i === variantIdx
+            return (
+              <button
+                key={v.label}
+                onClick={() => setVariantIdx(i)}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 6,
+                  fontSize: 12.5,
+                  fontWeight: active ? 500 : 400,
+                  background: active ? 'var(--bg-3)' : 'transparent',
+                  color: active ? 'var(--fg)' : 'var(--fg-2)',
+                  cursor: 'pointer',
+                }}
+              >
+                {v.label}
+              </button>
+            )
+          })}
+        </div>
+      )}
+      <div
+        style={{
+          border: '1px solid var(--line)',
+          borderRadius: 12,
+          background: 'var(--bg-1)',
+          padding: 20,
+          minHeight: 180,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          overflow: 'hidden',
+        }}
+      >
+        <Component
+          {...activeProps}
+          style={{
+            width: '100%',
+            height: 'auto',
+            maxWidth: '100%',
+            maxHeight: height,
+            display: 'block',
+            ...(activeProps.style as object || {}),
+          }}
+        />
+      </div>
+    </section>
+  )
+}
 
 const h2Style: CSSProperties = {
   margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em',
@@ -157,12 +241,14 @@ export default function ChartDocPage({ page }: { page: ChartPage }) {
   const { vis, open, selected, parents, isDimmed, fade, onRowClick, onChevronClick, onTreeKeyDown, treeRef } = t
   const { isMobile } = useViewport()
 
+  const hasLive = Boolean(page.Component && page.sample)
   return (
-    <ChartsShell toc={TOC}>
+    <ChartsShell toc={hasLive ? TOC_WITH_LIVE : TOC_NO_LIVE}>
       <Seo title={page.name} description={page.tagline} />
       <ChartsBreadcrumb />
       <ChartsTitle title={page.name} lead={page.tagline} />
-      <ChartsSourceTabs />
+
+      {hasLive && <LiveExample Component={page.Component!} sample={page.sample!} />}
 
       {/* Anatomy */}
       <section id="anatomy" style={sectionStyle}>

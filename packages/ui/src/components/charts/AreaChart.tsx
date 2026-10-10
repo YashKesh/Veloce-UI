@@ -17,6 +17,7 @@ export interface AreaChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 
   strokeWidth?: number
   color?: string
   smooth?: boolean
+  stack?: boolean
   yFormat?: (n: number) => string
   className?: string
   style?: CSSProperties
@@ -73,6 +74,7 @@ export const AreaChart = forwardRef<SVGSVGElement, AreaChartProps>(function Area
     strokeWidth = 2,
     color = 'var(--ac)',
     smooth = true,
+    stack = false,
     yFormat,
     className,
     style,
@@ -102,16 +104,30 @@ export const AreaChart = forwardRef<SVGSVGElement, AreaChartProps>(function Area
       ? series
       : [{ label: 'value', data: data.map((d) => d.value), color }]
 
+  const isStacking = stack && allSeries.length > 1
+  const n = labels.length
+
   const flat = allSeries.flatMap((s) => s.data)
-  const dataMin = Math.min(...flat, 0)
-  const dataMax = Math.max(...flat, 1)
+  let dataMin = Math.min(...flat, 0)
+  let dataMax = Math.max(...flat, 1)
+
+  if (isStacking) {
+    let maxTotal = 0
+    for (let i = 0; i < n; i++) {
+      let total = 0
+      for (const s of allSeries) total += s.data[i] ?? 0
+      if (total > maxTotal) maxTotal = total
+    }
+    dataMin = 0
+    dataMax = Math.max(maxTotal, 1)
+  }
+
   const ticks = niceTicks(dataMin, dataMax, 4)
   const yMin = ticks[0]
   const yMax = ticks[ticks.length - 1]
 
   const innerW = width - PAD_L - PAD_R
   const innerH = height - PAD_T - PAD_B
-  const n = labels.length
   const xFor = (i: number) => PAD_L + (n === 1 ? innerW / 2 : (i / (n - 1)) * innerW)
   const yFor = (v: number) => PAD_T + innerH - ((v - yMin) / (yMax - yMin || 1)) * innerH
 

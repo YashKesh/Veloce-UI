@@ -58,23 +58,4 @@ export function ChartsTitle({ title, lead }: { title: ReactNode; lead: ReactNode
   )
 }
 
-export function ChartsSourceTabs() {
-  return (
-    <div style={{ padding: 4, border: '1px solid var(--line)', borderRadius: 10, background: 'var(--bg-1)', fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', alignSelf: 'flex-start', display: 'inline-flex' }}>
-      <span style={{ padding: '7px 12px', borderRadius: 7, background: 'var(--ac-soft)', color: 'var(--ac-text)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ width: 10, height: 10, borderRadius: 3, background: 'var(--ac)' }} />
-        Figma example
-      </span>
-      <span style={{ padding: '7px 12px', color: 'var(--fg-2)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ width: 10, height: 10, borderRadius: '50%', border: '1.5px solid var(--fg-2)', boxSizing: 'border-box' }} />
-        GitHub example
-      </span>
-      <span style={{ padding: '7px 12px', color: 'var(--fg-2)', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ width: 10, height: 10, borderRadius: 2, border: '1px solid var(--fg-2)', boxSizing: 'border-box' }} />
-        Storybook
-      </span>
-    </div>
-  )
-}
-
 export default ChartsShell

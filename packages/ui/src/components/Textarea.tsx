@@ -47,7 +47,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
     padding: s.pad,
     fontSize: s.fs,
     fontFamily: 'var(--font-sans)',
-    color: 'var(--fg)',
+    color: 'var(--vl-textarea-color, var(--fg))',
     background: 'var(--vl-textarea-bg, var(--bg-2))',
     border: `1px solid var(--vl-textarea-border, ${invalid ? 'var(--err)' : 'var(--line-2)'})`,
     boxShadow: 'var(--vl-textarea-ring, none)',

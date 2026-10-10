@@ -2,7 +2,7 @@ import { LineChart, AreaChart, BarChart, PieChart, SparklineChart, GaugeChart, S
 import { ComponentDoc, Section } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'LineChart', id: 'line' },
   { label: 'AreaChart', id: 'area' },
   { label: 'BarChart', id: 'bar' },

@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { Sidebar } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
@@ -406,6 +407,34 @@ export default function SidebarDoc() {
             ))}
           </div>
         </div>
+
+        {/* Live demo — real Sidebar */}
+        <section id="live" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 20 }}>
+          <h2 style={h2Style}>Live example</h2>
+        <div style={{ display: 'flex', border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden', height: 420 }}>
+          <Sidebar width={240}>
+            <Sidebar.Group title="Getting started" defaultOpen>
+              <Sidebar.Item href="#" active icon="▸">Introduction</Sidebar.Item>
+              <Sidebar.Item href="#" icon="▸">Installation</Sidebar.Item>
+              <Sidebar.Item href="#" icon="▸">Theming</Sidebar.Item>
+            </Sidebar.Group>
+            <Sidebar.Group title="Primitives" defaultOpen>
+              <Sidebar.Item href="#" icon="◇">Button</Sidebar.Item>
+              <Sidebar.Item href="#" icon="◇" chip="NEW">Toggle</Sidebar.Item>
+              <Sidebar.Item href="#" icon="◇">Checkbox</Sidebar.Item>
+              <Sidebar.Item href="#" icon="◇">Switch</Sidebar.Item>
+              <Sidebar.Item href="#" icon="◇" disabled>Radio (soon)</Sidebar.Item>
+            </Sidebar.Group>
+            <Sidebar.Group title="Overlays">
+              <Sidebar.Item href="#" icon="◇">Dialog</Sidebar.Item>
+              <Sidebar.Item href="#" icon="◇">Popover</Sidebar.Item>
+            </Sidebar.Group>
+          </Sidebar>
+          <div style={{ flex: 1, padding: 24, display: 'grid', placeItems: 'center', color: 'var(--fg-3)', fontSize: 13 }}>
+            Main content area
+          </div>
+        </div>
+        </section>
 
         {/* Anatomy */}
         <section id="anatomy" style={sectionStyle}>

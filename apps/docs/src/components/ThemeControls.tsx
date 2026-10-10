@@ -1,6 +1,16 @@
 import { useTheme, type Accent } from '../theme'
 
-const ACCENTS: Accent[] = ['violet', 'lime', 'cyan']
+const ACCENTS: Accent[] = ['violet', 'lime', 'cyan', 'blue', 'emerald', 'amber', 'rose']
+
+const SWATCH: Record<Accent, string> = {
+  violet: 'oklch(0.64 0.24 292)',
+  lime: 'oklch(0.9 0.21 128)',
+  cyan: 'oklch(0.8 0.13 205)',
+  blue: 'oklch(0.62 0.19 255)',
+  emerald: 'oklch(0.72 0.16 155)',
+  amber: 'oklch(0.83 0.16 70)',
+  rose: 'oklch(0.65 0.22 12)',
+}
 
 export function ThemeControls() {
   const { accent, setAccent, reducedMotion, setReducedMotion } = useTheme()
@@ -21,7 +31,7 @@ export function ThemeControls() {
           aria-label={`Accent ${a}`}
           style={{
             width: 16, height: 16, borderRadius: 999,
-            background: a === 'violet' ? 'oklch(0.64 0.24 292)' : a === 'lime' ? 'oklch(0.9 0.21 128)' : 'oklch(0.8 0.13 205)',
+            background: SWATCH[a],
             boxShadow: accent === a ? '0 0 0 2px var(--bg-2), 0 0 0 4px var(--ac)' : 'none',
           }}
         />

@@ -123,7 +123,7 @@ const DialogRoot = forwardRef<HTMLDivElement, DialogProps>(function DialogRoot(
   const overlay: CSSProperties = {
     position: 'fixed',
     inset: 0,
-    background: 'oklch(0 0 0 / 0.55)',
+    background: 'var(--vl-dialog-overlay, oklch(0 0 0 / 0.55))',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -131,10 +131,10 @@ const DialogRoot = forwardRef<HTMLDivElement, DialogProps>(function DialogRoot(
     animation: 'vl-in 180ms var(--ease-swift-out)',
   }
   const panel: CSSProperties = {
-    background: 'var(--bg-1)',
-    border: '1px solid var(--line)',
-    borderRadius: 'var(--r-xl)',
-    boxShadow: 'var(--shadow-lg)',
+    background: 'var(--vl-dialog-bg, var(--bg-1))',
+    border: `1px solid var(--vl-dialog-border, var(--line))`,
+    borderRadius: 'var(--vl-dialog-radius, var(--r-xl))',
+    boxShadow: 'var(--vl-dialog-shadow, var(--shadow-lg))',
     minWidth: 320,
     maxWidth: 'min(560px, calc(100vw - 32px))',
     maxHeight: 'calc(100vh - 32px)',

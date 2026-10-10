@@ -19,7 +19,8 @@ export interface WaterfallChartProps extends Omit<SVGProps<SVGSVGElement>, 'widt
 
 const PAD_L = 44
 const PAD_R = 12
-const PAD_T = 12
+const PAD_T_BASE = 12
+const PAD_T_WITH_VALUES = 24
 const PAD_B = 32
 
 function niceTicks(min: number, max: number, count = 4): number[] {
@@ -78,6 +79,7 @@ export const WaterfallChart = forwardRef<SVGSVGElement, WaterfallChartProps>(fun
   const yMin = ticks[0]
   const yMax = ticks[ticks.length - 1]
 
+  const PAD_T = showValues ? PAD_T_WITH_VALUES : PAD_T_BASE
   const innerW = width - PAD_L - PAD_R
   const innerH = height - PAD_T - PAD_B
   const n = data.length

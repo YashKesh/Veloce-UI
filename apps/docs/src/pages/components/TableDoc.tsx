@@ -1,6 +1,7 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { Table } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
@@ -423,6 +424,56 @@ const Grid = ({ cols, gap = 14, children }: { cols: string; gap?: number; childr
 
 /* ─────────────────────────── Page ─────────────────────────── */
 
+function LiveTableDemo() {
+  const [density, setDensity] = useState<'compact' | 'cozy' | 'comfortable'>('cozy')
+  const [variant, setVariant] = useState<'plain' | 'striped'>('striped')
+  const rows = [
+    { name: 'veloce-docs', status: 'Live', region: '14 regions', last: '38s ago' },
+    { name: 'edge-api', status: 'Live', region: '14 regions', last: '2m ago' },
+    { name: 'preview-pr-218', status: 'Building', region: '—', last: 'now' },
+    { name: 'blog', status: 'Live', region: '6 regions', last: '3h ago' },
+    { name: 'admin-panel', status: 'Failed', region: '—', last: '12m ago' },
+  ]
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, border: '1px solid var(--line)', borderRadius: 12, padding: 20, background: 'var(--bg-1)' }}>
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'inline-flex', gap: 2, padding: 2, border: '1px solid var(--line)', borderRadius: 7, fontSize: 12 }}>
+          {(['plain', 'striped'] as const).map((v) => (
+            <button key={v} onClick={() => setVariant(v)} style={{ padding: '3px 10px', borderRadius: 5, background: variant === v ? 'var(--bg-3)' : 'transparent', color: variant === v ? 'var(--fg)' : 'var(--fg-2)' }}>{v}</button>
+          ))}
+        </div>
+        <div style={{ display: 'inline-flex', gap: 2, padding: 2, border: '1px solid var(--line)', borderRadius: 7, fontSize: 12 }}>
+          {(['compact', 'cozy', 'comfortable'] as const).map((d) => (
+            <button key={d} onClick={() => setDensity(d)} style={{ padding: '3px 10px', borderRadius: 5, background: density === d ? 'var(--bg-3)' : 'transparent', color: density === d ? 'var(--fg)' : 'var(--fg-2)' }}>{d}</button>
+          ))}
+        </div>
+      </div>
+      <Table variant={variant} density={density} hoverable style={{ width: '100%' }}>
+        <Table.Header>
+          <Table.Row>
+            <Table.Column>Project</Table.Column>
+            <Table.Column>Status</Table.Column>
+            <Table.Column>Regions</Table.Column>
+            <Table.Column align="end">Last deploy</Table.Column>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {rows.map((r) => (
+            <Table.Row key={r.name}>
+              <Table.Cell style={{ fontWeight: 500 }}>{r.name}</Table.Cell>
+              <Table.Cell variant="status" tone={r.status === 'Live' ? 'ok' : r.status === 'Failed' ? 'err' : 'warn'}>
+                {r.status}
+              </Table.Cell>
+              <Table.Cell>{r.region}</Table.Cell>
+              <Table.Cell align="end" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-3)' }}>{r.last}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+    </div>
+  )
+}
+
 export default function TableDoc() {
   const { prev, next } = prevNext('table')
   return (
@@ -472,6 +523,12 @@ export default function TableDoc() {
             ))}
           </div>
         </div>
+
+        {/* Live demo — real component */}
+        <section id="live" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 20 }}>
+          <h2 style={h2Style}>Live example</h2>
+          <LiveTableDemo />
+        </section>
 
         {/* Anatomy */}
         <section id="anatomy" style={sectionStyle}>

@@ -14,6 +14,7 @@ export interface CandleChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' 
   width?: number
   height?: number
   showGrid?: boolean
+  type?: 'candle' | 'ohlc'
   upColor?: string
   downColor?: string
   className?: string
@@ -47,6 +48,7 @@ export const CandleChart = forwardRef<SVGSVGElement, CandleChartProps>(function 
     width = 540,
     height = 260,
     showGrid = true,
+    type = 'candle',
     upColor = 'var(--ok)',
     downColor = 'var(--err)',
     className,
@@ -130,6 +132,7 @@ export const CandleChart = forwardRef<SVGSVGElement, CandleChartProps>(function 
         const bodyTop = yFor(Math.max(d.open, d.close))
         const bodyBot = yFor(Math.min(d.open, d.close))
         const bodyH = Math.max(1, bodyBot - bodyTop)
+        const tip = `${d.label}  O:${d.open} H:${d.high} L:${d.low} C:${d.close}`
         return (
           <g key={i}>
             <line
@@ -138,18 +141,27 @@ export const CandleChart = forwardRef<SVGSVGElement, CandleChartProps>(function 
               y1={yFor(d.high)}
               y2={yFor(d.low)}
               stroke={c}
-              strokeWidth={1}
-            />
-            <rect
-              x={cx0 - candleW / 2}
-              y={bodyTop}
-              width={candleW}
-              height={bodyH}
-              fill={c}
-              rx={1}
+              strokeWidth={type === 'ohlc' ? 1.5 : 1}
             >
-              <title>{`${d.label}  O:${d.open} H:${d.high} L:${d.low} C:${d.close}`}</title>
-            </rect>
+              {type === 'ohlc' && <title>{tip}</title>}
+            </line>
+            {type === 'ohlc' ? (
+              <>
+                <line x1={cx0 - candleW / 2} x2={cx0} y1={yFor(d.open)} y2={yFor(d.open)} stroke={c} strokeWidth={1.5} />
+                <line x1={cx0} x2={cx0 + candleW / 2} y1={yFor(d.close)} y2={yFor(d.close)} stroke={c} strokeWidth={1.5} />
+              </>
+            ) : (
+              <rect
+                x={cx0 - candleW / 2}
+                y={bodyTop}
+                width={candleW}
+                height={bodyH}
+                fill={c}
+                rx={1}
+              >
+                <title>{tip}</title>
+              </rect>
+            )}
             <text
               x={cx0}
               y={height - PAD_B + 16}

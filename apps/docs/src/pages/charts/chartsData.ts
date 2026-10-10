@@ -1,6 +1,8 @@
 // Ported from design artifact `charts-data.js`.
 // HTML entities decoded (&lt; → <, &gt; → >, &amp; → &).
 
+import type React from 'react'
+
 export interface TreeRow {
   id: string
   pad: number
@@ -77,6 +79,15 @@ export interface PropRow {
   desc: string
 }
 
+export interface LiveSample {
+  /** Props to spread onto the Component (data + any config). */
+  props: Record<string, unknown>
+  /** Optional named variants (e.g. "grouped" / "stacked"). First variant used by default. */
+  variants?: { label: string; props: Record<string, unknown> }[]
+  /** Fixed height for the live container. Defaults to 320. */
+  height?: number
+}
+
 export interface ChartPage {
   id: string
   name: string
@@ -97,15 +108,19 @@ export interface ChartPage {
   badges: string[]
   outline: string[]
   swatches?: { c: string; y: number }[]
+  /** React component to mount in the live example (optional). */
+  Component?: React.ComponentType<any>
+  /** Sample data + variants for the live example (optional). */
+  sample?: LiveSample
 }
 
 // ── Helpers (mirror design script) ─────────────────────────────────────────
-const W = 600, L = 30, R = 570, T = 16, B = 200
-const X = (i: number, n: number) => L + (i * (R - L)) / (n - 1)
-const Y = (v: number, mx: number) => B - (v / mx) * (B - T)
-const f = (n: number) => (+n).toFixed(1)
+export const W = 600, L = 30, R = 570, T = 16, B = 200
+export const X = (i: number, n: number) => L + (i * (R - L)) / (n - 1)
+export const Y = (v: number, mx: number) => B - (v / mx) * (B - T)
+export const f = (n: number) => (+n).toFixed(1)
 
-const sh = (d: string, o: Partial<Shape> = {}): Shape => ({
+export const sh = (d: string, o: Partial<Shape> = {}): Shape => ({
   d, fill: o.fill || 'none', stroke: o.stroke || 'none', sw: o.sw ?? 0,
   dash: o.dash || '', op: o.op ?? 1, lj: 'round', lc: o.lc || 'butt',
   role: o.role,
@@ -115,24 +130,24 @@ const sh = (d: string, o: Partial<Shape> = {}): Shape => ({
 const tag = (shapes: Shape[], role: string): Shape[] =>
   shapes.map((s) => (s.role ? s : { ...s, role }))
 
-interface TxOpt { a?: 'start' | 'middle' | 'end'; fill?: string; size?: number; w?: number; sans?: boolean; role?: string }
-const tx = (x: number, y: number, t: string, o: TxOpt = {}): TextNode => ({
+export interface TxOpt { a?: 'start' | 'middle' | 'end'; fill?: string; size?: number; w?: number; sans?: boolean; role?: string }
+export const tx = (x: number, y: number, t: string, o: TxOpt = {}): TextNode => ({
   x, y, t, anchor: o.a || 'start', fill: o.fill || 'var(--fg-3)',
   size: o.size || 10, weight: o.w || 400,
   font: o.sans ? 'Geist, sans-serif' : 'Geist Mono, monospace',
   role: o.role,
 })
 
-const line = (arr: number[], mx: number) =>
+export const line = (arr: number[], mx: number) =>
   arr.map((v, i) => `${i ? 'L' : 'M'}${f(X(i, arr.length))} ${f(Y(v, mx))}`).join(' ')
 
-const circ = (cx: number, cy: number, r: number) =>
+export const circ = (cx: number, cy: number, r: number) =>
   `M${f(cx - r)} ${f(cy)}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0`
 
-const rect = (x: number, y: number, w: number, h: number) =>
+export const rect = (x: number, y: number, w: number, h: number) =>
   `M${f(x)} ${f(y)}h${f(w)}v${f(h)}h${f(-w)}z`
 
-const grid = (n = 4): Shape[] =>
+export const grid = (n = 4): Shape[] =>
   Array.from({ length: n + 1 }, (_, i) =>
     sh(`M${L} ${f(T + (i * (B - T)) / n)}H${R}`, {
       stroke: i === n ? 'var(--line-2)' : 'var(--line)', sw: 1,
@@ -141,29 +156,29 @@ const grid = (n = 4): Shape[] =>
     }),
   )
 
-const yl = (mx: number, fmt: (v: number) => string, n = 4): TextNode[] =>
+export const yl = (mx: number, fmt: (v: number) => string, n = 4): TextNode[] =>
   Array.from({ length: n + 1 }, (_, i) => tx(576, T + (i * (B - T)) / n + 3, fmt(mx - (i * mx) / n), { role: 'yaxis' }))
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+export const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-const pol = (cx: number, cy: number, r: number, a: number): [number, number] =>
+export const pol = (cx: number, cy: number, r: number, a: number): [number, number] =>
   [cx + r * Math.cos(a), cy + r * Math.sin(a)]
 
-const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
+export const arc = (cx: number, cy: number, r: number, a0: number, a1: number) => {
   const [x0, y0] = pol(cx, cy, r, a0), [x1, y1] = pol(cx, cy, r, a1)
   return `M${f(x0)} ${f(y0)}A${r} ${r} 0 ${a1 - a0 > Math.PI ? 1 : 0} 1 ${f(x1)} ${f(y1)}`
 }
 
-const AC = 'var(--ac)'
-const AC60 = 'color-mix(in oklch,var(--ac) 60%,var(--bg-3))'
-const AC35 = 'color-mix(in oklch,var(--ac) 35%,var(--bg-3))'
-const N = 'var(--fg-3)'
-const OK = 'var(--ok)'
-const ERR = 'var(--err)'
-const WARN = 'var(--warn)'
-const mix = (p: number) => `color-mix(in oklch,var(--ac) ${p}%,var(--bg-3))`
+export const AC = 'var(--ac)'
+export const AC60 = 'color-mix(in oklch,var(--ac) 60%,var(--bg-3))'
+export const AC35 = 'color-mix(in oklch,var(--ac) 35%,var(--bg-3))'
+export const N = 'var(--fg-3)'
+export const OK = 'var(--ok)'
+export const ERR = 'var(--err)'
+export const WARN = 'var(--warn)'
+export const mix = (p: number) => `color-mix(in oklch,var(--ac) ${p}%,var(--bg-3))`
 
-type StateKey = '' | 'dim' | 'active' | 'focus'
+export type StateKey = '' | 'dim' | 'active' | 'focus'
 const ST: Record<StateKey, { bg: string; color: string; weight: number; shadow: string }> = {
   '': { bg: 'transparent', color: 'var(--fg-2)', weight: 400, shadow: 'none' },
   dim: { bg: 'transparent', color: 'var(--fg)', weight: 400, shadow: 'none' },
@@ -187,8 +202,8 @@ const ti = (
 })
 
 // [icon, label, dataKey/meta, state, roleOverride]
-type SeriesEntry = [string, string, string?, StateKey?, string?]
-type ExtraEntry = [string, string, number?]
+export type SeriesEntry = [string, string, string?, StateKey?, string?]
+export type ExtraEntry = [string, string, number?]
 
 /** map extras label → id + role */
 const extraMeta = (label: string): { id: string; role: string } => {
@@ -199,7 +214,7 @@ const extraMeta = (label: string): { id: string; role: string } => {
   return { id: slug(label), role: 'reference' }
 }
 
-const tree = (series: SeriesEntry[], extras: ExtraEntry[] = [], axes = true): TreeRow[] => {
+export const tree = (series: SeriesEntry[], extras: ExtraEntry[] = [], axes = true): TreeRow[] => {
   const rows: TreeRow[] = [ti(0, '⌄', '▣', 'ChartContainer', '', 'dim', undefined, 'chart')]
   if (axes) {
     rows.push(
@@ -232,22 +247,22 @@ const CODE: Record<SegColorKey, string> = {
   tag: 'var(--fg)', attr: 'var(--fg-3)', str: 'var(--ac-text)',
   dim: 'var(--fg-3)', val: 'var(--fg-2)',
 }
-type Seg = [SegColorKey, string]
-const code = (lines: Seg[][]): CodeLine[] =>
+export type Seg = [SegColorKey, string]
+export const code = (lines: Seg[][]): CodeLine[] =>
   lines.map((segs) => ({ segs: segs.map(([c, t]) => ({ t, color: CODE[c] })) }))
 
-type Attr = [string, string, boolean?]
-const open = (name: string, attrs: Attr[] = []): Seg[] => [
+export type Attr = [string, string, boolean?]
+export const open = (name: string, attrs: Attr[] = []): Seg[] => [
   ['dim', '<'], ['tag', name],
   ...attrs.flatMap(([k, v, s]): Seg[] => [['attr', ` ${k}=`], [s === false ? 'val' : 'str', v]]),
   ['dim', '>'],
 ]
-const selfc = (name: string, attrs: Attr[] = [], ind = '  '): Seg[] => [
+export const selfc = (name: string, attrs: Attr[] = [], ind = '  '): Seg[] => [
   ['dim', `${ind}<`], ['tag', name],
   ...attrs.flatMap(([k, v, s]): Seg[] => [['attr', ` ${k}=`], [s === false ? 'val' : 'str', v]]),
   ['dim', ' />'],
 ]
-const close = (name: string): Seg[] => [['dim', '</'], ['tag', name], ['dim', '>']]
+export const close = (name: string): Seg[] => [['dim', '</'], ['tag', name], ['dim', '>']]
 
 const baseProps: [string, string, string, string][] = [
   ['data', 'T[]', '—', 'Row objects. Keys are referenced by dataKey.'],
@@ -256,7 +271,7 @@ const baseProps: [string, string, string, string][] = [
 ]
 const prop = (n: string, t: string, d: string, desc: string): PropRow => ({ name: n, type: t, def: d, desc })
 
-interface PageInput {
+export interface PageInput {
   id: string
   name: string
   tagline: string
@@ -274,6 +289,8 @@ interface PageInput {
   a11y: string
   props: [string, string, string, string][]
   swatches?: { c: string; y: number }[]
+  Component?: React.ComponentType<any>
+  sample?: LiveSample
 }
 
 const page = (o: PageInput): ChartPage => ({
@@ -296,11 +313,13 @@ const page = (o: PageInput): ChartPage => ({
   a11y: o.a11y,
   props: [...o.props.map((p) => prop(...p)), ...baseProps.map((p) => prop(...p))],
   swatches: o.swatches,
+  Component: o.Component,
+  sample: o.sample,
 })
 
 // Override: xlabels default when empty should stay empty (pie/radar/funnel/treemap/gauge/sparkline).
 // Rework page() to be explicit:
-const makePage = (o: PageInput): ChartPage => ({
+export const makePage = (o: PageInput): ChartPage => ({
   badges: ['a11y ✓', 'SVG · 0 kB runtime'],
   outline: ['Anatomy', 'Composition', 'Variants', 'Tooltip & hover', 'Motion', 'Accessibility', 'API'],
   xlabels: o.xlabels,
@@ -320,6 +339,8 @@ const makePage = (o: PageInput): ChartPage => ({
   a11y: o.a11y,
   props: [...o.props.map((p) => prop(...p)), ...baseProps.map((p) => prop(...p))],
   swatches: o.swatches,
+  Component: o.Component,
+  sample: o.sample,
 })
 void page // placeholder, use makePage
 

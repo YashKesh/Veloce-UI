@@ -67,7 +67,7 @@ describe('customization — style + className merging', () => {
     )
     const root = screen.getByTestId('root')
     expect(root.style.background).toBe('rgb(1, 1, 1)')
-    expect(root.style.borderRadius).toBe('var(--r-xl)')
+    expect(root.style.borderRadius).toContain('var(--r-xl)')
     expect(root.className).toContain('vl-card')
     expect(root.className).toContain('my-card')
     expect(screen.getByTestId('h').className).toContain('vl-card__header')
@@ -200,7 +200,7 @@ describe('customization — style + className merging', () => {
     )
     const panel = document.querySelector('[data-vl-dialog]') as HTMLElement
     expect(panel.style.background).toBe('rgb(80, 80, 80)')
-    expect(panel.style.borderRadius).toBe('var(--r-xl)')
+    expect(panel.style.borderRadius).toContain('var(--r-xl)')
     expect(panel.className).toContain('vl-dialog')
     expect(panel.className).toContain('my-dialog')
     expect(screen.getByTestId('dh').className).toContain('vl-dialog__header')

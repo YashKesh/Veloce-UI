@@ -1,5 +1,6 @@
 import { forwardRef, type ComponentProps, type ReactNode, type CSSProperties } from 'react'
 import { cx } from '../utils/cx'
+import { Slot } from './Slot'
 
 export type ButtonVariant = 'primary' | 'ghost' | 'outline' | 'destructive'
 export type ButtonSize = 'sm' | 'md' | 'lg'
@@ -10,6 +11,8 @@ export interface ButtonProps extends ComponentProps<'button'> {
   isLoading?: boolean
   leftIcon?: ReactNode
   rightIcon?: ReactNode
+  /** Render as the child element instead of a <button>. Lets you compose with Link, anchor, etc. */
+  asChild?: boolean
 }
 
 const sizeStyles: Record<ButtonSize, CSSProperties> = {
@@ -47,7 +50,7 @@ const variantAttrs: Record<ButtonVariant, { bg: string; fg: string; border: stri
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = 'primary', size = 'md', isLoading, leftIcon, rightIcon, children, style, disabled, className, ...rest },
+  { variant = 'primary', size = 'md', isLoading, leftIcon, rightIcon, children, style, disabled, className, asChild, ...rest },
   ref,
 ) {
   const v = variantAttrs[variant]
@@ -69,17 +72,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     ...sizeStyles[size],
     ...style,
   }
-  return (
-    <button
-      ref={ref}
-      disabled={disabled || isLoading}
-      data-vl-btn=""
-      data-variant={variant}
-      data-size={size}
-      className={cx('vl-btn', className)}
-      style={base}
-      {...rest}
-    >
+  const inner = (
+    <>
       {isLoading ? (
         <span
           aria-hidden
@@ -95,6 +89,34 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ) : leftIcon}
       {children}
       {rightIcon}
+    </>
+  )
+  if (asChild) {
+    return (
+      <Slot
+        data-vl-btn=""
+        data-variant={variant}
+        data-size={size}
+        className={cx('vl-btn', className)}
+        style={base}
+        {...rest}
+      >
+        {children}
+      </Slot>
+    )
+  }
+  return (
+    <button
+      ref={ref}
+      disabled={disabled || isLoading}
+      data-vl-btn=""
+      data-variant={variant}
+      data-size={size}
+      className={cx('vl-btn', className)}
+      style={base}
+      {...rest}
+    >
+      {inner}
     </button>
   )
 })

@@ -1,47 +1,12 @@
+import { Spinner, Button } from 'veloce-ui'
 import { ComponentDoc, Section } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'When to use', id: 'usage-notes' },
 ]
-
-function Spinner({ size, color, borderWidth = 2 }: { size: number; color: string; borderWidth?: number }) {
-  return (
-    <span
-      style={{
-        width: size,
-        height: size,
-        borderRadius: '50%',
-        border: `${borderWidth}px solid ${color}`,
-        borderRightColor: 'transparent',
-        display: 'inline-block',
-        animation: 'vl-spin .7s linear infinite',
-      }}
-    />
-  )
-}
-
-function Dots() {
-  return (
-    <span style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}>
-      {[0, 1, 2].map((i) => (
-        <span
-          key={i}
-          style={{
-            width: 6,
-            height: 6,
-            borderRadius: '50%',
-            background: 'var(--fg-2)',
-            animation: 'vl-dots 1.2s ease-in-out infinite',
-            animationDelay: `${i * 0.2}s`,
-          }}
-        />
-      ))}
-    </span>
-  )
-}
 
 export default function SpinnerDoc() {
   return (
@@ -62,31 +27,22 @@ export default function SpinnerDoc() {
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>md</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-              <Spinner size={28} color="var(--ac)" borderWidth={2.5} />
+              <Spinner size={28} color="var(--ac)" />
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>lg</span>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'center' }}>
-              <Dots />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>dots</span>
-            </div>
           </div>
-          <button
-            type="button"
-            disabled
-            className="vl-btn vl-btn--md vl-btn--solid"
-            style={{ opacity: 0.6, cursor: 'default', pointerEvents: 'none' }}
-          >
+          <Button variant="primary" disabled>
             <Spinner size={14} color="currentColor" />
             Deploying…
-          </button>
+          </Button>
         </div>
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Spinner }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
+          <span className="p">import</span> {'{ Spinner, Button }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">&lt;</span>Button <span className="p">disabled</span><span className="p">&gt;</span>{'\n'}
-          {'  '}<span className="p">&lt;</span>Spinner <span className="p">size=</span><span className="s">"sm"</span> <span className="p">/&gt;</span>{'\n'}
+          {'  '}<span className="p">&lt;</span>Spinner <span className="p">size=</span>{'{'}14{'}'} <span className="p">/&gt;</span>{'\n'}
           {'  '}Deploying…{'\n'}
           <span className="p">&lt;/</span>Button<span className="p">&gt;</span>
         </>

@@ -1,6 +1,7 @@
 import { Fragment } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { Navbar } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
@@ -538,6 +539,31 @@ export default function NavbarDoc() {
           <span style={{ color: 'var(--fg-3)' }}>/</span>
           <span style={{ color: 'var(--fg)', fontWeight: 500 }}>Navbar</span>
         </div>
+
+        {/* Live demo — real Navbar */}
+        <section id="live" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 20 }}>
+          <h2 style={h2Style}>Live example</h2>
+        <div style={{ border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden' }}>
+          <Navbar height={56} border={false}>
+            <Navbar.Brand href="#">
+              <span style={{ width: 22, height: 22, borderRadius: 6, background: 'var(--ac)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ width: 3, height: 12, background: 'var(--ac-fg)', transform: 'skewX(-22deg)', display: 'inline-block' }} />
+              </span>
+              <span style={{ fontWeight: 600, fontSize: 15, marginLeft: 9 }}>Veloce</span>
+            </Navbar.Brand>
+            <Navbar.Nav>
+              <Navbar.Link href="#" active>Docs</Navbar.Link>
+              <Navbar.Link href="#">Components</Navbar.Link>
+              <Navbar.Link href="#">Charts</Navbar.Link>
+              <Navbar.Link href="#" chip="NEW">Changelog</Navbar.Link>
+            </Navbar.Nav>
+            <Navbar.Actions>
+              <button style={{ height: 32, padding: '0 12px', borderRadius: 7, border: '1px solid var(--line-2)', background: 'var(--bg)', color: 'var(--fg)', fontSize: 13, cursor: 'pointer' }}>Sign in</button>
+              <button style={{ height: 32, padding: '0 12px', borderRadius: 7, border: 'none', background: 'var(--ac)', color: 'var(--ac-fg)', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>Get started</button>
+            </Navbar.Actions>
+          </Navbar>
+        </div>
+        </section>
 
         {/* Hero */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

@@ -32,16 +32,14 @@ const COLS: { title: string; links: ColLink[] }[] = [
       { label: 'Components', to: '/components' },
       { label: 'Charts', to: '/charts/catalogue' },
       { label: 'Data Grid', to: '/components/data-grid' },
-      { label: 'Changelog', to: '/docs/installation' },
     ],
   },
   {
     title: 'Resources',
     links: [
       { label: 'Docs', to: '/docs/installation' },
-      { label: 'Figma kit', href: '#' },
+      { label: 'Customization', to: '/docs/customization' },
       { label: 'GitHub', href: 'https://github.com' },
-      { label: 'Discord', href: '#' },
     ],
   },
   {

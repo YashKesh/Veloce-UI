@@ -1,28 +1,14 @@
 import { useState } from 'react'
-import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { Checkbox } from 'veloce-ui'
+import { ComponentDoc, Section, CodeBlock } from '../../components/ComponentDoc'
+import { Link } from 'react-router-dom'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'States', id: 'states' },
 ]
-
-function Box({ checked, indeterminate, disabled, onClick }: { checked: boolean; indeterminate?: boolean; disabled?: boolean; onClick?: () => void }) {
-  return (
-    <button
-      type="button"
-      role="checkbox"
-      aria-checked={indeterminate ? 'mixed' : checked}
-      disabled={disabled}
-      onClick={onClick}
-      className={`vl-checkbox${checked || indeterminate ? ' vl-checkbox--checked' : ''}`}
-      style={{ cursor: disabled ? 'default' : 'pointer', padding: 0, opacity: disabled ? 0.45 : undefined }}
-    >
-      {indeterminate ? <span style={{ width: 8, height: 2, background: 'var(--ac-fg)', borderRadius: 1 }} /> : checked ? '✓' : null}
-    </button>
-  )
-}
 
 const ITEMS = ['Run tests', 'Lint', 'Type-check']
 
@@ -39,23 +25,20 @@ export default function CheckboxDoc() {
       toc={TOC}
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 260, fontSize: 13.5, color: 'var(--fg)' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 10, fontWeight: 500 }}>
-            <Box
-              checked={allOn}
-              indeterminate={someOn && !allOn}
-              onClick={() => setChecked(checked.map(() => !allOn))}
-            />
-            CI pipeline
-          </label>
+          <Checkbox
+            checked={allOn}
+            indeterminate={someOn && !allOn}
+            onCheckedChange={() => setChecked(checked.map(() => !allOn))}
+            label={<span style={{ fontWeight: 500 }}>CI pipeline</span>}
+          />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingLeft: 26 }}>
             {ITEMS.map((label, i) => (
-              <label key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <Box
-                  checked={checked[i]}
-                  onClick={() => setChecked(checked.map((c, j) => (j === i ? !c : c)))}
-                />
-                {label}
-              </label>
+              <Checkbox
+                key={label}
+                checked={checked[i]}
+                onCheckedChange={(v) => setChecked(checked.map((c, j) => (j === i ? v : c)))}
+                label={label}
+              />
             ))}
           </div>
         </div>
@@ -75,26 +58,44 @@ export default function CheckboxDoc() {
       }
     >
       <Section id="states" title="States">
-        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-checkbox" />
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(4, auto)', gap: 28, alignItems: 'start', justifyContent: 'start', fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Checkbox checked={false} />
             unchecked
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-checkbox vl-checkbox--checked">✓</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Checkbox checked />
             checked
-            <span style={{ color: 'var(--ac-text)', fontSize: 10.5 }}>draw 150ms</span>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-checkbox vl-checkbox--checked">
-              <span style={{ width: 8, height: 2, background: 'var(--ac-fg)', borderRadius: 1 }} />
-            </span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Checkbox indeterminate />
             indeterminate
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>
-            <span className="vl-checkbox" style={{ opacity: 0.45 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, alignItems: 'flex-start' }}>
+            <Checkbox checked disabled />
             disabled
           </div>
+        </div>
+      </Section>
+      <Section id="customization" title="Customization">
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+            <Checkbox checked style={{ ['--vl-checkbox-bg-checked' as string]: 'var(--err)', ['--vl-checkbox-border-checked' as string]: 'var(--err)' }} />
+            <Checkbox checked style={{ ['--vl-checkbox-bg-checked' as string]: 'oklch(0.72 0.16 155)', ['--vl-checkbox-border-checked' as string]: 'oklch(0.72 0.16 155)' }} />
+            <Checkbox indeterminate style={{ ['--vl-checkbox-bg-checked' as string]: 'oklch(0.83 0.16 70)', ['--vl-checkbox-border-checked' as string]: 'oklch(0.83 0.16 70)' }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>bg-checked overrides</span>
+          </div>
+          <CodeBlock>
+            <span className="p">&lt;</span>Checkbox checked{'\n'}
+            {'  '}<span className="p">style=</span>{'{{'}{'\n'}
+            {'    '}<span className="s">'--vl-checkbox-bg-checked'</span>: <span className="s">'var(--err)'</span>,{'\n'}
+            {'    '}<span className="s">'--vl-checkbox-border-checked'</span>: <span className="s">'var(--err)'</span>,{'\n'}
+            {'  '}{'}}'}{'\n'}
+            <span className="p">/&gt;</span>
+          </CodeBlock>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+            Tokens: <code>--vl-checkbox-bg/-checked</code>, <code>--vl-checkbox-border/-checked</code>, <code>--vl-checkbox-check</code>, <code>--vl-checkbox-ring</code>. Full table at <Link to="/docs/customization" style={{ color: 'var(--ac-text)' }}>/docs/customization</Link>.
+          </p>
         </div>
       </Section>
     </ComponentDoc>

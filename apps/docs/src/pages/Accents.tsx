@@ -66,6 +66,58 @@ const CARDS: AccentCard[] = [
     blurb: 'Cool and calm, closest to the canvas tint. Most restrained; dark text on solid.',
     steps: rampSteps(205, 0.14),
   },
+  {
+    label: 'D — DEEP BLUE',
+    accent: 'blue',
+    css: 'oklch(0.62 0.19 255)',
+    vars: {
+      '--ac': 'oklch(0.62 0.19 255)',
+      '--ac-h': 'oklch(0.67 0.19 255)',
+      '--ac-fg': 'oklch(0.99 0.01 255)',
+      '--ac-text': 'oklch(0.78 0.14 255)',
+    } as CSSProperties,
+    blurb: 'Classic, trustworthy data-blue. The safe default for dashboards; white text on solid.',
+    steps: rampSteps(255, 0.2),
+  },
+  {
+    label: 'E — EMERALD',
+    accent: 'emerald',
+    css: 'oklch(0.72 0.16 155)',
+    vars: {
+      '--ac': 'oklch(0.72 0.16 155)',
+      '--ac-h': 'oklch(0.77 0.16 155)',
+      '--ac-fg': 'oklch(0.2 0.05 155)',
+      '--ac-text': 'oklch(0.82 0.14 155)',
+    } as CSSProperties,
+    blurb: 'Growth and positive-trend green, calmer than lime. Reads well on white; dark text on solid.',
+    steps: rampSteps(155, 0.16),
+  },
+  {
+    label: 'F — AMBER',
+    accent: 'amber',
+    css: 'oklch(0.83 0.16 70)',
+    vars: {
+      '--ac': 'oklch(0.83 0.16 70)',
+      '--ac-h': 'oklch(0.88 0.16 70)',
+      '--ac-fg': 'oklch(0.25 0.06 70)',
+      '--ac-text': 'oklch(0.85 0.15 70)',
+    } as CSSProperties,
+    blurb: 'Warm and energetic, high visibility on both canvases. Dark text on solid.',
+    steps: rampSteps(70, 0.16),
+  },
+  {
+    label: 'G — ROSE',
+    accent: 'rose',
+    css: 'oklch(0.65 0.22 12)',
+    vars: {
+      '--ac': 'oklch(0.65 0.22 12)',
+      '--ac-h': 'oklch(0.7 0.22 12)',
+      '--ac-fg': 'oklch(0.99 0.01 12)',
+      '--ac-text': 'oklch(0.78 0.16 12)',
+    } as CSSProperties,
+    blurb: 'Bold and attention-grabbing without being alarm-red. White text on solid.',
+    steps: rampSteps(12, 0.22),
+  },
 ]
 
 export default function Accents() {
@@ -74,7 +126,7 @@ export default function Accents() {
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       <Seo
         title="Accents"
-        description="The three accent palettes — Violet, Lime, Cyan — rendered against every component so you can preview before you theme."
+        description="Seven accent palettes — Violet, Lime, Cyan, Blue, Emerald, Amber, Rose — rendered against every component so you can preview before you theme."
       />
       <SiteHeader height={56} />
       <div className="acc">

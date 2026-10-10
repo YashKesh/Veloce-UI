@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     background: `var(--vl-input-bg, ${defaultBg})`,
     border: `1px solid var(--vl-input-border, ${defaultBorder})`,
     boxShadow: 'var(--vl-input-ring, none)',
-    color: 'var(--fg)',
+    color: 'var(--vl-input-color, var(--fg))',
     fontFamily: 'var(--font-sans)',
     fontSize: s.fs,
     transition: 'border-color 150ms var(--ease-swift-out)',

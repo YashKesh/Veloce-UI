@@ -27,18 +27,28 @@
 
 :root[data-accent="lime"]{--ac:oklch(0.9 0.21 128);--ac-h:oklch(0.94 0.21 128);--ac-fg:oklch(0.22 0.06 128);--ac-text:oklch(0.9 0.2 128);--ac-text-light:oklch(0.5 0.17 128)}
 :root[data-accent="cyan"]{--ac:oklch(0.8 0.13 205);--ac-h:oklch(0.85 0.13 205);--ac-fg:oklch(0.2 0.05 205);--ac-text:oklch(0.82 0.12 205);--ac-text-light:oklch(0.48 0.12 205)}
+:root[data-accent="blue"]{--ac:oklch(0.62 0.19 255);--ac-h:oklch(0.67 0.19 255);--ac-fg:oklch(0.99 0.01 255);--ac-text:oklch(0.78 0.14 255);--ac-text-light:oklch(0.5 0.19 255)}
+:root[data-accent="emerald"]{--ac:oklch(0.72 0.16 155);--ac-h:oklch(0.77 0.16 155);--ac-fg:oklch(0.2 0.05 155);--ac-text:oklch(0.82 0.14 155);--ac-text-light:oklch(0.48 0.13 155)}
+:root[data-accent="amber"]{--ac:oklch(0.83 0.16 70);--ac-h:oklch(0.88 0.16 70);--ac-fg:oklch(0.25 0.06 70);--ac-text:oklch(0.85 0.15 70);--ac-text-light:oklch(0.52 0.13 70)}
+:root[data-accent="rose"]{--ac:oklch(0.65 0.22 12);--ac-h:oklch(0.7 0.22 12);--ac-fg:oklch(0.99 0.01 12);--ac-text:oklch(0.78 0.16 12);--ac-text-light:oklch(0.52 0.21 12)}
 
 :root[data-mode="light"]{
-  --bg:oklch(0.99 0.002 260);--bg-1:oklch(0.975 0.003 260);--bg-2:oklch(0.95 0.004 260);--bg-3:oklch(0.92 0.005 260);
-  --line:oklch(0.9 0.006 260);--line-2:oklch(0.82 0.008 260);
-  --fg:oklch(0.17 0.01 260);--fg-2:oklch(0.42 0.012 260);--fg-3:oklch(0.58 0.012 260);
-  --ac-text:oklch(0.5 0.24 292);--desk:oklch(0.94 0.004 260);
-  --shadow-sm:0 1px 2px oklch(0 0 0/.08);
-  --shadow-md:0 4px 12px -2px oklch(0 0 0/.12),0 1px 2px oklch(0 0 0/.06);
-  --shadow-lg:0 16px 40px -8px oklch(0 0 0/.18),0 2px 6px oklch(0 0 0/.06);
+  --bg:oklch(0.97 0.004 85);--bg-1:oklch(0.955 0.005 85);--bg-2:oklch(0.93 0.006 85);--bg-3:oklch(0.9 0.007 85);
+  --line:oklch(0.87 0.008 85);--line-2:oklch(0.78 0.01 85);
+  --fg:oklch(0.22 0.01 260);--fg-2:oklch(0.44 0.012 260);--fg-3:oklch(0.6 0.012 260);
+  --ac-text:oklch(0.5 0.24 292);--desk:oklch(0.9 0.006 85);
+  --shadow-sm:0 1px 2px oklch(0 0 0/.06);
+  --shadow-md:0 4px 12px -2px oklch(0 0 0/.09),0 1px 2px oklch(0 0 0/.05);
+  --shadow-lg:0 16px 40px -8px oklch(0 0 0/.14),0 2px 6px oklch(0 0 0/.05);
 }
-:root[data-mode="light"][data-accent="lime"]{--ac-text:oklch(0.5 0.17 128)}
-:root[data-mode="light"][data-accent="cyan"]{--ac-text:oklch(0.48 0.12 205)}
+/* Light-mode accent overrides — darker/richer so the UI feels confident on a paper background. */
+:root[data-mode="light"]{--ac:oklch(0.52 0.24 292);--ac-h:oklch(0.46 0.24 292)}
+:root[data-mode="light"][data-accent="lime"]{--ac:oklch(0.58 0.21 128);--ac-h:oklch(0.52 0.21 128);--ac-fg:oklch(0.99 0.01 128);--ac-text:oklch(0.5 0.17 128)}
+:root[data-mode="light"][data-accent="cyan"]{--ac:oklch(0.52 0.14 205);--ac-h:oklch(0.46 0.14 205);--ac-fg:oklch(0.99 0.01 205);--ac-text:oklch(0.48 0.12 205)}
+:root[data-mode="light"][data-accent="blue"]{--ac:oklch(0.5 0.2 255);--ac-h:oklch(0.45 0.2 255);--ac-text:oklch(0.5 0.19 255)}
+:root[data-mode="light"][data-accent="emerald"]{--ac:oklch(0.52 0.17 155);--ac-h:oklch(0.46 0.17 155);--ac-fg:oklch(0.99 0.01 155);--ac-text:oklch(0.48 0.13 155)}
+:root[data-mode="light"][data-accent="amber"]{--ac:oklch(0.6 0.17 70);--ac-h:oklch(0.54 0.17 70);--ac-fg:oklch(0.99 0.01 70);--ac-text:oklch(0.52 0.13 70)}
+:root[data-mode="light"][data-accent="rose"]{--ac:oklch(0.52 0.22 12);--ac-h:oklch(0.46 0.22 12);--ac-text:oklch(0.52 0.21 12)}
 
 :root[data-rm="true"] *{animation:none!important}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:0ms!important}}

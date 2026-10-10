@@ -1,3 +1,4 @@
+import { SERIES_PALETTE as PALETTE } from './palette'
 import { forwardRef, useId, type CSSProperties, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
@@ -22,14 +23,6 @@ export interface RadarChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' |
   className?: string
   style?: CSSProperties
 }
-
-const PALETTE = [
-  'var(--ac)',
-  'color-mix(in oklch, var(--ac) 60%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 35%, var(--bg-3))',
-  'color-mix(in oklch, var(--fg) 20%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 85%, var(--fg))',
-]
 
 export const RadarChart = forwardRef<SVGSVGElement, RadarChartProps>(function RadarChart(
   { data, series, size = 280, max, levels = 4, color = 'var(--ac)', className, style, ...rest },

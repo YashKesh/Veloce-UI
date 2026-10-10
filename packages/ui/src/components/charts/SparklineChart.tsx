@@ -1,11 +1,22 @@
 import { forwardRef, useId, type CSSProperties, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
+export type SparklineChartType = 'line' | 'bar' | 'status'
+
 export interface SparklineChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'height'> {
   data: number[]
   width?: number
   height?: number
   color?: string
+  /** Rendering kind. `line` draws a smooth path + soft fill; `bar` draws one bar per value;
+   *  `status` draws a row of colored cells (positive / negative / zero). */
+  type?: SparklineChartType
+  /** Dot on the last point (line only). */
+  endMarker?: boolean
+  /** Split colour above/below this value. `line`/`bar` only. */
+  baseline?: number
+  /** Makes the sparkline self-describing instead of decorative. */
+  label?: string
   showDot?: boolean
   strokeWidth?: number
   className?: string
@@ -18,7 +29,11 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
     width = 120,
     height = 28,
     color = 'var(--ac)',
-    showDot = false,
+    type = 'line',
+    endMarker = true,
+    baseline,
+    label,
+    showDot,
     strokeWidth = 1.5,
     className,
     style,
@@ -27,6 +42,12 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
   ref,
 ) {
   const uid = useId().replace(/:/g, '')
+  const negColor = 'var(--err)'
+  const zeroColor = 'var(--fg-3)'
+
+  const a11y = label
+    ? { role: 'img' as const, 'aria-label': label }
+    : { 'aria-hidden': true as const }
 
   if (!data || data.length === 0) {
     return (
@@ -35,19 +56,85 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
         width={width}
         height={height}
         data-vl-chart="sparkline"
+        data-vl-sparkline-type={type}
         className={cx('vl-chart', className)}
         style={style}
+        {...a11y}
         {...rest}
       />
     )
   }
 
+  const n = data.length
+
+  // ── BAR ───────────────────────────────────────────────────────────────────
+  if (type === 'bar') {
+    const min = Math.min(...data, baseline ?? 0)
+    const max = Math.max(...data, baseline ?? 0)
+    const range = max - min || 1
+    const gap = Math.max(1, Math.min(2, Math.floor(width / (n * 3))))
+    const barW = Math.max(1, (width - gap * (n - 1)) / n)
+    const zeroY = baseline != null
+      ? height - ((baseline - min) / range) * height
+      : height
+    return (
+      <svg
+        ref={ref}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        data-vl-chart="sparkline"
+        data-vl-sparkline-type="bar"
+        className={cx('vl-chart', className)}
+        style={style}
+        {...a11y}
+        {...rest}
+      >
+        {data.map((v, i) => {
+          const x = i * (barW + gap)
+          const y = height - ((v - min) / range) * height
+          const topY = Math.min(y, zeroY)
+          const h = Math.max(1, Math.abs(y - zeroY))
+          const fill = baseline != null && v < baseline ? negColor : color
+          return <rect key={i} x={x} y={topY} width={barW} height={h} fill={fill} rx={0.5} />
+        })}
+      </svg>
+    )
+  }
+
+  // ── STATUS ────────────────────────────────────────────────────────────────
+  if (type === 'status') {
+    const gap = Math.max(1, Math.min(2, Math.floor(width / (n * 3))))
+    const cellW = Math.max(2, (width - gap * (n - 1)) / n)
+    const ref0 = baseline ?? 0
+    return (
+      <svg
+        ref={ref}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        data-vl-chart="sparkline"
+        data-vl-sparkline-type="status"
+        className={cx('vl-chart', className)}
+        style={style}
+        {...a11y}
+        {...rest}
+      >
+        {data.map((v, i) => {
+          const x = i * (cellW + gap)
+          const fill = v > ref0 ? color : v < ref0 ? negColor : zeroColor
+          return <rect key={i} x={x} y={0} width={cellW} height={height} fill={fill} rx={1} />
+        })}
+      </svg>
+    )
+  }
+
+  // ── LINE (default) ────────────────────────────────────────────────────────
   const min = Math.min(...data)
   const max = Math.max(...data)
   const pad = strokeWidth + 1
   const innerW = width - pad * 2
   const innerH = height - pad * 2
-  const n = data.length
   const range = max - min || 1
 
   const pts = data.map((v, i) => ({
@@ -67,6 +154,7 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
   d += ` L ${pts[pts.length - 1].x} ${pts[pts.length - 1].y}`
 
   const last = pts[pts.length - 1]
+  const showEnd = (showDot ?? endMarker) === true
 
   return (
     <svg
@@ -75,8 +163,10 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       data-vl-chart="sparkline"
+      data-vl-sparkline-type="line"
       className={cx('vl-chart', className)}
       style={style}
+      {...a11y}
       {...rest}
     >
       <defs>
@@ -97,7 +187,7 @@ export const SparklineChart = forwardRef<SVGSVGElement, SparklineChartProps>(fun
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      {showDot && (
+      {showEnd && (
         <circle cx={last.x} cy={last.y} r={strokeWidth + 1} fill={color} />
       )}
     </svg>

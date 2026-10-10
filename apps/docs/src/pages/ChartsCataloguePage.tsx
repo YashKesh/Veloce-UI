@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import { DOCS_SIDEBAR, CATALOGUE_SERIES } from '../docsNav'
 import { Seo } from '../Seo'
+import { CHART_PAGES, type ChartPage } from './charts/chartsAll'
 
 const AC = 'var(--ac)'
 const MIX75 = 'color-mix(in oklch,var(--ac) 75%,var(--bg-3))'
@@ -253,8 +254,71 @@ const IconBtn = ({ glyph, active }: { glyph: string; active?: boolean }) => (
   </span>
 )
 
+const EXPANDED_GROUPS: Array<{ title: string; blurb: string; ids: string[] }> = [
+  { title: 'Comparison', blurb: 'ranking & side-by-side magnitude', ids: ['bullet', 'lollipop', 'dumbbell', 'slope', 'radial-bar', 'parallel-coordinates'] },
+  { title: 'Part-to-whole & hierarchy', blurb: 'composition, nesting, overlap', ids: ['sunburst', 'dendrogram', 'venn', 'waffle', 'marimekko', 'nightingale'] },
+  { title: 'Distribution', blurb: 'spread, density & shape', ids: ['histogram', 'box-plot', 'violin', 'ridgeline', 'beeswarm', 'population-pyramid'] },
+  { title: 'Temporal', blurb: 'change & ranking over time', ids: ['stream-graph', 'bump', 'gantt', 'horizon'] },
+  { title: 'Flow & relational', blurb: 'links, networks & geography', ids: ['sankey', 'chord', 'network', 'tile-map', 'word-cloud'] },
+]
+
+function PagePreview({ page }: { page: ChartPage }) {
+  return (
+    <svg viewBox="0 0 600 240" style={{ width: '100%', height: 'auto', display: 'block' }} aria-hidden>
+      {page.shapes.map((s, i) => (
+        <path
+          key={i}
+          d={s.d}
+          fill={s.fill}
+          stroke={s.stroke}
+          strokeWidth={s.sw || undefined}
+          strokeDasharray={s.dash || undefined}
+          opacity={s.op}
+          strokeLinejoin={s.lj as 'round' | 'bevel' | 'miter' | 'inherit' | undefined}
+          strokeLinecap={s.lc as 'butt' | 'round' | 'square' | 'inherit' | undefined}
+        />
+      ))}
+      {page.texts.map((t, i) => (
+        <text
+          key={i}
+          x={t.x}
+          y={t.y}
+          textAnchor={t.anchor}
+          fill={t.fill}
+          fontSize={t.size}
+          fontWeight={t.weight}
+          fontFamily={t.font}
+        >
+          {t.t}
+        </text>
+      ))}
+    </svg>
+  )
+}
+
+function ExpandedTile({ id }: { id: string }) {
+  const page = CHART_PAGES[id]
+  if (!page) return null
+  return (
+    <Link to={`/docs/charts/${id}`} style={{ ...tileStyle, scrollMarginTop: 20, textDecoration: 'none', color: 'inherit' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', padding: '12px 14px 6px' }}>
+        <span style={{ fontSize: 14, fontWeight: 600 }}>{page.name}</span>
+        <span style={{ ...mono, fontSize: 10, color: 'var(--ac-text)' }}>NEW</span>
+      </div>
+      <div style={{ padding: '0 8px' }}>
+        <PagePreview page={page} />
+      </div>
+      <div style={{ marginTop: 'auto', padding: '8px 14px 12px', borderTop: '1px solid var(--line)', fontSize: 11.5, color: 'var(--fg-3)', lineHeight: 1.4 }}>
+        {page.tagline.split('. ')[0]}.
+      </div>
+    </Link>
+  )
+}
+
 const CATALOGUE_TOC = [
   ...CATALOGUE_SERIES.map((s, i) => ({ ...s, active: i === 0 })),
+  { label: 'Expanded library', id: 'expanded-library' },
+  ...EXPANDED_GROUPS.map((g) => ({ label: g.title, id: `exp-${tileId(g.title)}`, sub: true })),
   { label: 'Shared parts', id: 'shared-parts' },
   { label: 'Axes & grid', id: 'axes-grid', sub: true },
   { label: 'Legend', id: 'legend', sub: true },
@@ -494,6 +558,26 @@ export default function ChartsCataloguePage() {
           </div>
         </Tile>
       </div>
+
+      {/* Expanded library */}
+      <div id="expanded-library" style={{ display: 'flex', alignItems: 'baseline', gap: 12, scrollMarginTop: 20, paddingTop: 8, borderTop: '1px solid var(--line-2)' }}>
+        <h2 style={{ fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em', margin: 0 }}>Expanded library</h2>
+        <span style={{ ...mono, fontSize: 11.5, color: 'var(--fg-3)' }}>27 more chart types · same grammar, same tokens</span>
+      </div>
+
+      {EXPANDED_GROUPS.map((g) => (
+        <div key={g.title} style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: -8 }}>
+          <div id={`exp-${tileId(g.title)}`} style={{ display: 'flex', alignItems: 'baseline', gap: 10, scrollMarginTop: 20 }}>
+            <h3 style={{ fontSize: 14.5, fontWeight: 600, margin: 0 }}>{g.title}</h3>
+            <span style={{ ...mono, fontSize: 11, color: 'var(--fg-3)' }}>{g.blurb}</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+            {g.ids.map((id) => (
+              <ExpandedTile key={id} id={id} />
+            ))}
+          </div>
+        </div>
+      ))}
 
       {/* Shared parts */}
       <div id="shared-parts" style={{ display: 'flex', alignItems: 'baseline', gap: 12, scrollMarginTop: 20 }}>

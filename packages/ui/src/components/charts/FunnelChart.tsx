@@ -1,3 +1,4 @@
+import { SERIES_PALETTE as PALETTE } from './palette'
 import { forwardRef, useId, type CSSProperties, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
@@ -15,14 +16,6 @@ export interface FunnelChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' 
   className?: string
   style?: CSSProperties
 }
-
-const PALETTE = [
-  'var(--ac)',
-  'color-mix(in oklch, var(--ac) 70%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 50%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 35%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 20%, var(--bg-3))',
-]
 
 export const FunnelChart = forwardRef<SVGSVGElement, FunnelChartProps>(function FunnelChart(
   { data, width = 420, height = 260, gap = 6, className, style, ...rest },

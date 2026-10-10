@@ -34,6 +34,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   // common --bg-1 card background. Border uses --fg at low opacity so it stays
   // visible on both bg and bg-1 surfaces without needing a custom token.
   const defaultBorder = invalid ? 'var(--err)' : 'color-mix(in oklch, var(--fg) 28%, transparent)'
+  const isActive = checked || indeterminate
   const box: CSSProperties = {
     width: dim,
     height: dim,
@@ -42,11 +43,16 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    background: 'var(--vl-checkbox-bg, var(--bg))',
-    border: `1.5px solid var(--vl-checkbox-border, ${defaultBorder})`,
+    background: isActive
+      ? 'var(--vl-checkbox-bg-checked, var(--vl-checkbox-bg, var(--ac)))'
+      : 'var(--vl-checkbox-bg, var(--bg))',
+    border: `1.5px solid ${isActive
+      ? `var(--vl-checkbox-border-checked, var(--vl-checkbox-border, var(--ac)))`
+      : `var(--vl-checkbox-border, ${defaultBorder})`}`,
     boxShadow: 'var(--vl-checkbox-ring, none)',
-    color: 'var(--ac-fg)',
+    color: 'var(--vl-checkbox-check, var(--ac-fg))',
     fontSize: dim - 4,
+    transition: 'background 150ms var(--ease-swift-out), border-color 150ms var(--ease-swift-out)',
   }
   const wrapper: CSSProperties = {
     position: 'relative',

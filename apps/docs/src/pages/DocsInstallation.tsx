@@ -181,8 +181,8 @@ export default function DocsInstallation() {
 
           <Step badge="3" title="Set theme attributes" id="step-3">
             <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-              On your <Code>&lt;html&gt;</Code> tag (or any ancestor), set the mode and accent. Three palettes ship:{' '}
-              <Code>violet</Code>, <Code>lime</Code>, <Code>cyan</Code>. Override any OKLCH token with CSS variables.
+              On your <Code>&lt;html&gt;</Code> tag (or any ancestor), set the mode and accent. Seven palettes ship:{' '}
+              <Code>violet</Code>, <Code>lime</Code>, <Code>cyan</Code>, <Code>blue</Code>, <Code>emerald</Code>, <Code>amber</Code>, <Code>rose</Code>. Override any OKLCH token with CSS variables.
             </p>
             <pre
               className="vl-code"

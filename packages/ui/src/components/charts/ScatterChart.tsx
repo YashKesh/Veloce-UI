@@ -4,12 +4,13 @@ import { cx } from '../../utils/cx'
 export interface ScatterChartDatum {
   x: number
   y: number
+  r?: number
   label?: string
 }
 
 export interface ScatterChartSeries {
   label: string
-  data: { x: number; y: number; label?: string }[]
+  data: ScatterChartDatum[]
   color?: string
 }
 
@@ -20,6 +21,7 @@ export interface ScatterChartProps extends Omit<SVGProps<SVGSVGElement>, 'width'
   height?: number
   showGrid?: boolean
   dotRadius?: number
+  connected?: boolean
   color?: string
   xLabel?: string
   yLabel?: string
@@ -56,6 +58,7 @@ export const ScatterChart = forwardRef<SVGSVGElement, ScatterChartProps>(functio
     height = 260,
     showGrid = true,
     dotRadius = 4,
+    connected = false,
     color = 'var(--ac)',
     xLabel,
     yLabel,
@@ -164,10 +167,16 @@ export const ScatterChart = forwardRef<SVGSVGElement, ScatterChartProps>(functio
 
       {allSeries.map((s, si) => {
         const c = s.color ?? color
+        const linePath = connected
+          ? s.data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${xFor(d.x)} ${yFor(d.y)}`).join(' ')
+          : ''
         return (
           <g key={si}>
+            {connected && (
+              <path d={linePath} fill="none" stroke={c} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" opacity={0.7} />
+            )}
             {s.data.map((d, i) => (
-              <circle key={i} cx={xFor(d.x)} cy={yFor(d.y)} r={dotRadius} fill={c}>
+              <circle key={i} cx={xFor(d.x)} cy={yFor(d.y)} r={d.r ?? dotRadius} fill={c} fillOpacity={d.r != null ? 0.55 : 1} stroke={d.r != null ? c : undefined} strokeWidth={d.r != null ? 1 : undefined}>
                 <title>{d.label ?? `${d.x}, ${d.y}`}</title>
               </circle>
             ))}

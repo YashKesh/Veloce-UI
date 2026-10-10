@@ -1,3 +1,4 @@
+import { SERIES_PALETTE as PALETTE } from './palette'
 import { forwardRef, useId, type CSSProperties, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
@@ -15,14 +16,6 @@ export interface TreemapChartProps extends Omit<SVGProps<SVGSVGElement>, 'width'
   className?: string
   style?: CSSProperties
 }
-
-const PALETTE = [
-  'var(--ac)',
-  'color-mix(in oklch, var(--ac) 60%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 35%, var(--bg-3))',
-  'color-mix(in oklch, var(--fg) 20%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 85%, var(--fg))',
-]
 
 interface Rect {
   x: number

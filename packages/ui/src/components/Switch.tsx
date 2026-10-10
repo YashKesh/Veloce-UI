@@ -36,8 +36,12 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
     height: s.h,
     borderRadius: s.h,
     padding: 0,
-    background: `var(--vl-switch-bg, ${checked ? 'var(--ac)' : 'var(--bg-2)'})`,
-    border: `1px solid var(--vl-switch-border, ${checked ? 'var(--ac)' : 'var(--line-2)'})`,
+    background: checked
+      ? 'var(--vl-switch-track-on, var(--vl-switch-bg, var(--ac)))'
+      : 'var(--vl-switch-track-off, var(--vl-switch-bg, var(--bg-2)))',
+    border: `1px solid ${checked
+      ? 'var(--vl-switch-border-on, var(--vl-switch-border, var(--ac)))'
+      : 'var(--vl-switch-border-off, var(--vl-switch-border, var(--line-2)))'}`,
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.55 : 1,
     display: 'inline-block',
@@ -71,7 +75,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
           width: s.thumb,
           height: s.thumb,
           borderRadius: '50%',
-          background: 'white',
+          background: 'var(--vl-switch-thumb, #fff)',
           boxShadow: '0 1px 2px rgba(0,0,0,0.3)',
         }}
       />

@@ -1,9 +1,83 @@
-import type { CSSProperties, ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { DataGrid } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
 import { useAnatomy } from '../../components/useAnatomy'
+
+interface DemoRow {
+  id: string
+  name: string
+  owner: string
+  status: 'live' | 'building' | 'error'
+  requests: number
+}
+
+const DEMO_ROWS: DemoRow[] = [
+  { id: '1', name: 'veloce-docs', owner: 'yash', status: 'live', requests: 2_400_000 },
+  { id: '2', name: 'edge-api', owner: 'mara', status: 'live', requests: 980_000 },
+  { id: '3', name: 'preview-pr-218', owner: 'yash', status: 'building', requests: 0 },
+  { id: '4', name: 'blog', owner: 'rina', status: 'live', requests: 184_000 },
+  { id: '5', name: 'admin-panel', owner: 'alex', status: 'error', requests: 12_000 },
+  { id: '6', name: 'www-static', owner: 'yash', status: 'live', requests: 6_200_000 },
+  { id: '7', name: 'realtime', owner: 'mara', status: 'live', requests: 510_000 },
+]
+
+function LiveDataGridDemo() {
+  const [selected, setSelected] = useState<Set<string>>(new Set(['2']))
+  const [sortKey, setSortKey] = useState('requests')
+  const [sortDir, setSortDir] = useState<'asc' | 'desc' | null>('desc')
+  const [quick, setQuick] = useState('')
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, border: '1px solid var(--line)', borderRadius: 12, padding: 20, background: 'var(--bg-1)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+        <input
+          placeholder="Quick filter…"
+          value={quick}
+          onChange={(e) => setQuick(e.target.value)}
+          style={{ height: 30, padding: '0 10px', borderRadius: 7, border: '1px solid var(--line-2)', background: 'var(--bg)', fontSize: 12.5, color: 'var(--fg)', fontFamily: 'inherit', outline: 'none', minWidth: 160 }}
+        />
+      </div>
+      <DataGrid<DemoRow>
+        rows={DEMO_ROWS}
+        rowKey={(r) => r.id}
+        selectable
+        selectedIds={selected}
+        onSelectedIdsChange={setSelected}
+        sortKey={sortKey}
+        sortDir={sortDir}
+        onSortChange={(k, d) => { setSortKey(k); setSortDir(d) }}
+        quickFilter={quick}
+        onQuickFilterChange={setQuick}
+        columns={[
+          { key: 'name', header: 'Project', sortable: true },
+          { key: 'owner', header: 'Owner', sortable: true },
+          {
+            key: 'status', header: 'Status', align: 'start',
+            render: (r) => (
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12,
+                color: r.status === 'live' ? 'var(--ok)' : r.status === 'error' ? 'var(--err)' : 'var(--warn)',
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: 999, background: 'currentColor' }} />
+                {r.status}
+              </span>
+            ),
+          },
+          {
+            key: 'requests', header: 'Requests', align: 'end', sortable: true,
+            render: (r) => <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-2)' }}>{r.requests.toLocaleString()}</span>,
+          },
+        ]}
+      />
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+        selected: {selected.size} · sort: {sortKey} {sortDir ?? ''}
+      </div>
+    </div>
+  )
+}
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 const sans: CSSProperties = { fontFamily: 'var(--font-sans)' }
@@ -989,6 +1063,12 @@ export default function DataGridDoc() {
             ))}
           </div>
         </div>
+
+        {/* Live demo — real component */}
+        <section id="live" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 20 }}>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }}>Live example</h2>
+          <LiveDataGridDemo />
+        </section>
 
         {/* Anatomy */}
         <section id="anatomy" style={sectionStyle}>

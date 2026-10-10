@@ -1,3 +1,4 @@
+import { SERIES_PALETTE as PALETTE } from './palette'
 import { forwardRef, useId, type CSSProperties, type ReactNode, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
@@ -27,14 +28,6 @@ export interface PieChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | '
 }
 
 // Accent-family palette (matches the site's chart language): accent → mixed with bg-3.
-const PALETTE = [
-  'var(--ac)',
-  'color-mix(in oklch, var(--ac) 60%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 35%, var(--bg-3))',
-  'color-mix(in oklch, var(--fg) 20%, var(--bg-3))',
-  'color-mix(in oklch, var(--ac) 85%, var(--fg))',
-]
-
 function polar(ox: number, oy: number, r: number, angleRad: number) {
   return { x: ox + r * Math.cos(angleRad), y: oy + r * Math.sin(angleRad) }
 }

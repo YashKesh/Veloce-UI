@@ -35,7 +35,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     background: 'var(--vl-select-bg, var(--bg-2))',
     border: `1px solid var(--vl-select-border, ${invalid ? 'var(--err)' : 'var(--line-2)'})`,
     boxShadow: 'var(--vl-select-ring, none)',
-    color: 'var(--fg)',
+    color: 'var(--vl-select-color, var(--fg))',
     fontFamily: 'var(--font-sans)',
     fontSize: s.fs,
     opacity: disabled ? 0.55 : 1,

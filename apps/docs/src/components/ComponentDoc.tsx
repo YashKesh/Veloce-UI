@@ -74,7 +74,7 @@ function ShipsCallout({ exportName }: { exportName: string }) {
 }
 
 const TOC: TocItem[] = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
 ]
@@ -132,17 +132,19 @@ export function ComponentDoc({
 
         {shipped && <ShipsCallout exportName={shipped} />}
 
-        <div
-          id="preview"
-          className="vl-stage"
-          style={{
-            scrollMarginTop: 20, borderRadius: 12, border: '1px solid var(--line)',
-            minHeight: 260, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: 40, flexWrap: 'wrap', gap: 20,
-          }}
-        >
-          {preview}
-        </div>
+        <section id="preview" style={{ scrollMarginTop: 20, display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }}>Live example</h2>
+          <div
+            className="vl-stage"
+            style={{
+              borderRadius: 12, border: '1px solid var(--line)',
+              minHeight: 260, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              padding: 40, flexWrap: 'wrap', gap: 20,
+            }}
+          >
+            {preview}
+          </div>
+        </section>
 
         <Section id="install" title="Installation">
           <CodeBlock>

@@ -43,6 +43,86 @@ export type { RadioProps, RadioGroupProps } from './components/Radio'
 export { Switch } from './components/Switch'
 export type { SwitchProps, SwitchSize } from './components/Switch'
 
+export { Toggle } from './components/Toggle'
+export type { ToggleProps, ToggleSize, ToggleVariant } from './components/Toggle'
+
+export { Label } from './components/Label'
+export type { LabelProps } from './components/Label'
+
+export { Collapsible } from './components/Collapsible'
+export type {
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+  CollapsibleContentProps,
+} from './components/Collapsible'
+
+export { AlertDialog } from './components/AlertDialog'
+export type { AlertDialogProps, AlertDialogTone } from './components/AlertDialog'
+
+export { Portal } from './components/Portal'
+export type { PortalProps } from './components/Portal'
+
+export { VisuallyHidden } from './components/VisuallyHidden'
+export type { VisuallyHiddenProps } from './components/VisuallyHidden'
+
+export { Slot } from './components/Slot'
+export type { SlotProps } from './components/Slot'
+
+export { Kbd, Code, Mark, Blockquote } from './components/Typography'
+export type { KbdProps, CodeProps, MarkProps, BlockquoteProps } from './components/Typography'
+
+export { NumberInput } from './components/NumberInput'
+export type { NumberInputProps, NumberInputSize } from './components/NumberInput'
+
+export { PinInput } from './components/PinInput'
+export type { PinInputProps } from './components/PinInput'
+
+export { Rating } from './components/Rating'
+export type { RatingProps } from './components/Rating'
+
+export { HoverCard } from './components/HoverCard'
+export type { HoverCardProps, HoverCardTriggerProps, HoverCardContentProps } from './components/HoverCard'
+
+export { ContextMenu, ContextMenuTarget } from './components/ContextMenu'
+export type { ContextMenuProps, ContextMenuItemDef, ContextMenuTargetProps } from './components/ContextMenu'
+
+export { Drawer } from './components/Drawer'
+export type { DrawerProps } from './components/Drawer'
+
+export { ScrollArea } from './components/ScrollArea'
+export type { ScrollAreaProps } from './components/ScrollArea'
+
+export { Carousel } from './components/Carousel'
+export type { CarouselProps } from './components/Carousel'
+
+export { Timeline } from './components/Timeline'
+export type { TimelineProps, TimelineItem } from './components/Timeline'
+
+export { Tree } from './components/Tree'
+export type { TreeProps, TreeNode } from './components/Tree'
+
+export { Combobox } from './components/Combobox'
+export type { ComboboxProps, ComboboxOption } from './components/Combobox'
+
+export { MultiSelect } from './components/MultiSelect'
+export type { MultiSelectProps, MultiSelectOption } from './components/MultiSelect'
+
+export { FileUpload } from './components/FileUpload'
+export type { FileUploadProps } from './components/FileUpload'
+
+export { Form } from './components/Form'
+export type {
+  FormProps,
+  FormFieldProps,
+  FormLabelProps,
+  FormControlProps,
+  FormDescriptionProps,
+  FormErrorProps,
+} from './components/Form'
+
+export { DatePicker, Calendar } from './components/DatePicker'
+export type { DatePickerProps, CalendarProps } from './components/DatePicker'
+
 export { Select } from './components/Select'
 export type { SelectProps, SelectSize, SelectOption } from './components/Select'
 
@@ -111,6 +191,8 @@ export type { NavbarProps, NavbarBrandProps, NavbarNavProps, NavbarLinkProps, Na
 export { Sidebar } from './components/Sidebar'
 export type { SidebarProps, SidebarGroupProps, SidebarSectionProps, SidebarItemProps, SidebarSubProps, SidebarFooterProps } from './components/Sidebar'
 
+export { SERIES_PALETTE, seriesColor } from './components/charts/palette'
+
 export { LineChart } from './components/charts/LineChart'
 export type { LineChartProps, LineChartSeries } from './components/charts/LineChart'
 
@@ -121,7 +203,7 @@ export { BarChart } from './components/charts/BarChart'
 export type { BarChartProps, BarChartSeries } from './components/charts/BarChart'
 
 export { SparklineChart } from './components/charts/SparklineChart'
-export type { SparklineChartProps } from './components/charts/SparklineChart'
+export type { SparklineChartProps, SparklineChartType } from './components/charts/SparklineChart'
 
 export { PieChart } from './components/charts/PieChart'
 export type { PieChartProps, PieChartDatum } from './components/charts/PieChart'
@@ -149,6 +231,87 @@ export type { HeatmapChartProps, HeatmapChartDatum } from './components/charts/H
 
 export { GaugeChart } from './components/charts/GaugeChart'
 export type { GaugeChartProps, GaugeThreshold } from './components/charts/GaugeChart'
+
+export { BulletChart } from './components/charts/BulletChart'
+export type { BulletChartProps, BulletChartDatum } from './components/charts/BulletChart'
+
+export { LollipopChart } from './components/charts/LollipopChart'
+export type { LollipopChartProps, LollipopChartDatum } from './components/charts/LollipopChart'
+
+export { DumbbellChart } from './components/charts/DumbbellChart'
+export type { DumbbellChartProps, DumbbellChartDatum } from './components/charts/DumbbellChart'
+
+export { SlopeChart } from './components/charts/SlopeChart'
+export type { SlopeChartProps, SlopeChartDatum } from './components/charts/SlopeChart'
+
+export { RadialBarChart } from './components/charts/RadialBarChart'
+export type { RadialBarChartProps, RadialBarChartDatum } from './components/charts/RadialBarChart'
+
+export { ParallelCoordinatesChart } from './components/charts/ParallelCoordinatesChart'
+export type { ParallelCoordinatesChartProps, ParallelDimension } from './components/charts/ParallelCoordinatesChart'
+
+export { SunburstChart } from './components/charts/SunburstChart'
+export type { SunburstChartProps, SunburstNode } from './components/charts/SunburstChart'
+
+export { DendrogramChart } from './components/charts/DendrogramChart'
+export type { DendrogramChartProps, DendroNode } from './components/charts/DendrogramChart'
+
+export { VennChart } from './components/charts/VennChart'
+export type { VennChartProps, VennSet } from './components/charts/VennChart'
+
+export { WaffleChart } from './components/charts/WaffleChart'
+export type { WaffleChartProps, WaffleChartDatum } from './components/charts/WaffleChart'
+
+export { MarimekkoChart } from './components/charts/MarimekkoChart'
+export type { MarimekkoChartProps, MekkoColumn, MekkoSegment } from './components/charts/MarimekkoChart'
+
+export { NightingaleChart } from './components/charts/NightingaleChart'
+export type { NightingaleChartProps, NightingaleDatum } from './components/charts/NightingaleChart'
+
+export { HistogramChart } from './components/charts/HistogramChart'
+export type { HistogramChartProps } from './components/charts/HistogramChart'
+
+export { BoxPlotChart } from './components/charts/BoxPlotChart'
+export type { BoxPlotChartProps, BoxPlotGroup } from './components/charts/BoxPlotChart'
+
+export { ViolinChart } from './components/charts/ViolinChart'
+export type { ViolinChartProps, ViolinGroup } from './components/charts/ViolinChart'
+
+export { RidgelineChart } from './components/charts/RidgelineChart'
+export type { RidgelineChartProps, RidgeSeries } from './components/charts/RidgelineChart'
+
+export { BeeswarmChart } from './components/charts/BeeswarmChart'
+export type { BeeswarmChartProps, BeeswarmDatum } from './components/charts/BeeswarmChart'
+
+export { PopulationPyramidChart } from './components/charts/PopulationPyramidChart'
+export type { PopulationPyramidChartProps, PyramidDatum } from './components/charts/PopulationPyramidChart'
+
+export { StreamGraphChart } from './components/charts/StreamGraphChart'
+export type { StreamGraphChartProps, StreamSeries } from './components/charts/StreamGraphChart'
+
+export { BumpChart } from './components/charts/BumpChart'
+export type { BumpChartProps, BumpSeries } from './components/charts/BumpChart'
+
+export { GanttChart } from './components/charts/GanttChart'
+export type { GanttChartProps, GanttTask } from './components/charts/GanttChart'
+
+export { HorizonChart } from './components/charts/HorizonChart'
+export type { HorizonChartProps, HorizonSeries } from './components/charts/HorizonChart'
+
+export { SankeyChart } from './components/charts/SankeyChart'
+export type { SankeyChartProps, SankeyNode, SankeyLink } from './components/charts/SankeyChart'
+
+export { ChordChart } from './components/charts/ChordChart'
+export type { ChordChartProps } from './components/charts/ChordChart'
+
+export { NetworkChart } from './components/charts/NetworkChart'
+export type { NetworkChartProps, NetworkNode, NetworkLink } from './components/charts/NetworkChart'
+
+export { TileMapChart } from './components/charts/TileMapChart'
+export type { TileMapChartProps, TileDatum } from './components/charts/TileMapChart'
+
+export { WordCloudChart } from './components/charts/WordCloudChart'
+export type { WordCloudChartProps, WordDatum } from './components/charts/WordCloudChart'
 
 export { Container, Grid, Stack, AspectRatio } from './components/Layout'
 export type { ContainerProps, GridProps, StackProps, StackDirection, StackAlign, StackJustify, AspectRatioProps } from './components/Layout'

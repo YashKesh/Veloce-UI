@@ -1,73 +1,45 @@
 import { useState } from 'react'
-import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { Select } from 'veloce-ui'
+import { Link } from 'react-router-dom'
+import { ComponentDoc, Section, CodeBlock } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'States', id: 'states' },
 ]
 
-const REGIONS = ['us-east-1', 'eu-west-2', 'ap-south-1', 'sa-east-1']
+const REGION_OPTIONS = [
+  { value: 'us-east-1', label: 'us-east-1' },
+  { value: 'eu-west-2', label: 'eu-west-2' },
+  { value: 'ap-south-1', label: 'ap-south-1' },
+  { value: 'sa-east-1', label: 'sa-east-1' },
+]
 
 export default function SelectDoc() {
-  const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState('us-east-1')
 
   return (
     <ComponentDoc
       slug="select"
       name="Select"
-      description="A dropdown listbox for picking one value from a set. The menu unfolds over 200ms from the trigger with a subtle scale-Y ease."
+      description="A dropdown listbox for picking one value from a set. Native select under the hood for perfect mobile + a11y behavior."
       toc={TOC}
       preview={
-        <div style={{ position: 'relative', width: 220, alignSelf: 'flex-start', marginTop: 24 }}>
-          <button
-            type="button"
-            aria-haspopup="listbox"
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              width: '100%', height: 36, padding: '0 12px', borderRadius: 8,
-              border: '1px solid var(--line-2)', background: 'var(--bg)',
-              fontSize: 13.5, color: 'var(--fg)', cursor: 'pointer',
-            }}
-          >
-            {selected}
-            <span style={{ color: 'var(--fg-3)', transform: open ? 'rotate(180deg)' : undefined, transition: 'transform 200ms' }}>⌄</span>
-          </button>
-          {open && (
-            <div
-              role="listbox"
-              style={{
-                position: 'absolute', top: 42, left: 0, right: 0, padding: 4,
-                borderRadius: 9, background: 'var(--bg-2)', border: '1px solid var(--line-2)',
-                boxShadow: 'var(--shadow-md)', fontSize: 13, transformOrigin: 'top', zIndex: 5,
-              }}
-            >
-              {REGIONS.map((r) => {
-                const isSel = r === selected
-                return (
-                  <div
-                    key={r}
-                    role="option"
-                    aria-selected={isSel}
-                    onClick={() => { setSelected(r); setOpen(false) }}
-                    style={{
-                      padding: '7px 9px', borderRadius: 6, cursor: 'pointer',
-                      display: 'flex', justifyContent: 'space-between',
-                      background: isSel ? 'var(--bg-3)' : undefined,
-                      color: isSel ? 'var(--fg)' : 'var(--fg-2)',
-                    }}
-                  >
-                    {r}
-                    {isSel && <span style={{ color: 'var(--ac-text)' }}>✓</span>}
-                  </div>
-                )
-              })}
-            </div>
-          )}
+        <div style={{ width: 240 }}>
+          <label style={{ display: 'block', fontSize: 13, fontWeight: 500, marginBottom: 6, color: 'var(--fg)' }}>
+            Region
+          </label>
+          <Select
+            value={selected}
+            onValueChange={setSelected}
+            options={REGION_OPTIONS}
+            placeholder="Select a region"
+          />
+          <div style={{ marginTop: 10, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+            selected: {selected}
+          </div>
         </div>
       }
       usage={
@@ -79,40 +51,44 @@ export default function SelectDoc() {
           <span className="p">&lt;</span>Select{'\n'}
           {'  '}<span className="p">value=</span>{'{'}region{'}'}{'\n'}
           {'  '}<span className="p">onValueChange=</span>{'{'}setRegion{'}'}{'\n'}
-          {'  '}<span className="p">options=</span>{'{['}<span className="s">"us-east-1"</span>, <span className="s">"eu-west-2"</span>, <span className="s">"ap-south-1"</span>{']}'}{'\n'}
-          {'  '}<span className="p">placeholder=</span><span className="s">"Region"</span>{'\n'}
+          {'  '}<span className="p">options=</span>{'{'}[{'{'} value: <span className="s">"us-east-1"</span>, label: <span className="s">"us-east-1"</span> {'}'}]{'}'}{'\n'}
           <span className="p">/&gt;</span>
         </>
       }
     >
       <Section id="states" title="States">
-        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 36, padding: '0 12px', borderRadius: 8, border: '1px solid var(--line-2)', background: 'var(--bg)', fontSize: 13.5, color: 'var(--fg)' }}>
-              us-east-1<span style={{ color: 'var(--fg-3)' }}>⌄</span>
-            </div>
-            closed
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Select options={REGION_OPTIONS} placeholder="Pick one" />
+            default
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 36, padding: '0 12px', borderRadius: 8, border: '1px solid var(--line-2)', background: 'var(--bg)', fontSize: 13.5, color: 'var(--fg)' }}>
-                us-east-1<span style={{ color: 'var(--fg-3)' }}>⌃</span>
-              </div>
-              <div style={{ marginTop: 6, padding: 4, borderRadius: 9, background: 'var(--bg-2)', border: '1px solid var(--line-2)', boxShadow: 'var(--shadow-md)', fontSize: 13 }}>
-                <div style={{ padding: '7px 9px', borderRadius: 6, background: 'var(--bg-3)', display: 'flex', justifyContent: 'space-between', color: 'var(--fg)' }}>
-                  us-east-1<span style={{ color: 'var(--ac-text)' }}>✓</span>
-                </div>
-                <div style={{ padding: '7px 9px', color: 'var(--fg-2)' }}>eu-west-2</div>
-              </div>
-            </div>
-            open
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Select size="sm" options={REGION_OPTIONS} defaultValue="us-east-1" />
+            small
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 36, padding: '0 12px', borderRadius: 8, border: '1px solid var(--line)', background: 'var(--bg-1)', fontSize: 13.5, color: 'var(--fg-3)', opacity: 0.55 }}>
-              us-east-1<span>⌄</span>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Select invalid options={REGION_OPTIONS} placeholder="required" />
+            invalid
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Select disabled options={REGION_OPTIONS} defaultValue="us-east-1" />
             disabled
           </div>
+        </div>
+      </Section>
+      <Section id="customization" title="Customization">
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <Select options={REGION_OPTIONS} defaultValue="us-east-1" style={{ ['--vl-select-border' as string]: 'oklch(0.72 0.16 155)' }} />
+          <CodeBlock>
+            <span className="p">&lt;</span>Select{'\n'}
+            {'  '}<span className="p">style=</span>{'{{'}{'\n'}
+            {'    '}<span className="s">'--vl-select-border'</span>: <span className="s">'oklch(0.72 0.16 155)'</span>,{'\n'}
+            {'  '}{'}}'}{'\n'}
+            <span className="p">/&gt;</span>
+          </CodeBlock>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+            Tokens: <code>--vl-select-bg</code>, <code>-border</code>, <code>-ring</code>, <code>-color</code>. See <Link to="/docs/customization" style={{ color: 'var(--ac-text)' }}>/docs/customization</Link>.
+          </p>
         </div>
       </Section>
     </ComponentDoc>

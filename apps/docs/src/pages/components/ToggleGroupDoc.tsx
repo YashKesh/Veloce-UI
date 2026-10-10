@@ -1,111 +1,51 @@
 import { useState } from 'react'
+import { ToggleGroup } from 'veloce-ui'
 import { ComponentDoc, Section } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'Modes', id: 'modes' },
 ]
 
-const ALIGNMENTS = ['Left', 'Center', 'Right']
-const FORMATS = [
-  { id: 'bold', label: 'B', weight: 700 },
-  { id: 'italic', label: 'I', italic: true },
-  { id: 'underline', label: 'U', underline: true },
-]
-
 export default function ToggleGroupDoc() {
-  const [align, setAlign] = useState('Left')
+  const [align, setAlign] = useState('left')
   const [formats, setFormats] = useState<string[]>(['bold'])
-
-  const toggleFormat = (id: string) =>
-    setFormats((prev) => (prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]))
 
   return (
     <ComponentDoc
       slug="toggle-group"
       name="Toggle group"
-      description="A set of two-state buttons — single-select or multi-select. The active background slides between items over 200ms."
+      description="A set of two-state buttons — single-select for exclusive choices, multiple for compounding ones."
       toc={TOC}
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
-          <div
-            role="radiogroup"
-            aria-label="Text alignment"
-            style={{
-              display: 'inline-flex', border: '1px solid var(--line-2)',
-              borderRadius: 9, overflow: 'hidden',
-            }}
-          >
-            {ALIGNMENTS.map((a, i) => {
-              const active = align === a
-              return (
-                <button
-                  key={a}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => setAlign(a)}
-                  style={{
-                    height: 34, padding: '0 14px', border: 'none', cursor: 'pointer',
-                    borderLeft: i > 0 ? '1px solid var(--line-2)' : 'none',
-                    background: active ? 'var(--bg-3)' : 'transparent',
-                    color: active ? 'var(--fg)' : 'var(--fg-2)',
-                    fontSize: 13, fontWeight: 500,
-                    transition: 'background 200ms, color 200ms',
-                  }}
-                >
-                  {a}
-                </button>
-              )
-            })}
-          </div>
-          <div
-            role="group"
-            aria-label="Text formatting"
-            style={{
-              display: 'inline-flex', border: '1px solid var(--line-2)',
-              borderRadius: 9, overflow: 'hidden',
-            }}
-          >
-            {FORMATS.map((f, i) => {
-              const active = formats.includes(f.id)
-              return (
-                <button
-                  key={f.id}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => toggleFormat(f.id)}
-                  style={{
-                    height: 34, padding: '0 14px', border: 'none', cursor: 'pointer',
-                    borderLeft: i > 0 ? '1px solid var(--line-2)' : 'none',
-                    background: active ? 'var(--bg-3)' : 'transparent',
-                    color: active ? 'var(--fg)' : 'var(--fg-2)',
-                    fontSize: 13,
-                    fontWeight: f.weight ?? 500,
-                    fontStyle: f.italic ? 'italic' : undefined,
-                    textDecoration: f.underline ? 'underline' : undefined,
-                    transition: 'background 200ms, color 200ms',
-                  }}
-                >
-                  {f.label}
-                </button>
-              )
-            })}
+          <ToggleGroup type="single" value={align} onValueChange={setAlign}>
+            <ToggleGroup.Item value="left">Left</ToggleGroup.Item>
+            <ToggleGroup.Item value="center">Center</ToggleGroup.Item>
+            <ToggleGroup.Item value="right">Right</ToggleGroup.Item>
+          </ToggleGroup>
+          <ToggleGroup type="multiple" value={formats} onValueChange={setFormats}>
+            <ToggleGroup.Item value="bold" style={{ fontWeight: 700 }}>B</ToggleGroup.Item>
+            <ToggleGroup.Item value="italic" style={{ fontStyle: 'italic' }}>I</ToggleGroup.Item>
+            <ToggleGroup.Item value="underline" style={{ textDecoration: 'underline' }}>U</ToggleGroup.Item>
+          </ToggleGroup>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
+            align: {align} · formats: [{formats.join(', ') || '—'}]
           </div>
         </div>
       }
       usage={
         <>
-          <span className="p">import</span> {'{ ToggleGroup, ToggleItem }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
+          <span className="p">import</span> {'{ ToggleGroup }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
           <span className="p">const</span> [align, setAlign] = useState(<span className="s">"left"</span>)
           {'\n\n'}
           <span className="p">&lt;</span>ToggleGroup <span className="p">type=</span><span className="s">"single"</span> <span className="p">value=</span>{'{'}align{'}'} <span className="p">onValueChange=</span>{'{'}setAlign{'}'}<span className="p">&gt;</span>{'\n'}
-          {'  '}<span className="p">&lt;</span>ToggleItem <span className="p">value=</span><span className="s">"left"</span><span className="p">&gt;</span>Left<span className="p">&lt;/</span>ToggleItem<span className="p">&gt;</span>{'\n'}
-          {'  '}<span className="p">&lt;</span>ToggleItem <span className="p">value=</span><span className="s">"center"</span><span className="p">&gt;</span>Center<span className="p">&lt;/</span>ToggleItem<span className="p">&gt;</span>{'\n'}
-          {'  '}<span className="p">&lt;</span>ToggleItem <span className="p">value=</span><span className="s">"right"</span><span className="p">&gt;</span>Right<span className="p">&lt;/</span>ToggleItem<span className="p">&gt;</span>{'\n'}
+          {'  '}<span className="p">&lt;</span>ToggleGroup.Item <span className="p">value=</span><span className="s">"left"</span><span className="p">&gt;</span>Left<span className="p">&lt;/</span>ToggleGroup.Item<span className="p">&gt;</span>{'\n'}
+          {'  '}<span className="p">&lt;</span>ToggleGroup.Item <span className="p">value=</span><span className="s">"center"</span><span className="p">&gt;</span>Center<span className="p">&lt;/</span>ToggleGroup.Item<span className="p">&gt;</span>{'\n'}
+          {'  '}<span className="p">&lt;</span>ToggleGroup.Item <span className="p">value=</span><span className="s">"right"</span><span className="p">&gt;</span>Right<span className="p">&lt;/</span>ToggleGroup.Item<span className="p">&gt;</span>{'\n'}
           <span className="p">&lt;/</span>ToggleGroup<span className="p">&gt;</span>
         </>
       }

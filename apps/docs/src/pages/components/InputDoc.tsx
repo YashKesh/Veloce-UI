@@ -1,8 +1,10 @@
-import type { ReactNode } from 'react'
-import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { useState, type ReactNode } from 'react'
+import { Input } from 'veloce-ui'
+import { Link } from 'react-router-dom'
+import { ComponentDoc, Section, CodeBlock } from '../../components/ComponentDoc'
 
 const TOC = [
-  { label: 'Preview', id: 'preview', active: true },
+  { label: 'Live example', id: 'preview', active: true },
   { label: 'Installation', id: 'install' },
   { label: 'Usage', id: 'usage' },
   { label: 'States', id: 'states' },
@@ -24,6 +26,10 @@ function Field({ label, help, helpColor, children }: {
 }
 
 export default function InputDoc() {
+  const [slug, setSlug] = useState('')
+  const [workspace, setWorkspace] = useState('acme-design')
+  const invalid = /\s|[A-Z]/.test(workspace)
+
   return (
     <ComponentDoc
       slug="input"
@@ -33,61 +39,74 @@ export default function InputDoc() {
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: 340 }}>
           <Field label="Workspace URL" help="Lowercase letters and dashes.">
-            <div className="vl-input" style={{ color: 'var(--fg-3)' }}>
-              acme<span style={{ color: 'var(--fg-3)' }}>.veloce.app</span>
-            </div>
+            <Input
+              placeholder="acme"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              suffix={<span style={{ color: 'var(--fg-3)' }}>.veloce.app</span>}
+            />
           </Field>
-          <Field label="Workspace URL" help="Checking availability…" helpColor="var(--ac-text)">
-            <div className="vl-input vl-input--focus" style={{ whiteSpace: 'nowrap' }}>
-              acme-design
-              <span className="vl-caret" style={{ height: 16, marginLeft: -6 }} />
-              <span style={{ color: 'var(--fg-3)', marginLeft: -6 }}>.veloce.app</span>
-            </div>
+          <Field
+            label="Workspace URL"
+            help={invalid ? 'Spaces and capitals aren’t allowed.' : 'Looks good.'}
+            helpColor={invalid ? 'var(--err)' : 'var(--ac-text)'}
+          >
+            <Input
+              value={workspace}
+              onChange={(e) => setWorkspace(e.target.value)}
+              invalid={invalid}
+              suffix={<span style={{ color: 'var(--fg-3)' }}>.veloce.app</span>}
+            />
           </Field>
         </div>
       }
       usage={
         <>
-          <span className="p">import</span> {'{ Input, Field }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
+          <span className="p">import</span> {'{ Input }'} <span className="p">from</span> <span className="s">"veloce-ui"</span>
           {'\n\n'}
-          <span className="p">&lt;</span>Field <span className="p">label=</span><span className="s">"Workspace URL"</span> <span className="p">help=</span><span className="s">"Lowercase letters and dashes."</span><span className="p">&gt;</span>{'\n'}
-          {'  '}<span className="p">&lt;</span>Input{'\n'}
-          {'    '}<span className="p">placeholder=</span><span className="s">"acme"</span>{'\n'}
-          {'    '}<span className="p">suffix=</span><span className="s">".veloce.app"</span>{'\n'}
-          {'    '}<span className="p">error=</span>{'{'}errors.url{'}'}{'\n'}
-          {'  '}<span className="p">/&gt;</span>{'\n'}
-          <span className="p">&lt;/</span>Field<span className="p">&gt;</span>
+          <span className="p">&lt;</span>Input{'\n'}
+          {'  '}<span className="p">placeholder=</span><span className="s">"acme"</span>{'\n'}
+          {'  '}<span className="p">value=</span>{'{'}slug{'}'}{'\n'}
+          {'  '}<span className="p">onChange=</span>{'{'}e {'=>'} setSlug(e.target.value){'}'}{'\n'}
+          {'  '}<span className="p">suffix=</span><span className="s">".veloce.app"</span>{'\n'}
+          <span className="p">/&gt;</span>
         </>
       }
     >
       <Section id="states" title="States">
         <div className="vl-panel" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
           <Field label="Default" help="Ready for input.">
-            <div className="vl-input" style={{ color: 'var(--fg-3)' }}>Enter a name…</div>
+            <Input placeholder="Enter a name…" />
           </Field>
-          <Field label="Focus" help="Checking availability…" helpColor="var(--ac-text)">
-            <div className="vl-input vl-input--focus">
-              acme-design<span className="vl-caret" style={{ height: 16 }} />
-            </div>
+          <Field label="Ghost variant" help="Flat background.">
+            <Input variant="ghost" placeholder="search…" />
           </Field>
-          <Field
-            label="Error"
-            help={<span style={{ display: 'flex', gap: 6 }}><span>⚠</span>Spaces and capitals aren’t allowed. Try “acme-design”.</span>}
-            helpColor="var(--err)"
-          >
-            <div className="vl-input vl-input--error">
-              Acme Design
-              <span style={{ marginLeft: 'auto', color: 'var(--err)', fontSize: 12 }}>!</span>
-            </div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--fg-3)', marginTop: 4 }}>
-              message slides in 150ms
-            </span>
+          <Field label="Invalid" help="Spaces aren’t allowed." helpColor="var(--err)">
+            <Input value="Acme Design" invalid readOnly />
           </Field>
           <Field label="Disabled" help="This field is locked.">
-            <div className="vl-input" style={{ background: 'var(--bg-2)', color: 'var(--fg-3)', borderColor: 'var(--line)' }}>
-              acme.veloce.app
-            </div>
+            <Input value="acme.veloce.app" disabled readOnly />
           </Field>
+        </div>
+      </Section>
+      <Section id="customization" title="Customization">
+        <div className="vl-panel" style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Input placeholder="Default" />
+            <Input placeholder="Cyan ring" style={{ ['--vl-input-border' as string]: 'oklch(0.8 0.13 205)', ['--vl-input-ring' as string]: '0 0 0 3px color-mix(in oklch, oklch(0.8 0.13 205) 25%, transparent)' }} />
+            <Input placeholder="Branded background" style={{ ['--vl-input-bg' as string]: 'oklch(0.55 0.22 300)', ['--vl-input-color' as string]: '#fff', ['--vl-input-border' as string]: 'oklch(0.55 0.22 300)' }} />
+          </div>
+          <CodeBlock>
+            <span className="p">&lt;</span>Input{'\n'}
+            {'  '}<span className="p">style=</span>{'{{'}{'\n'}
+            {'    '}<span className="s">'--vl-input-border'</span>: <span className="s">'oklch(0.8 0.13 205)'</span>,{'\n'}
+            {'    '}<span className="s">'--vl-input-ring'</span>: <span className="s">'0 0 0 3px color-mix(...)'</span>,{'\n'}
+            {'  '}{'}}'}{'\n'}
+            <span className="p">/&gt;</span>
+          </CodeBlock>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+            Tokens: <code>--vl-input-bg</code>, <code>-border</code>, <code>-ring</code>, <code>-color</code>. See <Link to="/docs/customization" style={{ color: 'var(--ac-text)' }}>/docs/customization</Link>.
+          </p>
         </div>
       </Section>
     </ComponentDoc>

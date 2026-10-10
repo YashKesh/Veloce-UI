@@ -1,10 +1,59 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
+import { Dialog } from 'veloce-ui'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
 import { useTheme } from '../theme'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
+
+function LiveDialogDemo() {
+  const [open, setOpen] = useState(false)
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', border: '1px solid var(--line)', borderRadius: 10, background: 'var(--bg-1)' }}>
+      <button
+        onClick={() => setOpen(true)}
+        style={{
+          padding: '8px 14px', borderRadius: 8, background: 'var(--ac)', color: 'var(--ac-fg)',
+          fontSize: 13.5, fontWeight: 500, cursor: 'pointer',
+          boxShadow: 'inset 0 1px 0 oklch(1 0 0/.2), var(--shadow-sm)',
+        }}
+      >
+        Open dialog
+      </button>
+      <span style={{ fontSize: 12.5, color: 'var(--fg-3)' }}>
+        Real component — focus-trapped, Esc to close, click outside to dismiss.
+      </span>
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+        title="Delete workspace?"
+        description="This permanently removes acme-design and its 14 projects. This can't be undone."
+      >
+        <Dialog.Footer>
+          <button
+            onClick={() => setOpen(false)}
+            style={{
+              padding: '8px 14px', borderRadius: 8, background: 'var(--bg-2)', color: 'var(--fg)',
+              fontSize: 13.5, border: '1px solid var(--line-2)', cursor: 'pointer',
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => setOpen(false)}
+            style={{
+              padding: '8px 14px', borderRadius: 8, background: 'var(--err)', color: 'oklch(0.99 0 0)',
+              fontSize: 13.5, fontWeight: 500, cursor: 'pointer',
+            }}
+          >
+            Delete
+          </button>
+        </Dialog.Footer>
+      </Dialog>
+    </div>
+  )
+}
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -336,6 +385,12 @@ export default function DocsDialog() {
           >{`import { Dialog } from "veloce-ui"`}</pre>
         </div>
 
+        {/* live demo — real component mounted */}
+        <section id="live" style={{ display: 'flex', flexDirection: 'column', gap: 14, scrollMarginTop: 20 }}>
+          <h2 style={{ margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }}>Live example</h2>
+          <LiveDialogDemo />
+        </section>
+
         {/* preview panel */}
         <div id="preview" style={{ border: '1px solid var(--line)', borderRadius: 12, overflow: 'hidden', background: 'var(--bg-1)', scrollMarginTop: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 44, padding: '0 8px 0 12px', borderBottom: '1px solid var(--line)' }}>
@@ -505,6 +560,26 @@ export default function DocsDialog() {
               <span><span style={{ color: 'var(--fg-3)' }}>exit</span> cubic-bezier(.4, 0, 1, 1)</span>
               <span style={{ marginLeft: 'auto', color: 'var(--fg-3)' }}>compiles to 2 transitions · 0 kB JS</span>
             </div>
+          </div>
+        </div>
+
+        {/* customization */}
+        <div id="customization" style={{ display: 'flex', flexDirection: 'column', gap: 12, scrollMarginTop: 20 }}>
+          <H2>Customization</H2>
+          <div style={{ padding: '18px 20px', border: '1px solid var(--line)', borderRadius: 10, background: 'var(--bg-1)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <p style={{ margin: 0, fontSize: 13.5, color: 'var(--fg-2)', lineHeight: 1.55 }}>
+              Dialog renders through a React portal, so set tokens at <code>:root</code> or on <code>html</code> for them to apply.
+            </p>
+            <pre style={{ ...mono, margin: 0, padding: '12px 14px', background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: 8, fontSize: 12.5, color: 'var(--fg)', overflow: 'auto' }}>
+{`:root {
+  --vl-dialog-bg: var(--bg);
+  --vl-dialog-radius: 16px;
+  --vl-dialog-overlay: color-mix(in oklch, var(--ac) 20%, oklch(0 0 0 / .55));
+}`}
+            </pre>
+            <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
+              Tokens: <code>--vl-dialog-bg</code>, <code>-border</code>, <code>-radius</code>, <code>-shadow</code>, <code>-overlay</code>.
+            </p>
           </div>
         </div>
       </div>

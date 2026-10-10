@@ -17,6 +17,7 @@ export interface LineChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 
   strokeWidth?: number
   color?: string
   smooth?: boolean
+  curve?: 'linear' | 'spline' | 'step'
   yFormat?: (n: number) => string
   className?: string
   style?: CSSProperties
@@ -46,6 +47,16 @@ function linearPath(points: { x: number; y: number }[]): string {
   return points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ')
 }
 
+function stepPath(points: { x: number; y: number }[]): string {
+  if (points.length === 0) return ''
+  let d = `M ${points[0].x} ${points[0].y}`
+  for (let i = 1; i < points.length; i++) {
+    const mx = (points[i - 1].x + points[i].x) / 2
+    d += ` L ${mx} ${points[i - 1].y} L ${mx} ${points[i].y} L ${points[i].x} ${points[i].y}`
+  }
+  return d
+}
+
 function niceTicks(min: number, max: number, count = 4): number[] {
   if (min === max) return [min]
   const range = max - min
@@ -73,6 +84,7 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
     strokeWidth = 2,
     color = 'var(--ac)',
     smooth = true,
+    curve,
     yFormat,
     className,
     style,
@@ -116,6 +128,9 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
   const yFor = (v: number) => PAD_T + innerH - ((v - yMin) / (yMax - yMin || 1)) * innerH
 
   const fmt = yFormat ?? ((n: number) => String(n))
+  const resolvedCurve = curve ?? (smooth ? 'spline' : 'linear')
+  const pathFor = (pts: { x: number; y: number }[]) =>
+    resolvedCurve === 'spline' ? smoothPath(pts) : resolvedCurve === 'step' ? stepPath(pts) : linearPath(pts)
 
   return (
     <svg
@@ -181,7 +196,7 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
       {allSeries.map((s, si) => {
         const pts = s.data.map((v, i) => ({ x: xFor(i), y: yFor(v) }))
         const c = s.color ?? color
-        const d = smooth ? smoothPath(pts) : linearPath(pts)
+        const d = pathFor(pts)
         const area = `${d} L ${pts[pts.length - 1].x} ${PAD_T + innerH} L ${pts[0].x} ${
           PAD_T + innerH
         } Z`

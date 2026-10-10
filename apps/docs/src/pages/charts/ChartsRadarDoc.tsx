@@ -1,5 +1,5 @@
 import ChartDocPage from './ChartDocPage'
-import { CHART_PAGES } from './chartsData'
+import { CHART_PAGES } from './chartsAll'
 
 export default function ChartsRadarDoc() {
   return <ChartDocPage page={CHART_PAGES['radar']} />

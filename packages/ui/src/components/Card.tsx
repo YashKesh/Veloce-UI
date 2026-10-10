@@ -17,12 +17,12 @@ const padMap: Record<CardPadding, string> = {
 
 function CardRoot({ padding = 'md', elevated, style, className, children, ...rest }: CardProps) {
   const styles: CSSProperties = {
-    background: 'var(--bg-1)',
-    border: '1px solid var(--line)',
-    borderRadius: 'var(--r-xl)',
+    background: 'var(--vl-card-bg, var(--bg-1))',
+    border: `1px solid var(--vl-card-border, var(--line))`,
+    borderRadius: 'var(--vl-card-radius, var(--r-xl))',
     padding: padMap[padding],
-    boxShadow: elevated ? 'var(--shadow-md)' : undefined,
-    color: 'var(--fg)',
+    boxShadow: elevated ? 'var(--vl-card-shadow, var(--shadow-md))' : undefined,
+    color: 'var(--vl-card-color, var(--fg))',
     fontFamily: 'var(--font-sans)',
   }
   return (

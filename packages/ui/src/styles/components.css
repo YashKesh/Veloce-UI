@@ -242,25 +242,25 @@
   [data-vl-slider]::-webkit-slider-runnable-track {
     height: 4px;
     border-radius: 999px;
-    background: linear-gradient(to right, var(--ac) 0 var(--vl-slider-pct), var(--bg-2) var(--vl-slider-pct) 100%);
+    background: linear-gradient(to right, var(--vl-slider-fill, var(--ac)) 0 var(--vl-slider-pct), var(--vl-slider-track, var(--bg-2)) var(--vl-slider-pct) 100%);
   }
   [data-vl-slider]::-moz-range-track {
     height: 4px;
     border-radius: 999px;
-    background: var(--bg-2);
+    background: var(--vl-slider-track, var(--bg-2));
   }
   [data-vl-slider]::-moz-range-progress {
     height: 4px;
     border-radius: 999px;
-    background: var(--ac);
+    background: var(--vl-slider-fill, var(--ac));
   }
   [data-vl-slider]::-webkit-slider-thumb {
     appearance: none;
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: white;
-    border: 2px solid var(--ac);
+    background: var(--vl-slider-thumb, white);
+    border: 2px solid var(--vl-slider-thumb-border, var(--ac));
     margin-top: -5px;
     cursor: pointer;
   }
@@ -268,12 +268,12 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: white;
-    border: 2px solid var(--ac);
+    background: var(--vl-slider-thumb, white);
+    border: 2px solid var(--vl-slider-thumb-border, var(--ac));
     cursor: pointer;
   }
   [data-vl-slider]:focus-visible::-webkit-slider-thumb {
-    box-shadow: 0 0 0 3px color-mix(in oklch, var(--ac) 25%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklch, var(--vl-slider-fill, var(--ac)) 25%, transparent);
   }
 
   /* ---------- ToggleGroup ---------- */
@@ -360,5 +360,22 @@
   [data-vl-dropdown-item]:focus-visible {
     --vl-dropdown-item-bg: color-mix(in oklch, var(--fg) 6%, transparent);
     outline: none;
+  }
+
+  /* ---------- Skeleton ----------
+     Shimmering placeholder bar/circle. The <Skeleton> component also sets these
+     via inline style for SSR safety, but exposing the class lets consumers
+     apply skeleton styling to any raw element (e.g. <span className="vl-skeleton" />). */
+  .vl-skeleton {
+    display: inline-block;
+    vertical-align: middle;
+    background: linear-gradient(
+      90deg,
+      var(--bg-3) 25%,
+      var(--line-2) 50%,
+      var(--bg-3) 75%
+    ) 0 0 / 200% 100%;
+    border-radius: 6px;
+    animation: vl-shimmer 1.6s linear infinite;
   }
 }

@@ -97,9 +97,7 @@ function ThemeFooter() {
         </button>
       </div>
       <div style={{ display: 'flex', gap: 14, padding: '8px 10px 2px', fontSize: 12.5, color: 'var(--fg-3)' }}>
-        <span>GitHub ↗</span>
-        <span>Discord ↗</span>
-        <span>Figma kit ↗</span>
+        <a href="https://github.com/YashKesh/Veloce-UI" target="_blank" rel="noreferrer" style={{ color: 'inherit' }}>GitHub ↗</a>
       </div>
     </div>
   )

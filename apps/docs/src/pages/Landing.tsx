@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { NumberFlow } from 'veloce-ui'
-import { SiteHeader, REPO_OWNER, REPO_NAME } from '../components/SiteHeader'
+import { SiteHeader, REPO_OWNER, REPO_NAME, REPO_URL } from '../components/SiteHeader'
 import { SiteFooter } from '../components/SiteFooter'
 import { useGithubStars } from '../useGithubStars'
 import { Seo } from '../Seo'
@@ -148,7 +148,72 @@ const PILLARS = [
   },
 ]
 
+const MOBILE_NAV = [
+  { label: 'Docs', to: '/docs/installation' },
+  { label: 'Components', to: '/components' },
+  { label: 'Charts', to: '/charts/catalogue' },
+  { label: 'Motion', to: '/docs/motion' },
+  { label: 'Tokens', to: '/docs/tokens' },
+  { label: 'Accents', to: '/accents' },
+]
+
+function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [open])
+  if (!open) return null
+  return (
+    <>
+      <div
+        onClick={onClose}
+        style={{ position: 'fixed', inset: 0, background: 'oklch(0 0 0/.55)', zIndex: 150 }}
+      />
+      <div
+        style={{
+          position: 'fixed', top: 0, bottom: 0, left: 0, width: 280, zIndex: 151,
+          background: 'var(--bg)', borderRight: '1px solid var(--line)',
+          display: 'flex', flexDirection: 'column', padding: '20px 18px',
+          animation: 'vl-in .2s cubic-bezier(.16,1,.3,1) both',
+        }}
+      >
+        <div className="vl-label" style={{ fontSize: 11, letterSpacing: '0.08em', color: 'var(--fg-3)', margin: '6px 4px 12px' }}>
+          NAVIGATE
+        </div>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {MOBILE_NAV.map((n) => (
+            <Link
+              key={n.to}
+              to={n.to}
+              onClick={onClose}
+              style={{
+                display: 'block', padding: '10px 10px', borderRadius: 7,
+                fontSize: 14, color: 'var(--fg)',
+              }}
+            >
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+        <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px solid var(--line)' }}>
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            style={{ display: 'block', padding: '10px 10px', borderRadius: 7, fontSize: 14, color: 'var(--fg-2)' }}
+          >
+            GitHub ↗
+          </a>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export default function Landing() {
+  const [menuOpen, setMenuOpen] = useState(false)
   return (
     <div className="lp">
       <Seo
@@ -164,7 +229,8 @@ export default function Landing() {
         <div className="lp__orb lp__orb--b" />
       </div>
       <div className="lp__content">
-        <SiteHeader height={64} />
+        <SiteHeader height={64} onMenu={() => setMenuOpen((o) => !o)} />
+        <MobileDrawer open={menuOpen} onClose={() => setMenuOpen(false)} />
 
         <div className="lp__hero">
           <div className="lp__left">

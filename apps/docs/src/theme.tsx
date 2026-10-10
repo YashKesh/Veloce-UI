@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
-export type Accent = 'violet' | 'lime' | 'cyan'
+export type Accent = 'violet' | 'lime' | 'cyan' | 'blue' | 'emerald' | 'amber' | 'rose'
 export type Mode = 'dark' | 'light'
 
 interface Theme {
