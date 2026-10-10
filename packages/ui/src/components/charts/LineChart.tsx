@@ -18,6 +18,10 @@ export interface LineChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 
   color?: string
   smooth?: boolean
   curve?: 'linear' | 'spline' | 'step'
+  /** Lower bound for the y-axis. Defaults to min(data, 0). Pass a number to override. */
+  yMin?: number
+  /** Upper bound for the y-axis. Defaults to max(data, 1). Pass a number to override. */
+  yMax?: number
   yFormat?: (n: number) => string
   className?: string
   style?: CSSProperties
@@ -85,6 +89,8 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
     color = 'var(--ac)',
     smooth = true,
     curve,
+    yMin: yMinProp,
+    yMax: yMaxProp,
     yFormat,
     className,
     style,
@@ -115,11 +121,11 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
       : [{ label: 'value', data: data.map((d) => d.value), color }]
 
   const flat = allSeries.flatMap((s) => s.data)
-  const dataMin = Math.min(...flat, 0)
-  const dataMax = Math.max(...flat, 1)
+  const dataMin = yMinProp ?? Math.min(...flat, 0)
+  const dataMax = yMaxProp ?? Math.max(...flat, 1)
   const ticks = niceTicks(dataMin, dataMax, 4)
-  const yMin = ticks[0]
-  const yMax = ticks[ticks.length - 1]
+  const yMin = yMinProp ?? ticks[0]
+  const yMax = yMaxProp ?? ticks[ticks.length - 1]
 
   const innerW = width - PAD_L - PAD_R
   const innerH = height - PAD_T - PAD_B
@@ -180,18 +186,25 @@ export const LineChart = forwardRef<SVGSVGElement, LineChartProps>(function Line
           </g>
         ))}
 
-      {labels.map((l, i) => (
-        <text
-          key={i}
-          x={xFor(i)}
-          y={height - PAD_B + 16}
-          fill="var(--fg-3)"
-          fontSize={12}
-          textAnchor="middle"
-        >
-          {l}
-        </text>
-      ))}
+      {(() => {
+        const maxLabels = Math.max(2, Math.floor(innerW / 60))
+        const step = Math.ceil(labels.length / maxLabels)
+        return labels.map((l, i) => {
+          if (i % step !== 0 && i !== labels.length - 1) return null
+          return (
+            <text
+              key={i}
+              x={xFor(i)}
+              y={height - PAD_B + 16}
+              fill="var(--fg-3)"
+              fontSize={12}
+              textAnchor="middle"
+            >
+              {l}
+            </text>
+          )
+        })
+      })()}
 
       {allSeries.map((s, si) => {
         const pts = s.data.map((v, i) => ({ x: xFor(i), y: yFor(v) }))

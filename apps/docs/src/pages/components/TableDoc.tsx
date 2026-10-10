@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Table } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
+import { CodeBlock } from '../../components/CodeBlock'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
@@ -211,7 +212,7 @@ function CompositionCode() {
   const str = (t: string) => <span style={{ color: 'var(--ac-text)' }}>{t}</span>
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
-    <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
+    <CodeBlock lang="tsx">
 {dim('import')}{' { Table } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Table')} {dim('variant=')}{str('"striped"')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('Table.Header')} {dim('sticky>')}{'\n'}
@@ -231,7 +232,7 @@ function CompositionCode() {
 {'    '}{dim('))}')}{'\n'}
 {'  '}{dim('</')}{tag('Table.Body')}{dim('>')}{'\n'}
 {dim('</')}{tag('Table')}{dim('>')}
-    </pre>
+    </CodeBlock>
   )
 }
 

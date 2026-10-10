@@ -11,6 +11,10 @@ function ScrollToTop() {
 }
 
 const Landing = lazy(() => import('./pages/Landing'))
+const Builder = lazy(() => import('./pages/Builder'))
+const ThemeStudio = lazy(() => import('./pages/ThemeStudio'))
+const DocsBuilder = lazy(() => import('./pages/DocsBuilder'))
+const DocsThemeStudio = lazy(() => import('./pages/DocsThemeStudio'))
 const DocsDialog = lazy(() => import('./pages/DocsDialog'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const TokensPage = lazy(() => import('./pages/TokensPage'))
@@ -47,6 +51,33 @@ const MultiSelectDoc = lazy(() => import('./pages/components/MultiSelectDoc'))
 const FileUploadDoc = lazy(() => import('./pages/components/FileUploadDoc'))
 const FormDoc = lazy(() => import('./pages/components/FormDoc'))
 const DatePickerDoc = lazy(() => import('./pages/components/DatePickerDoc'))
+const ChatMessageDoc = lazy(() => import('./pages/components/ChatMessageDoc'))
+const StreamingTextDoc = lazy(() => import('./pages/components/StreamingTextDoc'))
+const PromptInputDoc = lazy(() => import('./pages/components/PromptInputDoc'))
+const ToolCallDoc = lazy(() => import('./pages/components/ToolCallDoc'))
+const CitationDoc = lazy(() => import('./pages/components/CitationDoc'))
+const AgentAvatarDoc = lazy(() => import('./pages/components/AgentAvatarDoc'))
+const TokenCounterDoc = lazy(() => import('./pages/components/TokenCounterDoc'))
+const SuggestionChipsDoc = lazy(() => import('./pages/components/SuggestionChipsDoc'))
+const ThinkingIndicatorDoc = lazy(() => import('./pages/components/ThinkingIndicatorDoc'))
+const DiffViewerDoc = lazy(() => import('./pages/components/DiffViewerDoc'))
+const MarketingBlocksDoc = lazy(() => import('./pages/components/MarketingBlocksDoc'))
+const MarketingBlockDoc = lazy(() => import('./pages/components/MarketingBlockDoc'))
+const DashboardIndex = lazy(() => import('./pages/dashboards/DashboardIndex'))
+const SaaSMetricsDashboard = lazy(() => import('./pages/dashboards/SaaSMetrics'))
+const AnalyticsDashboard = lazy(() => import('./pages/dashboards/Analytics'))
+const EcommerceAdminDashboard = lazy(() => import('./pages/dashboards/EcommerceAdmin'))
+const FinanceDashboard = lazy(() => import('./pages/dashboards/Finance'))
+const DevOpsDashboard = lazy(() => import('./pages/dashboards/DevOps'))
+const ProjectManagementDashboard = lazy(() => import('./pages/dashboards/ProjectManagement'))
+const HRDashboard = lazy(() => import('./pages/dashboards/HR'))
+const AdminUsersDashboard = lazy(() => import('./pages/dashboards/AdminUsers'))
+const SettingsDashboard = lazy(() => import('./pages/dashboards/Settings'))
+const InboxDashboard = lazy(() => import('./pages/dashboards/Inbox'))
+const CRMPipelineDashboard = lazy(() => import('./pages/dashboards/CRMPipeline'))
+const HelpdeskDashboard = lazy(() => import('./pages/dashboards/Helpdesk'))
+const MarketingSiteDashboard = lazy(() => import('./pages/dashboards/MarketingSite'))
+const SocialSchedulerDashboard = lazy(() => import('./pages/dashboards/SocialScheduler'))
 const CommandDoc = lazy(() => import('./pages/components/CommandDoc'))
 const ToastDoc = lazy(() => import('./pages/components/ToastDoc'))
 const ProgressDoc = lazy(() => import('./pages/components/ProgressDoc'))
@@ -140,6 +171,10 @@ export default function App() {
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/builder" element={<Builder />} />
+          <Route path="/theme" element={<ThemeStudio />} />
+          <Route path="/docs/builder" element={<DocsBuilder />} />
+          <Route path="/docs/theme-studio" element={<DocsThemeStudio />} />
           <Route path="/components" element={<Gallery />} />
           <Route path="/components/button" element={<ButtonDoc />} />
           <Route path="/components/input" element={<InputDoc />} />
@@ -170,6 +205,33 @@ export default function App() {
           <Route path="/components/file-upload" element={<FileUploadDoc />} />
           <Route path="/components/form" element={<FormDoc />} />
           <Route path="/components/date-picker" element={<DatePickerDoc />} />
+          <Route path="/components/chat-message" element={<ChatMessageDoc />} />
+          <Route path="/components/streaming-text" element={<StreamingTextDoc />} />
+          <Route path="/components/prompt-input" element={<PromptInputDoc />} />
+          <Route path="/components/tool-call" element={<ToolCallDoc />} />
+          <Route path="/components/citation" element={<CitationDoc />} />
+          <Route path="/components/agent-avatar" element={<AgentAvatarDoc />} />
+          <Route path="/components/token-counter" element={<TokenCounterDoc />} />
+          <Route path="/components/suggestion-chips" element={<SuggestionChipsDoc />} />
+          <Route path="/components/thinking-indicator" element={<ThinkingIndicatorDoc />} />
+          <Route path="/components/diff-viewer" element={<DiffViewerDoc />} />
+          <Route path="/components/marketing-blocks" element={<MarketingBlocksDoc />} />
+          <Route path="/components/marketing/:slug" element={<MarketingBlockDoc />} />
+          <Route path="/dashboards" element={<DashboardIndex />} />
+          <Route path="/dashboards/saas-metrics" element={<SaaSMetricsDashboard />} />
+          <Route path="/dashboards/analytics" element={<AnalyticsDashboard />} />
+          <Route path="/dashboards/ecommerce-admin" element={<EcommerceAdminDashboard />} />
+          <Route path="/dashboards/finance" element={<FinanceDashboard />} />
+          <Route path="/dashboards/devops" element={<DevOpsDashboard />} />
+          <Route path="/dashboards/project-management" element={<ProjectManagementDashboard />} />
+          <Route path="/dashboards/hr" element={<HRDashboard />} />
+          <Route path="/dashboards/admin-users" element={<AdminUsersDashboard />} />
+          <Route path="/dashboards/settings" element={<SettingsDashboard />} />
+          <Route path="/dashboards/inbox" element={<InboxDashboard />} />
+          <Route path="/dashboards/crm-pipeline" element={<CRMPipelineDashboard />} />
+          <Route path="/dashboards/helpdesk" element={<HelpdeskDashboard />} />
+          <Route path="/dashboards/marketing-site" element={<MarketingSiteDashboard />} />
+          <Route path="/dashboards/social-scheduler" element={<SocialSchedulerDashboard />} />
           <Route path="/components/dialog" element={<DocsDialog />} />
           <Route path="/components/command" element={<CommandDoc />} />
           <Route path="/components/toast" element={<ToastDoc />} />

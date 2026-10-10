@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Sidebar } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
+import { CodeBlock } from '../../components/CodeBlock'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
 import { useAnatomy, type AnatomyTreeRow } from '../../components/useAnatomy'
 
@@ -254,7 +255,7 @@ function CompositionCode() {
   const str = (t: string) => <span style={{ color: 'var(--ac-text)' }}>{t}</span>
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
-    <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
+    <CodeBlock lang="tsx">
 {dim('import')}{' { Sidebar } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Sidebar')} {dim('width=')}{val('{264}')} {dim('footer=')}{val('{<Footer />}')}{dim('>')}{'\n'}
 {'  '}{dim('{groups.map((g) => (')}{'\n'}
@@ -271,7 +272,7 @@ function CompositionCode() {
 {'    '}{dim('</')}{tag('Sidebar.Group')}{dim('>')}{'\n'}
 {'  '}{dim('))}')}{'\n'}
 {dim('</')}{tag('Sidebar')}{dim('>')}
-    </pre>
+    </CodeBlock>
   )
 }
 

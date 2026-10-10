@@ -156,4 +156,103 @@ export const ROUTE_META = Object.fromEntries([
   chartDoc('Sparkline', 'sparkline', 'Minimal inline trend line. No axes, no grid. Optional end dot.'),
   chartDoc('Gauge · arc', 'gauge', 'Semi-circle gauge with threshold bands, needle, tick marks, and a hover tooltip that pins to the value.'),
   chartDoc('Heatmap', 'heatmap', '2D intensity grid built from unique x/y keys. Intensity blends through color-mix in OKLCH.'),
+
+  // Tools
+  ['/builder', {
+    title: `Dashboard builder · ${BRAND}`,
+    description: 'Visual drag-and-drop dashboard builder. Pick components from the Veloce library, drop them on a 12-column canvas, edit props live, export working JSX.',
+    h1: 'Dashboard builder',
+    summary: '16 widgets (metrics, charts, data, layout), a 12-column grid canvas, a live props inspector, and a JSX code export. Build a dashboard without writing code, then copy the output into any Veloce project.',
+  }],
+  ['/theme', {
+    title: `Theme studio · ${BRAND}`,
+    description: 'Paste any hex, get a complete OKLCH-native Veloce theme — accent, backgrounds, text, borders, status colours. Copy-paste CSS variables. Dark and light mode.',
+    h1: 'Theme studio',
+    summary: 'OKLCH-native theme generator. Perceptually uniform ramps for accent, surfaces, text, borders, and status colours. Live preview on real components. Copy a single CSS block that drops into any Veloce project.',
+  }],
+  ['/docs/builder', {
+    title: `Dashboard builder docs · ${BRAND}`,
+    description: 'How the Veloce dashboard builder works. Palette, canvas, inspector, code export. Four-step recipe for adding your own widgets.',
+    h1: 'Dashboard builder',
+    summary: 'Documentation for the drag-and-drop Veloce builder — how to launch, every palette widget, the 12-column canvas model, inspector controls, and the JSX export format.',
+  }],
+  ['/docs/theme-studio', {
+    title: `Theme studio docs · ${BRAND}`,
+    description: 'How the Veloce theme studio works. OKLCH primer, token reference, dark/light scoping, and how to drop the generated CSS into your own app.',
+    h1: 'Theme studio',
+    summary: 'Guide to the Veloce theme studio. What tokens it emits, why OKLCH beats HSL for ramp construction, how to scope dark and light modes, and how to integrate the output into your global stylesheet.',
+  }],
+
+  // Dashboard blueprints
+  ['/dashboards', {
+    title: `Dashboard blueprints · ${BRAND}`,
+    description: '14 full-page admin dashboard blueprints — SaaS metrics, analytics, finance, DevOps, admin, CRM, inbox, helpdesk, marketing landing. Copy-paste ready.',
+    h1: 'Dashboard blueprints',
+    summary: '14 production-ready dashboard templates in four categories: Analytics & metrics, Workflow & operations, Admin & settings, Marketing & content. Each is a single React page composed from the same Veloce primitives you already use.',
+  }],
+  ['/dashboards/admin-users', {
+    title: `Admin · Users dashboard · ${BRAND}`,
+    description: 'User management blueprint with DataGrid, Dialog invite form, bulk actions, and role filters.',
+    h1: 'Admin · Users',
+    summary: 'User management dashboard using DataGrid, Dialog, Form, DropdownMenu, Checkbox, Avatar, and Badge. Search, filter by role, bulk-select and act on rows, invite new members through a Form dialog.',
+  }],
+  ['/dashboards/settings', {
+    title: `Settings dashboard · ${BRAND}`,
+    description: 'Multi-tab settings page — Profile, Notifications, Security, Billing — composed from Form, Switch, RadioGroup, Select, Tabs, Alert.',
+    h1: 'Settings',
+    summary: 'Four-tab settings page: Profile (avatar, display name, timezone), Notifications (email + push toggles), Security (2FA + sessions), Billing (plan + card + invoices). Entirely form primitives, no charts.',
+  }],
+  ['/dashboards/inbox', {
+    title: `Inbox dashboard · ${BRAND}`,
+    description: 'Three-pane list-detail inbox blueprint — folder sidebar, thread list, reader with reply composer.',
+    h1: 'Inbox',
+    summary: 'Three-pane email-style layout: folder sidebar with unread counts, searchable thread list with color-coded labels, message reader with Archive/Delete and an inline reply composer.',
+  }],
+  ['/dashboards/crm-pipeline', {
+    title: `CRM pipeline dashboard · ${BRAND}`,
+    description: 'Five-stage sales pipeline Kanban. Deal cards, priority badges, pipeline totals per column.',
+    h1: 'CRM · Pipeline',
+    summary: '5-column Kanban (Lead → Qualified → Proposal → Negotiation → Won) with deal cards, totals per stage, priority badges, deal owner avatars, and live search across companies and contacts.',
+  }],
+  ['/dashboards/helpdesk', {
+    title: `Helpdesk dashboard · ${BRAND}`,
+    description: 'Support ticket queue with SLA tracking, agent workload bars, priority/status/category filters, and bulk assign.',
+    h1: 'Helpdesk',
+    summary: 'Ticket queue blueprint built on DataGrid: SLA remaining badge (red <1h / warn <4h / ok otherwise), multi-column sort + selection, priority/status/category filters, and an agent-workload sidebar with Progress bars.',
+  }],
+  ['/dashboards/marketing-site', {
+    title: `Marketing landing dashboard · ${BRAND}`,
+    description: 'Full marketing landing page template — Hero, FeatureGrid, StatsBar, LogoCloud, TestimonialWall, PricingTable, CTA, MarketingFooter.',
+    h1: 'Marketing · Landing',
+    summary: 'A complete, copy-paste marketing landing page composed from Veloce marketing blocks: Hero with split-layout media, logo cloud, stats bar, 6-tile feature grid, 6-up testimonials, 3-tier pricing table, final CTA band, multi-column footer.',
+  }],
+  ['/dashboards/social-scheduler', {
+    title: `Social scheduler dashboard · ${BRAND}`,
+    description: 'Multi-platform post scheduler — weekly calendar grid, draft queue, recent engagement analytics, compose panel.',
+    h1: 'Social · Scheduler',
+    summary: 'Social-media scheduling blueprint with Tabs for Calendar / Queue / Recent, a weekly grid showing scheduled posts per time-slot, multi-platform post cards (X / LinkedIn / Instagram / YouTube), compose panel with platform picker.',
+  }],
+
+  // Marketing blocks — one page each
+  ...[
+    ['hero',               'Hero',              'Landing page hero section — eyebrow, headline, description, CTAs, and optional media. Auto-switches between centered and split layouts.'],
+    ['feature-grid',       'FeatureGrid',       'Icon tiles with title and description, 2/3/4-column responsive grid.'],
+    ['bento',              'BentoGrid',         'Asymmetric bento-style grid — cells of varying size, popularised by Apple landing pages.'],
+    ['pricing-table',      'PricingTable',      '2–4 pricing tiers with features list, CTA per tier, and highlighted recommended tier.'],
+    ['testimonial-wall',   'TestimonialWall',   'Grid of quote cards — social-proof section with 2 or 3 columns.'],
+    ['logo-cloud',         'LogoCloud',         'Row of partner / customer logos. Static or auto-scrolling marquee.'],
+    ['stats-bar',          'StatsBar',          'Row of large numbers with labels and optional captions — "trusted by thousands" style.'],
+    ['cta',                'CTA band',          'End-of-page call-to-action band. Eyebrow, title, description, buttons.'],
+    ['marketing-footer',   'MarketingFooter',   'Multi-column site footer — brand, tagline, link columns, social row, copyright.'],
+    ['border-magic',       'BorderMagic',       'Button with an animated gradient border that orbits the edge. Pure CSS.'],
+    ['meteor-background',  'MeteorBackground',  'Decorative background that spawns falling light streaks across any container.'],
+    ['sparkles',           'Sparkles',          'Twinkling particle overlay — subtle magic over any background.'],
+    ['card-tilt',          'CardTilt',          'Interactive card that tilts in 3-D on cursor move. Pure CSS perspective.'],
+    ['text-reveal',        'TextReveal',        'Reveals text word-by-word as the element scrolls into view.'],
+  ].map(([slug, name, desc]) => [`/components/marketing/${slug}`, {
+    title: `${name} · ${BRAND}`,
+    description: desc,
+    h1: name,
+    summary: `${desc} Documented with a live example, API table, copy-paste code, and links to every other marketing block.`,
+  }]),
 ])

@@ -48,6 +48,7 @@ import {
   type ColumnDef,
 } from 'veloce-ui'
 import { DocsShell, RightRail, type TocItem } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { DOCS_SIDEBAR } from '../docsNav'
 
 const sectionStyle: CSSProperties = {
@@ -168,21 +169,11 @@ export default function Playground() {
           Live render of every primitive from the built <code style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, color: 'var(--fg)' }}>veloce-ui</code> package.
           If you change the library and re-run <code style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, color: 'var(--fg)' }}>npm run build:ui</code>, this page shows the result.
         </p>
-        <pre
-          style={{
-            marginTop: 14,
-            padding: '10px 14px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 12.5,
-            color: 'var(--fg-2)',
-            background: 'var(--bg-1)',
-            border: '1px solid var(--line)',
-            borderRadius: 8,
-            overflow: 'auto',
-          }}
-        >
-{`import { Button, Badge, Chip, Card, Avatar, Separator, Input, Textarea, Spinner, Skeleton, Alert, Dialog } from "veloce-ui"`}
-        </pre>
+        <CodeBlock
+          lang="tsx"
+          code={`import { Button, Badge, Chip, Card, Avatar, Separator, Input, Textarea, Spinner, Skeleton, Alert, Dialog } from "veloce-ui"`}
+          style={{ marginTop: 14 }}
+        />
         <div style={{ marginTop: 10, fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
           built: packages/ui/dist/index.js
         </div>

@@ -18,6 +18,10 @@ export interface AreaChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 
   color?: string
   smooth?: boolean
   stack?: boolean
+  /** Lower bound for the y-axis. Defaults to min(data, 0). Pass a number to override. */
+  yMin?: number
+  /** Upper bound for the y-axis. Defaults to max(data, 1). Pass a number to override. */
+  yMax?: number
   yFormat?: (n: number) => string
   className?: string
   style?: CSSProperties
@@ -75,6 +79,8 @@ export const AreaChart = forwardRef<SVGSVGElement, AreaChartProps>(function Area
     color = 'var(--ac)',
     smooth = true,
     stack = false,
+    yMin: yMinProp,
+    yMax: yMaxProp,
     yFormat,
     className,
     style,
@@ -108,8 +114,8 @@ export const AreaChart = forwardRef<SVGSVGElement, AreaChartProps>(function Area
   const n = labels.length
 
   const flat = allSeries.flatMap((s) => s.data)
-  let dataMin = Math.min(...flat, 0)
-  let dataMax = Math.max(...flat, 1)
+  let dataMin = yMinProp ?? Math.min(...flat, 0)
+  let dataMax = yMaxProp ?? Math.max(...flat, 1)
 
   if (isStacking) {
     let maxTotal = 0
@@ -181,18 +187,26 @@ export const AreaChart = forwardRef<SVGSVGElement, AreaChartProps>(function Area
           </g>
         ))}
 
-      {labels.map((l, i) => (
-        <text
-          key={i}
-          x={xFor(i)}
-          y={height - PAD_B + 16}
-          fill="var(--fg-3)"
-          fontSize={12}
-          textAnchor="middle"
-        >
-          {l}
-        </text>
-      ))}
+      {(() => {
+        // Auto-skip x-labels when they'd overlap. Keep roughly 1 label per ~60px.
+        const maxLabels = Math.max(2, Math.floor(innerW / 60))
+        const step = Math.ceil(labels.length / maxLabels)
+        return labels.map((l, i) => {
+          if (i % step !== 0 && i !== labels.length - 1) return null
+          return (
+            <text
+              key={i}
+              x={xFor(i)}
+              y={height - PAD_B + 16}
+              fill="var(--fg-3)"
+              fontSize={12}
+              textAnchor="middle"
+            >
+              {l}
+            </text>
+          )
+        })
+      })()}
 
       {allSeries.map((s, si) => {
         const pts = s.data.map((v, i) => ({ x: xFor(i), y: yFor(v) }))

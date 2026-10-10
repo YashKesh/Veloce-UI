@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Dialog } from 'veloce-ui'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { useTheme } from '../theme'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
@@ -112,10 +113,7 @@ function UsageCode() {
   const s = { color: 'var(--ac-text)' }
   const id = { color: 'var(--fg)' }
   return (
-    <pre
-      className="vl-code"
-      style={{ padding: '18px 20px', color: 'var(--fg-2)', margin: 0, border: '1px solid var(--line)', borderRadius: 10, background: 'var(--bg-1)', ...mono, fontSize: 13, lineHeight: 1.65, overflow: 'hidden' }}
-    >
+    <CodeBlock lang="tsx">
       <span style={p}>import</span> {'{ Dialog }'} <span style={p}>from</span> <span style={s}>"veloce-ui"</span>
       {'\n\n'}
       <span style={p}>&lt;</span><span style={id}>Dialog.Root</span><span style={p}>&gt;</span>
@@ -129,7 +127,7 @@ function UsageCode() {
       <span style={p}>&lt;/</span><span style={id}>Dialog.Content</span><span style={p}>&gt;</span>
       {'\n'}
       <span style={p}>&lt;/</span><span style={id}>Dialog.Root</span><span style={p}>&gt;</span>
-    </pre>
+    </CodeBlock>
   )
 }
 
@@ -370,19 +368,7 @@ export default function DocsDialog() {
           <strong style={{ color: 'var(--fg)' }}>
             Ships in <code style={mono}>veloce-ui@0.1</code>
           </strong>
-          <pre
-            style={{
-              margin: 0,
-              padding: '6px 10px',
-              background: 'var(--bg-1)',
-              border: '1px solid var(--line)',
-              borderRadius: 'var(--r-sm)',
-              ...mono,
-              fontSize: 12.5,
-              color: 'var(--fg)',
-              overflow: 'auto',
-            }}
-          >{`import { Dialog } from "veloce-ui"`}</pre>
+          <CodeBlock lang="tsx" code={`import { Dialog } from "veloce-ui"`} />
         </div>
 
         {/* live demo — real component mounted */}
@@ -570,13 +556,11 @@ export default function DocsDialog() {
             <p style={{ margin: 0, fontSize: 13.5, color: 'var(--fg-2)', lineHeight: 1.55 }}>
               Dialog renders through a React portal, so set tokens at <code>:root</code> or on <code>html</code> for them to apply.
             </p>
-            <pre style={{ ...mono, margin: 0, padding: '12px 14px', background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: 8, fontSize: 12.5, color: 'var(--fg)', overflow: 'auto' }}>
-{`:root {
+            <CodeBlock lang="css" code={`:root {
   --vl-dialog-bg: var(--bg);
   --vl-dialog-radius: 16px;
   --vl-dialog-overlay: color-mix(in oklch, var(--ac) 20%, oklch(0 0 0 / .55));
-}`}
-            </pre>
+}`} />
             <p style={{ margin: 0, fontSize: 13, color: 'var(--fg-3)' }}>
               Tokens: <code>--vl-dialog-bg</code>, <code>-border</code>, <code>-radius</code>, <code>-shadow</code>, <code>-overlay</code>.
             </p>

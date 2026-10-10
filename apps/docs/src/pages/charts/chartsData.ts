@@ -1130,8 +1130,8 @@ const gauge = makePage({
   ),
   shapes: gs,
   texts: [
-    tx(300, 128, '72', { a: 'middle', fill: 'var(--fg)', size: 34, w: 600, sans: true, role: 'series-2' }),
-    tx(300, 146, 'Lighthouse performance', { a: 'middle', size: 10, role: 'series-2' }),
+    tx(300, 204, '72', { a: 'middle', fill: 'var(--fg)', size: 34, w: 600, sans: true, role: 'series-2' }),
+    tx(300, 224, 'Lighthouse performance', { a: 'middle', size: 10, role: 'series-2' }),
     tx(GC[0] - GR - 4, GC[1] + 14, '0', { a: 'middle' }),
     tx(GC[0] + GR + 4, GC[1] + 14, '100', { a: 'middle' }),
     tx(300, GC[1] - GR - 22, '50', { a: 'middle', fill: WARN }),

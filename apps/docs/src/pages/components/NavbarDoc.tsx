@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Navbar } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
+import { CodeBlock } from '../../components/CodeBlock'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
 import { useAnatomy, type AnatomyTreeRow } from '../../components/useAnatomy'
 
@@ -396,7 +397,7 @@ function CompositionCode() {
   const str = (t: string) => <span style={{ color: 'var(--ac-text)' }}>{t}</span>
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
-    <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
+    <CodeBlock lang="tsx">
 {dim('import')}{' { Navbar } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('Navbar')} {dim('sticky height=')}{val('{56}')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('Navbar.Brand')} {dim('href=')}{str('"/"')} {dim('logo=')}{val('{<Logo />}')}{dim('>')}Veloce{dim('</')}{tag('Navbar.Brand')}{dim('>')}{'\n'}
@@ -411,7 +412,7 @@ function CompositionCode() {
 {'    '}{dim('<')}{tag('Navbar.Avatar')} {dim('name=')}{str('"Jonas L."')} {dim('src=')}{str('"/avatars/jl.png"')} {dim('/>')}{'\n'}
 {'  '}{dim('</')}{tag('Navbar.Actions')}{dim('>')}{'\n'}
 {dim('</')}{tag('Navbar')}{dim('>')}
-    </pre>
+    </CodeBlock>
   )
 }
 

@@ -64,7 +64,7 @@ const EASE = 'cubic-bezier(.16,1,.3,1)'
 
 export const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(function GaugeChart(
   {
-    value, max = 100, size = 240, thickness = 18,
+    value, max = 100, size = 240, thickness = Math.max(14, Math.round(size * 0.095)),
     color = 'var(--ac)', trackColor = 'var(--bg-3)',
     label, sublabel, showNeedle = true, showTicks = true, showEndLabels = true,
     thresholds, format, showHoverTooltip = true, animated = true,
@@ -76,7 +76,9 @@ export const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(function Ga
 
   const pad = Math.max(26, thickness + 10)
   const w = size
-  const h = Math.round(size / 2 + pad)
+  const hasCentre = label != null || sublabel != null || format != null
+  const belowSpace = hasCentre ? Math.round(size * 0.28) : 0
+  const h = Math.round(size / 2 + pad + belowSpace)
   const cx0 = size / 2
   const cy0 = size / 2
   const r = size / 2 - thickness / 2 - 10
@@ -107,10 +109,8 @@ export const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(function Ga
   const valD = t > 0 ? arcPath(cx0, cy0, r, a0, aVal) : null
 
   const tickTs = [0, 0.25, 0.5, 0.75, 1]
-  const thresholdList = thresholds ?? [
-    { at: 0.5 * max, color: 'var(--warn)', label: `${Math.round(0.5 * max)}` },
-    { at: 0.9 * max, color: 'var(--ok)', label: `${Math.round(0.9 * max)}` },
-  ]
+  // Thresholds are opt-in. Pass an array to render them; omit for a clean gauge.
+  const thresholdList = thresholds ?? []
 
   // --- Animation state ---
   const reduced = useMemo(() => prefersReducedMotion(), [])
@@ -235,23 +235,46 @@ export const GaugeChart = forwardRef<SVGSVGElement, GaugeChartProps>(function Ga
         })}
         {showNeedle && (
           <g>
-            <path d={`M ${cx0} ${cy0} L ${nx} ${ny}`} stroke="var(--fg)" strokeWidth={2.5} strokeLinecap="round" fill="none" />
-            <circle cx={cx0} cy={cy0} r={5} fill="var(--fg)" />
+            <path
+              d={`M ${cx0} ${cy0} L ${nx} ${ny}`}
+              stroke="var(--fg)"
+              strokeWidth={Math.max(2.5, Math.round(size * 0.016))}
+              strokeLinecap="round"
+              fill="none"
+            />
+            <circle cx={cx0} cy={cy0} r={Math.max(5, Math.round(size * 0.03))} fill="var(--fg)" />
+            <circle cx={cx0} cy={cy0} r={Math.max(2, Math.round(size * 0.012))} fill="var(--bg-1)" />
           </g>
         )}
         {showEndLabels && (
           <>
-            <text x={cx0 - r} y={cy0 + 14} fill="var(--fg-3)" fontSize={11} textAnchor="middle">0</text>
-            <text x={cx0 + r} y={cy0 + 14} fill="var(--fg-3)" fontSize={11} textAnchor="middle">{max}</text>
+            <text x={cx0 - r} y={cy0 + Math.max(26, Math.round(size * 0.13))} fill="var(--fg-3)" fontSize={11} textAnchor="middle">0</text>
+            <text x={cx0 + r} y={cy0 + Math.max(26, Math.round(size * 0.13))} fill="var(--fg-3)" fontSize={11} textAnchor="middle">{max}</text>
           </>
         )}
         {centreLabel != null && (
-          <text x={cx0} y={cy0 - 10} fill="var(--fg)" fontSize={Math.round(size * 0.16)} fontWeight={600} textAnchor="middle" dominantBaseline="middle">
+          <text
+            x={cx0}
+            y={cy0 + Math.round(size * 0.24)}
+            fill="var(--fg)"
+            fontSize={Math.round(size * 0.17)}
+            fontWeight={700}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            style={{ letterSpacing: '-0.02em' }}
+          >
             {centreLabel}
           </text>
         )}
         {sublabel != null && (
-          <text x={cx0} y={cy0 + 10} fill="var(--fg-3)" fontSize={11} textAnchor="middle" dominantBaseline="middle">
+          <text
+            x={cx0}
+            y={cy0 + Math.round(size * 0.24) + Math.round(size * 0.11)}
+            fill="var(--fg-3)"
+            fontSize={12}
+            textAnchor="middle"
+            dominantBaseline="middle"
+          >
             {sublabel}
           </text>
         )}

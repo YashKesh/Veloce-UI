@@ -4,6 +4,7 @@ import type { ChartPage, LiveSample, TreeRow } from './chartsData'
 import { useViewport } from '../../components/DocsShell'
 import { Seo } from '../../Seo'
 import { AccentSwitcher } from '../../components/AccentSwitcher'
+import { CodeBlock } from '../../components/CodeBlock'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
 
@@ -564,20 +565,7 @@ export default function ChartDocPage({ page }: { page: ChartPage }) {
       {/* Composition */}
       <section id="composition" style={sectionStyle}>
         <h2 style={h2Style}>Composition</h2>
-        <pre
-          style={{
-            ...mono,
-            fontSize: 13,
-            lineHeight: 1.65,
-            padding: '18px 20px',
-            borderRadius: 10,
-            background: 'var(--bg-1)',
-            border: '1px solid var(--line)',
-            margin: 0,
-            whiteSpace: 'pre',
-            overflowX: 'auto',
-          }}
-        >
+        <CodeBlock lang="tsx">
           {page.code.map((line, i) => (
             <div key={i}>
               {line.segs.map((s, j) => (
@@ -587,7 +575,7 @@ export default function ChartDocPage({ page }: { page: ChartPage }) {
               ))}
             </div>
           ))}
-        </pre>
+        </CodeBlock>
       </section>
 
       {/* Variants */}

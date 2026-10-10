@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Alert, Button } from 'veloce-ui'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { COMPONENTS, DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
 
@@ -20,24 +21,8 @@ const TOC: TocItem[] = [
 ]
 
 function Pre({ children }: { children: string }) {
-  return (
-    <pre
-      style={{
-        margin: '12px 0',
-        padding: '12px 16px',
-        background: 'var(--bg-1)',
-        border: '1px solid var(--line)',
-        borderRadius: 'var(--r-md)',
-        overflow: 'auto',
-        ...mono,
-        fontSize: 13,
-        color: 'var(--fg)',
-        lineHeight: 1.55,
-      }}
-    >
-      {children}
-    </pre>
-  )
+  return <CodeBlock lang="tsx" code={children} style={{ margin: '12px 0' }} />
+  // (kept the `Pre` wrapper so existing callers below need no edits)
 }
 
 function H2({ id, children }: { id: string; children: string }) {

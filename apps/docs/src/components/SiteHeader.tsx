@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from '../theme'
 import { useGithubStars } from '../useGithubStars'
+import { COMPONENTS } from '../docsNav'
 
 export const REPO_OWNER = 'YashKesh'
 export const REPO_NAME = 'Veloce-UI'
@@ -52,54 +53,165 @@ export function ModeToggle() {
 const NAV = [
   { label: 'Docs', to: '/docs/installation', match: (p: string) => p.startsWith('/docs') && p !== '/docs/motion' && p !== '/docs/tokens' },
   { label: 'Components', to: '/components', match: (p: string) => p.startsWith('/components') },
+  { label: 'Dashboards', to: '/dashboards', match: (p: string) => p.startsWith('/dashboards') },
+  { label: 'Builder', to: '/builder', match: (p: string) => p === '/builder' },
+  { label: 'Theme', to: '/theme', match: (p: string) => p === '/theme' },
   { label: 'Motion', to: '/docs/motion', match: (p: string) => p === '/docs/motion' },
   { label: 'Tokens', to: '/docs/tokens', match: (p: string) => p === '/docs/tokens' },
-  { label: 'Accents', to: '/accents', match: (p: string) => p === '/accents' },
 ]
 
-const PAGES = [
+// Hint overrides for well-known components (anything not listed just shows "primitive").
+const COMPONENT_HINTS: Record<string, string> = {
+  button: 'variants · sizes · loading',
+  input: 'states · validation',
+  switch: 'checked · disabled',
+  dialog: 'props · a11y · motion spec',
+  command: '⌘K · fuzzy filter',
+  toast: 'stacking · dismiss',
+  progress: 'determinate · indeterminate',
+  skeleton: 'shimmer · shapes',
+  'data-grid': 'sort · select · density',
+  badge: 'accent · success · outline',
+  card: 'lift · media · footer',
+  select: 'unfold · groups',
+  checkbox: 'draw · indeterminate',
+  tabs: 'sliding indicator',
+  dropdown: 'unfold · shortcuts',
+  popover: 'anchored · scale-fade',
+  tooltip: 'rise · delay',
+  accordion: 'height auto · single',
+  chip: 'removable · filter',
+  avatar: 'sizes · stack · fallback',
+  separator: 'horizontal · vertical',
+  textarea: 'autogrow · counter',
+  radio: 'group · cards',
+  slider: 'drag · steps · range',
+  'toggle-group': 'single · multiple',
+  sheet: 'side panel',
+  alert: 'info · warn · error',
+  spinner: 'sizes · inline',
+  'empty-state': 'icon · action',
+  breadcrumbs: 'collapse · separator',
+  pagination: 'pages · ellipsis',
+  stepper: 'progress · steps',
+  table: 'striped · expandable',
+  form: 'field · label · error',
+  combobox: 'typeahead · filter',
+  'multi-select': 'chips · pills',
+  'number-input': 'stepper · min / max',
+  'pin-input': 'otp · code',
+  'date-picker': 'calendar · range',
+  'file-upload': 'drop · preview',
+  rating: 'stars · half',
+  'hover-card': 'rich preview',
+  'context-menu': 'right-click',
+  drawer: 'bottom · side',
+  'scroll-area': 'custom scrollbar',
+  carousel: 'slide · autoplay',
+  timeline: 'milestones',
+  tree: 'folders · expand',
+  portal: 'escape · teleport',
+  'visually-hidden': 'a11y utility',
+  slot: 'asChild composition',
+  kbd: 'keyboard shortcut',
+  code: 'inline code',
+  mark: 'highlight',
+  blockquote: 'callout',
+  toggle: 'two-state',
+  label: 'form label',
+  collapsible: 'disclosure',
+  'alert-dialog': 'confirm action',
+  'chat-message': 'AI · bubble',
+  'streaming-text': 'AI · typewriter',
+  'prompt-input': 'AI · composer',
+  'tool-call': 'AI · function',
+  citation: 'AI · source link',
+  'agent-avatar': 'AI · persona',
+  'token-counter': 'AI · usage',
+  'suggestion-chips': 'AI · quick replies',
+  'thinking-indicator': 'AI · dots',
+  'diff-viewer': 'AI · code diff',
+  'marketing-blocks': 'hero · pricing · CTA',
+}
+
+const DOC_PAGES = [
   { label: 'Introduction', to: '/', hint: 'hero · pillars', group: 'DOCS' },
   { label: 'Installation', to: '/docs/installation', hint: 'veloce init', group: 'DOCS' },
+  { label: 'Usage', to: '/docs/usage', hint: 'first import', group: 'DOCS' },
+  { label: 'Customization', to: '/docs/customization', hint: 'three layers', group: 'DOCS' },
   { label: 'Motion system', to: '/docs/motion', hint: 'four rules', group: 'DOCS' },
   { label: 'Design tokens', to: '/docs/tokens', hint: 'oklch · spacing · easing', group: 'DOCS' },
   { label: 'Accent variants', to: '/accents', hint: 'violet · lime · cyan', group: 'DOCS' },
-  { label: 'All components', to: '/components', hint: 'overview grid', group: 'COMPONENTS' },
-  { label: 'Button', to: '/components/button', hint: 'variants · sizes · loading', group: 'COMPONENTS' },
-  { label: 'Input', to: '/components/input', hint: 'states · validation', group: 'COMPONENTS' },
-  { label: 'Switch', to: '/components/switch', hint: 'checked · disabled', group: 'COMPONENTS' },
-  { label: 'Dialog', to: '/components/dialog', hint: 'props · a11y · motion spec', group: 'COMPONENTS' },
-  { label: 'Command palette', to: '/components/command', hint: '⌘K · fuzzy filter', group: 'COMPONENTS' },
-  { label: 'Toast', to: '/components/toast', hint: 'stacking · dismiss', group: 'COMPONENTS' },
-  { label: 'Progress', to: '/components/progress', hint: 'determinate · indeterminate', group: 'COMPONENTS' },
-  { label: 'Skeleton', to: '/components/skeleton', hint: 'shimmer · shapes', group: 'COMPONENTS' },
-  { label: 'Data grid', to: '/components/data-grid', hint: 'sort · select · density', group: 'COMPONENTS' },
-  { label: 'Badge', to: '/components/badge', hint: 'accent · success · outline', group: 'COMPONENTS' },
-  { label: 'Card', to: '/components/card', hint: 'lift · media · footer', group: 'COMPONENTS' },
-  { label: 'Select', to: '/components/select', hint: 'unfold · groups', group: 'COMPONENTS' },
-  { label: 'Checkbox', to: '/components/checkbox', hint: 'draw · indeterminate', group: 'COMPONENTS' },
-  { label: 'Tabs', to: '/components/tabs', hint: 'sliding indicator', group: 'COMPONENTS' },
-  { label: 'Dropdown menu', to: '/components/dropdown', hint: 'unfold · shortcuts', group: 'COMPONENTS' },
-  { label: 'Popover', to: '/components/popover', hint: 'anchored · scale-fade', group: 'COMPONENTS' },
-  { label: 'Tooltip', to: '/components/tooltip', hint: 'rise · delay', group: 'COMPONENTS' },
-  { label: 'Accordion', to: '/components/accordion', hint: 'height auto · single', group: 'COMPONENTS' },
-  { label: 'Chip', to: '/components/chip', hint: 'removable · filter', group: 'COMPONENTS' },
-  { label: 'Avatar', to: '/components/avatar', hint: 'sizes · stack · fallback', group: 'COMPONENTS' },
-  { label: 'Separator', to: '/components/separator', hint: 'horizontal · vertical', group: 'COMPONENTS' },
-  { label: 'Textarea', to: '/components/textarea', hint: 'autogrow · counter', group: 'COMPONENTS' },
-  { label: 'Radio', to: '/components/radio', hint: 'group · cards', group: 'COMPONENTS' },
-  { label: 'Slider', to: '/components/slider', hint: 'drag · steps · range', group: 'COMPONENTS' },
-  { label: 'Toggle group', to: '/components/toggle-group', hint: 'single · multiple', group: 'COMPONENTS' },
-  { label: 'Sheet', to: '/components/sheet', hint: 'side panel · slide 250ms', group: 'COMPONENTS' },
-  { label: 'Alert', to: '/components/alert', hint: 'info · warn · error', group: 'COMPONENTS' },
-  { label: 'Spinner', to: '/components/spinner', hint: 'sizes · inline', group: 'COMPONENTS' },
-  { label: 'Empty state', to: '/components/empty-state', hint: 'icon · action', group: 'COMPONENTS' },
-  { label: 'Breadcrumbs', to: '/components/breadcrumbs', hint: 'collapse · separator', group: 'COMPONENTS' },
-  { label: 'Pagination', to: '/components/pagination', hint: 'pages · ellipsis', group: 'COMPONENTS' },
-  { label: 'Stepper', to: '/components/stepper', hint: 'progress · steps', group: 'COMPONENTS' },
-  { label: 'Layout primitives', to: '/components/layout', hint: 'container · grid · stack', group: 'COMPONENTS' },
-  { label: 'Motion utilities', to: '/components/motion-utilities', hint: 'presence · stagger · numberflow', group: 'COMPONENTS' },
-  { label: 'Table', to: '/components/table', hint: 'striped · expandable · totals', group: 'COMPONENTS' },
+  { label: 'Gallery', to: '/gallery', hint: 'every primitive at a glance', group: 'DOCS' },
 ]
+
+const TOOL_PAGES = [
+  { label: 'Dashboard builder', to: '/builder', hint: 'drag · drop · export JSX', group: 'TOOLS' },
+  { label: 'Theme studio', to: '/theme', hint: 'OKLCH ramp generator', group: 'TOOLS' },
+  { label: 'Dashboard builder docs', to: '/docs/builder', hint: 'how to use + embed', group: 'TOOLS' },
+  { label: 'Theme studio docs', to: '/docs/theme-studio', hint: 'how to use + tokens', group: 'TOOLS' },
+]
+
+const CHART_PAGES = [
+  { label: 'Charts overview', to: '/charts', hint: 'all series · catalogue', group: 'CHARTS' },
+  { label: 'Chart catalogue', to: '/charts/catalogue', hint: '16 series at a glance', group: 'CHARTS' },
+  { label: 'All charts', to: '/components/charts', hint: 'library doc', group: 'CHARTS' },
+  ...['area', 'bar', 'bullet', 'candle', 'funnel', 'gauge', 'heatmap', 'line', 'pie-donut', 'radar', 'scatter', 'sparkline', 'treemap', 'waterfall'].map((slug) => ({
+    label: `${slug.replace(/-/g, ' / ').replace(/\b\w/g, (c) => c.toUpperCase())} chart`,
+    to: `/docs/charts/${slug}`,
+    hint: 'anatomy · variants · motion',
+    group: 'CHARTS',
+  })),
+]
+
+const DASHBOARD_PAGES = [
+  { label: 'All dashboards', to: '/dashboards', hint: '14 blueprints · 4 categories', group: 'DASHBOARDS' },
+  { label: 'SaaS metrics',          to: '/dashboards/saas-metrics',       hint: 'MRR · churn · activation',       group: 'DASHBOARDS' },
+  { label: 'Analytics',             to: '/dashboards/analytics',          hint: 'traffic · funnel · referrers',   group: 'DASHBOARDS' },
+  { label: 'E-commerce admin',      to: '/dashboards/ecommerce-admin',    hint: 'orders · inventory · stock',     group: 'DASHBOARDS' },
+  { label: 'Finance',               to: '/dashboards/finance',            hint: 'cashflow · burn · runway',       group: 'DASHBOARDS' },
+  { label: 'DevOps monitoring',     to: '/dashboards/devops',             hint: 'uptime · p95 · incidents',       group: 'DASHBOARDS' },
+  { label: 'Project management',    to: '/dashboards/project-management', hint: 'gantt · kanban · velocity',      group: 'DASHBOARDS' },
+  { label: 'People / HR',           to: '/dashboards/hr',                 hint: 'headcount · reviews · leave',    group: 'DASHBOARDS' },
+  { label: 'Admin · Users',         to: '/dashboards/admin-users',        hint: 'DataGrid · invite dialog',       group: 'DASHBOARDS' },
+  { label: 'Settings',              to: '/dashboards/settings',           hint: 'tabs · forms · switches',        group: 'DASHBOARDS' },
+  { label: 'Inbox',                 to: '/dashboards/inbox',              hint: 'three-pane list / detail',       group: 'DASHBOARDS' },
+  { label: 'CRM · Pipeline',        to: '/dashboards/crm-pipeline',       hint: '5-stage sales kanban',           group: 'DASHBOARDS' },
+  { label: 'Helpdesk',              to: '/dashboards/helpdesk',           hint: 'ticket queue · SLA',             group: 'DASHBOARDS' },
+  { label: 'Marketing · Landing',   to: '/dashboards/marketing-site',     hint: 'hero → pricing → footer',        group: 'DASHBOARDS' },
+  { label: 'Social scheduler',      to: '/dashboards/social-scheduler',   hint: 'calendar · queue · engagement',  group: 'DASHBOARDS' },
+]
+
+const COMPONENT_PAGES = [
+  { label: 'All components', to: '/components', hint: 'overview grid', group: 'COMPONENTS' },
+  ...COMPONENTS.map((c) => ({
+    label: c.label,
+    to: `/components/${c.slug}`,
+    hint: COMPONENT_HINTS[c.slug] ?? 'primitive',
+    group: 'COMPONENTS',
+  })),
+]
+
+// Marketing blocks — one dedicated doc page per block.
+const MARKETING_PAGES = [
+  { label: 'All marketing blocks', to: '/components/marketing-blocks',               hint: '14 blocks · overview',  group: 'MARKETING' },
+  { label: 'Hero',                 to: '/components/marketing/hero',                 hint: 'eyebrow · title · CTA', group: 'MARKETING' },
+  { label: 'FeatureGrid',          to: '/components/marketing/feature-grid',         hint: 'icon tiles',            group: 'MARKETING' },
+  { label: 'BentoGrid',            to: '/components/marketing/bento',                hint: 'bento · asymmetric',    group: 'MARKETING' },
+  { label: 'PricingTable',         to: '/components/marketing/pricing-table',        hint: 'tiers · featured',      group: 'MARKETING' },
+  { label: 'TestimonialWall',      to: '/components/marketing/testimonial-wall',     hint: 'social proof',          group: 'MARKETING' },
+  { label: 'LogoCloud',            to: '/components/marketing/logo-cloud',           hint: 'marquee · trust bar',   group: 'MARKETING' },
+  { label: 'StatsBar',             to: '/components/marketing/stats-bar',            hint: 'big numbers row',       group: 'MARKETING' },
+  { label: 'BorderMagic',          to: '/components/marketing/border-magic',         hint: 'gradient border',       group: 'MARKETING' },
+  { label: 'MeteorBackground',     to: '/components/marketing/meteor-background',    hint: 'falling streaks',       group: 'MARKETING' },
+  { label: 'Sparkles',             to: '/components/marketing/sparkles',             hint: 'twinkle particles',     group: 'MARKETING' },
+  { label: 'CardTilt',             to: '/components/marketing/card-tilt',            hint: '3-D tilt on hover',     group: 'MARKETING' },
+  { label: 'TextReveal',           to: '/components/marketing/text-reveal',          hint: 'word-by-word fade',     group: 'MARKETING' },
+  { label: 'CTA band',             to: '/components/marketing/cta',                  hint: 'end-of-page CTA',       group: 'MARKETING' },
+  { label: 'MarketingFooter',      to: '/components/marketing/marketing-footer',     hint: 'columns · social',      group: 'MARKETING' },
+]
+
+const PAGES = [...DOC_PAGES, ...TOOL_PAGES, ...COMPONENT_PAGES, ...MARKETING_PAGES, ...CHART_PAGES, ...DASHBOARD_PAGES]
 
 function CommandPalette({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState('')
@@ -121,13 +233,22 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
 
   const run = (i: number) => {
     const r = results[i]
-    if (r) {
-      navigate(r.to)
-      onClose()
+    if (!r) return
+    navigate(r.to)
+    onClose()
+    // If the target has a hash, scroll to the anchor after React Router finishes.
+    const hashIdx = r.to.indexOf('#')
+    if (hashIdx !== -1) {
+      const id = r.to.slice(hashIdx + 1)
+      // Two rAFs: first for route to render, second for layout to settle.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }))
     }
   }
 
-  const groups = ['DOCS', 'COMPONENTS'].map((g) => ({ g, items: results.filter((r) => r.group === g) }))
+  const groups = ['DOCS', 'TOOLS', 'COMPONENTS', 'MARKETING', 'CHARTS', 'DASHBOARDS']
+    .map((g) => ({ g, items: results.filter((r) => r.group === g) }))
 
   return (
     <div
@@ -187,7 +308,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
                           color: i === index ? 'var(--ac-text)' : 'var(--fg-3)', fontSize: 12,
                         }}
                       >
-                        {r.group === 'DOCS' ? '¶' : '▦'}
+                        {r.group === 'DOCS' ? '¶' : r.group === 'TOOLS' ? '✦' : r.group === 'CHARTS' ? '◴' : r.group === 'DASHBOARDS' ? '◫' : r.group === 'MARKETING' ? '✺' : '▦'}
                       </span>
                       <span style={{ flex: 1 }}>{r.label}</span>
                       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--fg-3)' }}>{r.hint}</span>

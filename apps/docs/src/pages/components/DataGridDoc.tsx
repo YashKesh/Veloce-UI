@@ -1,8 +1,9 @@
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { DataGrid } from 'veloce-ui'
+import { Button, DataGrid, type MultiSortEntry, type DataGridDensity } from 'veloce-ui'
 import { DocsShell, RightRail, useViewport } from '../../components/DocsShell'
 import type { TocItem } from '../../components/DocsShell'
+import { CodeBlock } from '../../components/CodeBlock'
 import { DOCS_SIDEBAR, prevNext } from '../../docsNav'
 import { useAnatomy } from '../../components/useAnatomy'
 
@@ -14,67 +15,153 @@ interface DemoRow {
   requests: number
 }
 
-const DEMO_ROWS: DemoRow[] = [
-  { id: '1', name: 'veloce-docs', owner: 'yash', status: 'live', requests: 2_400_000 },
-  { id: '2', name: 'edge-api', owner: 'mara', status: 'live', requests: 980_000 },
-  { id: '3', name: 'preview-pr-218', owner: 'yash', status: 'building', requests: 0 },
-  { id: '4', name: 'blog', owner: 'rina', status: 'live', requests: 184_000 },
-  { id: '5', name: 'admin-panel', owner: 'alex', status: 'error', requests: 12_000 },
-  { id: '6', name: 'www-static', owner: 'yash', status: 'live', requests: 6_200_000 },
-  { id: '7', name: 'realtime', owner: 'mara', status: 'live', requests: 510_000 },
+const INITIAL_ROWS: DemoRow[] = [
+  { id: '1', name: 'veloce-docs',     owner: 'yash', status: 'live',     requests: 2_400_000 },
+  { id: '2', name: 'edge-api',        owner: 'mara', status: 'live',     requests: 980_000 },
+  { id: '3', name: 'preview-pr-218',  owner: 'yash', status: 'building', requests: 0 },
+  { id: '4', name: 'blog',            owner: 'rina', status: 'live',     requests: 184_000 },
+  { id: '5', name: 'admin-panel',     owner: 'alex', status: 'error',    requests: 12_000 },
+  { id: '6', name: 'www-static',      owner: 'yash', status: 'live',     requests: 6_200_000 },
+  { id: '7', name: 'realtime',        owner: 'mara', status: 'live',     requests: 510_000 },
+  { id: '8', name: 'checkout-fn',     owner: 'alex', status: 'live',     requests: 1_120_000 },
+  { id: '9', name: 'auth-worker',     owner: 'rina', status: 'live',     requests: 820_000 },
+  { id: '10', name: 'image-proxy',    owner: 'mara', status: 'error',    requests: 45_000 },
+  { id: '11', name: 'docs-search',    owner: 'yash', status: 'building', requests: 0 },
+  { id: '12', name: 'webhook-router', owner: 'alex', status: 'live',     requests: 2_800_000 },
 ]
 
+const ALL_COLUMN_KEYS = ['name', 'owner', 'status', 'requests', 'actions']
+
 function LiveDataGridDemo() {
+  // Row state (mutable — editing + deletion)
+  const [rows, setRows] = useState<DemoRow[]>(INITIAL_ROWS)
+
+  // Grid state
   const [selected, setSelected] = useState<Set<string>>(new Set(['2']))
-  const [sortKey, setSortKey] = useState('requests')
-  const [sortDir, setSortDir] = useState<'asc' | 'desc' | null>('desc')
+  const [sort, setSort] = useState<MultiSortEntry[]>([{ key: 'requests', dir: 'desc' }])
   const [quick, setQuick] = useState('')
+  const [pageIndex, setPageIndex] = useState(0)
+  const [pageSize, setPageSize] = useState(5)
+  const [visibleKeys, setVisibleKeys] = useState<string[]>(ALL_COLUMN_KEYS)
+  const [density, setDensity] = useState<DataGridDensity>('cozy')
+
+  const columns = useMemo(() => [
+    {
+      key: 'name', header: 'Project', sortable: true, pin: 'left' as const,
+      resizable: true, minWidth: 160, width: 200,
+    },
+    { key: 'owner', header: 'Owner', sortable: true, resizable: true, minWidth: 90 },
+    {
+      key: 'status', header: 'Status', sortable: true, align: 'start' as const, resizable: true, minWidth: 110,
+      render: (r: DemoRow) => (
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12,
+          color: r.status === 'live' ? 'var(--ok)' : r.status === 'error' ? 'var(--err)' : 'var(--warn)',
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: 999, background: 'currentColor' }} />
+          {r.status}
+        </span>
+      ),
+    },
+    {
+      key: 'requests', header: 'Requests', align: 'end' as const, sortable: true,
+      editable: true, editor: 'number' as const, resizable: true, minWidth: 110,
+      render: (r: DemoRow) => <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-2)' }}>{r.requests.toLocaleString()}</span>,
+    },
+    {
+      key: 'actions', header: '', align: 'end' as const, pin: 'right' as const, width: 86,
+      render: (r: DemoRow) => (
+        <button
+          onClick={(e) => { e.stopPropagation(); setRows((prev) => prev.filter((row) => row.id !== r.id)) }}
+          style={{
+            padding: '4px 8px', fontSize: 11.5, border: '1px solid var(--line-2)',
+            borderRadius: 6, background: 'var(--bg)', color: 'var(--err)', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+        >Delete</button>
+      ),
+    },
+  ], [])
+
+  function bulkDelete() {
+    setRows((prev) => prev.filter((r) => !selected.has(r.id)))
+    setSelected(new Set())
+  }
+
+  function onCellEdit(row: DemoRow, key: string, newValue: string | number) {
+    setRows((prev) => prev.map((r) => r.id === row.id ? { ...r, [key]: typeof newValue === 'number' ? newValue : Number(newValue) || 0 } : r))
+  }
+
+  const sortLabel = sort.length === 0 ? 'none' : sort.map((s) => `${s.key} ${s.dir}`).join(', ')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, border: '1px solid var(--line)', borderRadius: 12, padding: 20, background: 'var(--bg-1)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
-        <input
-          placeholder="Quick filter…"
-          value={quick}
-          onChange={(e) => setQuick(e.target.value)}
-          style={{ height: 30, padding: '0 10px', borderRadius: 7, border: '1px solid var(--line-2)', background: 'var(--bg)', fontSize: 12.5, color: 'var(--fg)', fontFamily: 'inherit', outline: 'none', minWidth: 160 }}
-        />
-      </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, border: '1px solid var(--line)', borderRadius: 12, background: 'var(--bg-1)', overflow: 'hidden' }}>
       <DataGrid<DemoRow>
-        rows={DEMO_ROWS}
+        rows={rows}
         rowKey={(r) => r.id}
+        columns={columns}
         selectable
         selectedIds={selected}
         onSelectedIdsChange={setSelected}
-        sortKey={sortKey}
-        sortDir={sortDir}
-        onSortChange={(k, d) => { setSortKey(k); setSortDir(d) }}
+        sort={sort}
+        onSortChangeMulti={setSort}
         quickFilter={quick}
         onQuickFilterChange={setQuick}
-        columns={[
-          { key: 'name', header: 'Project', sortable: true },
-          { key: 'owner', header: 'Owner', sortable: true },
-          {
-            key: 'status', header: 'Status', align: 'start',
-            render: (r) => (
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12,
-                color: r.status === 'live' ? 'var(--ok)' : r.status === 'error' ? 'var(--err)' : 'var(--warn)',
-              }}>
-                <span style={{ width: 6, height: 6, borderRadius: 999, background: 'currentColor' }} />
-                {r.status}
-              </span>
-            ),
-          },
-          {
-            key: 'requests', header: 'Requests', align: 'end', sortable: true,
-            render: (r) => <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-2)' }}>{r.requests.toLocaleString()}</span>,
-          },
-        ]}
-      />
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)' }}>
-        selected: {selected.size} · sort: {sortKey} {sortDir ?? ''}
+        pageIndex={pageIndex}
+        pageSize={pageSize}
+        onPageChange={setPageIndex}
+        visibleColumnKeys={visibleKeys}
+        onVisibleColumnKeysChange={setVisibleKeys}
+        onCellEdit={onCellEdit}
+        density={density}
+        stickyHeader
+        emptyState={<div style={{ padding: '32px 16px', textAlign: 'center', color: 'var(--fg-3)', fontSize: 13 }}>No projects match your filter.</div>}
+      >
+        <DataGrid.Toolbar>
+          {/* Quick-filter Input is auto-injected by the Toolbar slot */}
+          {selected.size > 0 && (
+            <Button variant="destructive" size="sm" onClick={bulkDelete}>
+              Delete {selected.size}
+            </Button>
+          )}
+          <div style={{ flex: 1 }} />
+          <DensityPicker value={density} onChange={setDensity} />
+          <DataGrid.ColumnMenu />
+        </DataGrid.Toolbar>
+
+        <DataGrid.Pagination
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          totalRows={rows.length}
+          onPageChange={setPageIndex}
+          onPageSizeChange={(s) => { setPageSize(s); setPageIndex(0) }}
+          pageSizeOptions={[5, 10, 25]}
+        />
+      </DataGrid>
+
+      <div style={{ padding: '8px 14px', fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--fg-3)', borderTop: '1px solid var(--line)', background: 'var(--bg-1)' }}>
+        selected: {selected.size} · sort: {sortLabel} · page: {pageIndex + 1}/{Math.max(1, Math.ceil(rows.length / pageSize))} · rows: {rows.length} · visible cols: {visibleKeys.length}/{ALL_COLUMN_KEYS.length}
+        {' · '}<em style={{ color: 'var(--fg-2)' }}>Shift+click a header for multi-sort. Double-click a Requests cell to edit.</em>
       </div>
+    </div>
+  )
+}
+
+function DensityPicker({ value, onChange }: { value: DataGridDensity; onChange: (d: DataGridDensity) => void }) {
+  const opts: DataGridDensity[] = ['compact', 'cozy', 'comfortable']
+  return (
+    <div style={{ display: 'inline-flex', borderRadius: 7, border: '1px solid var(--line-2)', overflow: 'hidden' }}>
+      {opts.map((o) => (
+        <button
+          key={o}
+          onClick={() => onChange(o)}
+          style={{
+            padding: '4px 10px', fontSize: 11.5, border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+            background: value === o ? 'var(--ac-soft)' : 'var(--bg)',
+            color: value === o ? 'var(--ac-text)' : 'var(--fg-2)',
+            textTransform: 'capitalize',
+          }}
+        >{o}</button>
+      ))}
     </div>
   )
 }
@@ -862,10 +949,10 @@ function ServerSideCard() {
   return (
     <div style={cardStyle}>
       <span style={cardTitle}>Server-side state</span>
-      <pre style={{ margin: 0, padding: 12, borderRadius: 7, background: 'var(--bg)', border: '1px solid var(--line-2)', ...mono, fontSize: 11.5, lineHeight: 1.6, color: 'var(--fg-2)', whiteSpace: 'pre-wrap' }}>
+      <CodeBlock lang="tsx">
 <span style={{ color: 'var(--fg-3)' }}>{`// drive sort/filter/paging from the URL`}</span>{`\n`}
 <span style={{ color: 'var(--ac-text)' }}>useDataGridState</span>{`({\n  rowCount: `}<span style={{ color: 'var(--fg)' }}>472</span>{`,\n  state, `}<span style={{ color: 'var(--ac-text)' }}>onStateChange</span>{`,\n  loader: `}<span style={{ color: 'var(--fg)' }}>async</span>{` (q) => fetch(\n    `}<span style={{ color: 'var(--ac-text)' }}>{"`/api/deploys?${toQS(q)}`"}</span>{`)\n})`}
-      </pre>
+      </CodeBlock>
       <span style={cardFoot}>rowCount tells the grid to delegate paging · suspense-ready</span>
     </div>
   )
@@ -1013,7 +1100,7 @@ function CompositionCode() {
   const str = (t: string) => <span style={{ color: 'var(--ac-text)' }}>{t}</span>
   const val = (t: string) => <span style={{ color: 'var(--fg-2)' }}>{t}</span>
   return (
-    <pre style={{ margin: 0, padding: '18px 20px', borderRadius: 10, background: 'var(--bg-1)', border: '1px solid var(--line)', ...mono, fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', overflowX: 'auto' }}>
+    <CodeBlock lang="tsx">
 {dim('import')}{' { DataGrid } '}{dim('from')} {str('"veloce-ui"')}{'\n\n'}
 {dim('<')}{tag('DataGrid')} {dim('rows=')}{val('{rows}')} {dim('rowKey=')}{str('"id"')} {dim('groupBy=')}{str('["region"]')}{dim('>')}{'\n'}
 {'  '}{dim('<')}{tag('DataGrid.Toolbar')} {dim('quickFilter density="comfortable" />')}{'\n'}
@@ -1024,7 +1111,7 @@ function CompositionCode() {
 {'  '}{dim('<')}{tag('DataGrid.DetailPanel')}{dim(' render=')}{val('{BuildLog}')}{dim(' />')}{'\n'}
 {'  '}{dim('<')}{tag('DataGrid.Pagination')} {dim('page=')}{val('{page}')} {dim('pageSize=')}{val('{10}')}{dim(' />')}{'\n'}
 {dim('</')}{tag('DataGrid')}{dim('>')}
-    </pre>
+    </CodeBlock>
   )
 }
 

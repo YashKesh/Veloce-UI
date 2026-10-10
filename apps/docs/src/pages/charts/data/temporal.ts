@@ -184,11 +184,42 @@ const gtX = (v: number) => L + (v / gtSpan) * (R - L)
 const gtRowH = (B - T) / TASKS.length
 const gtBarH = 14
 const ganttShapes: import('../chartsData').ChartPage['shapes'] = [...grid()]
+// Zebra row backgrounds — gives the chart a table-like structure.
+TASKS.forEach((_, i) => {
+  if (i % 2 === 1) {
+    ganttShapes.push(
+      sh(rect(L, T + i * gtRowH, R - L, gtRowH), { fill: 'var(--bg-2)', op: 0.35, role: 'grid' }),
+    )
+  }
+})
+// Task bars.
 TASKS.forEach(([, s, e], i) => {
   const col = i === 0 ? AC : i === 1 ? AC60 : i === 2 ? AC35 : mix(70)
   const y = T + i * gtRowH + (gtRowH - gtBarH) / 2
   ganttShapes.push(sh(rect(gtX(s), y, gtX(e) - gtX(s), gtBarH), { fill: col, role: `series-${i}` }))
 })
+// Dependency connectors: each task flows from the previous one.
+// L-shaped line + a small arrowhead triangle at the dependent task's start.
+for (let i = 1; i < TASKS.length; i++) {
+  const [, , pEnd] = TASKS[i - 1]
+  const [, cStart] = TASKS[i]
+  const x0 = gtX(pEnd)
+  const y0 = T + (i - 1) * gtRowH + gtRowH / 2
+  const x1 = gtX(cStart) - 4 // leave a tiny gap before the arrowhead
+  const y1 = T + i * gtRowH + gtRowH / 2
+  const midX = Math.max(x0 + 6, Math.min(x1 - 6, (x0 + x1) / 2))
+  ganttShapes.push(
+    sh(`M${f(x0)} ${f(y0)}L${f(midX)} ${f(y0)}L${f(midX)} ${f(y1)}L${f(x1)} ${f(y1)}`, {
+      stroke: 'var(--fg-3)', sw: 1.25, op: 0.75, role: 'reference',
+    }),
+  )
+  const a = 4
+  ganttShapes.push(
+    sh(`M${f(x1 + a)} ${f(y1)}L${f(x1 - a)} ${f(y1 - a)}L${f(x1 - a)} ${f(y1 + a)}Z`, {
+      fill: 'var(--fg-3)', op: 0.9, role: 'reference',
+    }),
+  )
+}
 // "today" marker at unit 7.
 ganttShapes.push(sh(`M${f(gtX(7))} ${T}V${B}`, { stroke: 'var(--warn)', sw: 1.5, dash: '4 3', role: 'tooltip-anchor' }))
 

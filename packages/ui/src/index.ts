@@ -123,6 +123,80 @@ export type {
 export { DatePicker, Calendar } from './components/DatePicker'
 export type { DatePickerProps, CalendarProps } from './components/DatePicker'
 
+// ─── AI primitives ─────────────────────────────────────────────────────────
+export { ChatMessage } from './components/ai/ChatMessage'
+export type { ChatMessageProps, ChatRole } from './components/ai/ChatMessage'
+
+export { StreamingText } from './components/ai/StreamingText'
+export type { StreamingTextProps } from './components/ai/StreamingText'
+
+export { PromptInput } from './components/ai/PromptInput'
+export type { PromptInputProps } from './components/ai/PromptInput'
+
+export { ToolCall } from './components/ai/ToolCall'
+export type { ToolCallProps, ToolCallStatus } from './components/ai/ToolCall'
+
+export { Citation } from './components/ai/Citation'
+export type { CitationProps } from './components/ai/Citation'
+
+export { AgentAvatar } from './components/ai/AgentAvatar'
+export type { AgentAvatarProps, AgentStatus } from './components/ai/AgentAvatar'
+
+export { TokenCounter } from './components/ai/TokenCounter'
+export type { TokenCounterProps } from './components/ai/TokenCounter'
+
+export { SuggestionChips } from './components/ai/SuggestionChips'
+export type { SuggestionChipsProps } from './components/ai/SuggestionChips'
+
+export { ThinkingIndicator } from './components/ai/ThinkingIndicator'
+export type { ThinkingIndicatorProps } from './components/ai/ThinkingIndicator'
+
+export { DiffViewer } from './components/ai/DiffViewer'
+export type { DiffViewerProps, DiffLine } from './components/ai/DiffViewer'
+
+// ─── Marketing blocks ──────────────────────────────────────────────────────
+export { Hero } from './components/marketing/Hero'
+export type { HeroProps } from './components/marketing/Hero'
+
+export { FeatureGrid } from './components/marketing/FeatureGrid'
+export type { FeatureGridProps, Feature } from './components/marketing/FeatureGrid'
+
+export { PricingTable } from './components/marketing/PricingTable'
+export type { PricingTableProps, PricingTier } from './components/marketing/PricingTable'
+
+export { TestimonialWall } from './components/marketing/TestimonialWall'
+export type { TestimonialWallProps, Testimonial } from './components/marketing/TestimonialWall'
+
+export { LogoCloud } from './components/marketing/LogoCloud'
+export type { LogoCloudProps } from './components/marketing/LogoCloud'
+
+export { CTA } from './components/marketing/CTA'
+export type { CTAProps } from './components/marketing/CTA'
+
+export { StatsBar } from './components/marketing/StatsBar'
+export type { StatsBarProps, Stat } from './components/marketing/StatsBar'
+
+export { MarketingFooter } from './components/marketing/MarketingFooter'
+export type { MarketingFooterProps, FooterColumn } from './components/marketing/MarketingFooter'
+
+export { BentoGrid, BentoCell } from './components/marketing/BentoGrid'
+export type { BentoCellProps } from './components/marketing/BentoGrid'
+
+export { BorderMagic } from './components/marketing/BorderMagic'
+export type { BorderMagicProps } from './components/marketing/BorderMagic'
+
+export { MeteorBackground } from './components/marketing/MeteorBackground'
+export type { MeteorBackgroundProps } from './components/marketing/MeteorBackground'
+
+export { Sparkles } from './components/marketing/Sparkles'
+export type { SparklesProps } from './components/marketing/Sparkles'
+
+export { CardTilt } from './components/marketing/CardTilt'
+export type { CardTiltProps } from './components/marketing/CardTilt'
+
+export { TextReveal } from './components/marketing/TextReveal'
+export type { TextRevealProps } from './components/marketing/TextReveal'
+
 export { Select } from './components/Select'
 export type { SelectProps, SelectSize, SelectOption } from './components/Select'
 
@@ -318,3 +392,11 @@ export type { ContainerProps, GridProps, StackProps, StackDirection, StackAlign,
 
 export { Presence, Stagger, NumberFlow, useMotionPreference } from './components/Motion'
 export type { PresenceProps, StaggerProps, NumberFlowProps } from './components/Motion'
+
+export { DashboardBuilder } from './components/DashboardBuilder'
+export type {
+  DashboardBuilderProps,
+  DashboardBuilderWidget,
+  DashboardBuilderWidgetKind,
+  DashboardBuilderRow,
+} from './components/DashboardBuilder'

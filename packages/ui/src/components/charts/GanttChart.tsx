@@ -1,5 +1,5 @@
 import { SERIES_PALETTE as PALETTE } from './palette'
-import { forwardRef, type CSSProperties, type SVGProps } from 'react'
+import { forwardRef, useId, type CSSProperties, type SVGProps } from 'react'
 import { cx } from '../../utils/cx'
 
 export interface GanttTask {
@@ -7,6 +7,8 @@ export interface GanttTask {
   start: number
   end: number
   color?: string
+  /** Indices of predecessor tasks in the same `tasks` array. Draws dependency arrows. */
+  dependsOn?: number[]
 }
 
 export interface GanttChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'height'> {
@@ -15,6 +17,10 @@ export interface GanttChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' |
   today?: number
   width?: number
   height?: number
+  /** Alternating row backgrounds. Default true. */
+  zebra?: boolean
+  /** Draw dependency arrows between tasks that declare `dependsOn`. Default true. */
+  showDependencies?: boolean
   className?: string
   style?: CSSProperties
 }
@@ -30,9 +36,12 @@ function roundedRect(x: number, y: number, w: number, h: number, r: number): str
 }
 
 export const GanttChart = forwardRef<SVGSVGElement, GanttChartProps>(function GanttChart(
-  { tasks, labels, today, width = 520, height = 280, className, style, ...rest },
+  { tasks, labels, today, width = 520, height = 280, zebra = true, showDependencies = true, className, style, ...rest },
   ref,
 ) {
+  const uid = useId().replace(/:/g, '')
+  const arrowId = `vl-gantt-arrow-${uid}`
+
   if (!tasks || tasks.length === 0) {
     return (
       <svg
@@ -57,6 +66,34 @@ export const GanttChart = forwardRef<SVGSVGElement, GanttChartProps>(function Ga
   const barH = Math.max(6, Math.min(22, rowH * 0.6))
 
   const xFor = (v: number) => PAD_L + ((v - tMin) / span) * innerW
+  const yMid = (i: number) => PAD_T + i * rowH + rowH / 2
+
+  // Build dependency segments: 5-point orthogonal path that always exits the
+  // predecessor to the right, runs horizontally in the row-gap between the two
+  // tasks (so it never crosses any bar), then enters the target from the left.
+  interface Dep { d: string; fromIdx: number; toIdx: number }
+  const deps: Dep[] = []
+  if (showDependencies) {
+    const exitOffset = 6
+    const enterPad = 7 // keep arrowhead off the target bar's left edge
+    tasks.forEach((t, ti) => {
+      if (!t.dependsOn) return
+      for (const pi of t.dependsOn) {
+        if (pi < 0 || pi >= tasks.length || pi === ti) continue
+        const pred = tasks[pi]
+        const x0 = xFor(pred.end)
+        const y0 = yMid(pi)
+        const x1 = xFor(t.start)
+        const y1 = yMid(ti)
+        const corridor = (y0 + y1) / 2 // horizontal lane between the two row centers
+        const exitX = x0 + exitOffset  // step right out of predecessor row
+        const enterX = x1 - enterPad   // stop just before target bar
+        // 5 segments: right out of pred → down/up to corridor → across to enter column → down/up to target row → right into target
+        const d = `M ${x0} ${y0} L ${exitX} ${y0} L ${exitX} ${corridor} L ${enterX} ${corridor} L ${enterX} ${y1} L ${x1 - 2} ${y1}`
+        deps.push({ d, fromIdx: pi, toIdx: ti })
+      }
+    })
+  }
 
   return (
     <svg
@@ -69,6 +106,70 @@ export const GanttChart = forwardRef<SVGSVGElement, GanttChartProps>(function Ga
       style={{ fontFamily: 'var(--font-sans)', ...style }}
       {...rest}
     >
+      <defs>
+        <marker
+          id={arrowId}
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto"
+        >
+          <path d="M 0 1.5 L 9 5 L 0 8.5 Z" fill="var(--vl-gantt-dep, var(--ac-text))" />
+        </marker>
+      </defs>
+
+      {/* Row backgrounds — zebra stripes + outer frame */}
+      {zebra && (
+        <g data-vl-gantt-rows="">
+          <rect
+            x={PAD_L}
+            y={PAD_T}
+            width={innerW}
+            height={innerH}
+            fill="var(--vl-gantt-plot, var(--bg-1))"
+          />
+          {tasks.map((_, i) => (
+            i % 2 === 1 ? (
+              <rect
+                key={`zebra-${i}`}
+                x={PAD_L}
+                y={PAD_T + i * rowH}
+                width={innerW}
+                height={rowH}
+                fill="var(--vl-gantt-stripe, var(--bg-2))"
+                opacity={0.35}
+              />
+            ) : null
+          ))}
+          {/* Horizontal row dividers */}
+          {tasks.slice(0, -1).map((_, i) => (
+            <line
+              key={`rowline-${i}`}
+              x1={PAD_L}
+              x2={PAD_L + innerW}
+              y1={PAD_T + (i + 1) * rowH}
+              y2={PAD_T + (i + 1) * rowH}
+              stroke="var(--line)"
+              strokeWidth={0.5}
+              opacity={0.6}
+            />
+          ))}
+          {/* Plot frame */}
+          <rect
+            x={PAD_L}
+            y={PAD_T}
+            width={innerW}
+            height={innerH}
+            fill="none"
+            stroke="var(--line)"
+            strokeWidth={1}
+          />
+        </g>
+      )}
+
+      {/* Vertical time-axis grid */}
       {labels &&
         labels.map((l, i) => {
           const v = tMin + (labels.length === 1 ? 0 : (i / (labels.length - 1)) * span)
@@ -96,6 +197,7 @@ export const GanttChart = forwardRef<SVGSVGElement, GanttChartProps>(function Ga
           )
         })}
 
+      {/* Task bars + row labels */}
       {tasks.map((t, i) => {
         const c = t.color ?? PALETTE[i % PALETTE.length]
         const y = PAD_T + i * rowH + (rowH - barH) / 2
@@ -119,6 +221,22 @@ export const GanttChart = forwardRef<SVGSVGElement, GanttChartProps>(function Ga
           </g>
         )
       })}
+
+      {/* Dependency arrows — accent-tinted, routed in the row-gap so they stay off the bars */}
+      {deps.map((dep, i) => (
+        <path
+          key={`dep-${i}`}
+          data-vl-gantt-dep=""
+          d={dep.d}
+          fill="none"
+          stroke="var(--vl-gantt-dep, var(--ac-text))"
+          strokeWidth={1.25}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          markerEnd={`url(#${arrowId})`}
+          opacity={0.9}
+        />
+      ))}
 
       {today !== undefined && (
         <line

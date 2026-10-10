@@ -652,13 +652,14 @@ export const LIVE_SAMPLES: Record<string, Entry> = {
         width: 540,
         height: 300,
         today: 18,
+        labels: ['W0', 'W6', 'W12', 'W18', 'W24', 'W30', 'W34'],
         tasks: [
-          { label: 'Research', start: 0, end: 6 },
-          { label: 'Design', start: 4, end: 12 },
-          { label: 'Prototype', start: 10, end: 18 },
-          { label: 'Implementation', start: 14, end: 28 },
-          { label: 'Testing', start: 24, end: 32 },
-          { label: 'Launch', start: 30, end: 34 },
+          { label: 'Research',       start: 0,  end: 6 },                             // 0
+          { label: 'Design',         start: 4,  end: 12, dependsOn: [0] },            // 1
+          { label: 'Prototype',      start: 10, end: 18, dependsOn: [1] },            // 2
+          { label: 'Implementation', start: 14, end: 28, dependsOn: [1, 2] },         // 3
+          { label: 'Testing',        start: 24, end: 32, dependsOn: [3] },            // 4
+          { label: 'Launch',         start: 30, end: 34, dependsOn: [4] },            // 5
         ],
       },
     },

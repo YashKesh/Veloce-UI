@@ -55,7 +55,7 @@ function MiniAlertDialog() {
   )
 }
 
-type Category = 'Primitives' | 'Forms' | 'Overlays' | 'Feedback' | 'Navigation' | 'Data' | 'Layout' | 'Motion'
+type Category = 'Primitives' | 'Forms' | 'Overlays' | 'Feedback' | 'Navigation' | 'Data' | 'Layout' | 'Motion' | 'AI'
 const FILTERS: Array<'All' | Category> = ['All', 'Primitives', 'Forms', 'Overlays', 'Feedback', 'Navigation', 'Data', 'Layout', 'Motion']
 
 const HASH_TO_CATEGORY: Record<string, Category> = {
@@ -693,6 +693,18 @@ const TILES: Tile[] = [
   { name: 'Carousel', tag: 'slides', cat: 'Navigation', to: '/components/carousel', mini: <MiniText>◀ ● ▶</MiniText> },
   { name: 'Timeline', tag: 'vertical', cat: 'Navigation', to: '/components/timeline', mini: <MiniText>● • ●</MiniText> },
   { name: 'Tree', tag: 'nested', cat: 'Navigation', to: '/components/tree', mini: <MiniText>▸ ▾ ▸</MiniText> },
+
+  // AI
+  { name: 'Chat message', tag: 'user · assistant · tool', cat: 'AI', to: '/components/chat-message', mini: <MiniText>💬</MiniText> },
+  { name: 'Streaming text', tag: 'char-by-char', cat: 'AI', to: '/components/streaming-text', mini: <MiniText mono>typing…</MiniText> },
+  { name: 'Prompt input', tag: 'auto-grow', cat: 'AI', to: '/components/prompt-input', mini: <MiniText>⌨ ↑</MiniText> },
+  { name: 'Tool call', tag: 'collapsible', cat: 'AI', to: '/components/tool-call', mini: <MiniText mono>▸ run_sql</MiniText> },
+  { name: 'Citation', tag: 'hover source', cat: 'AI', to: '/components/citation', mini: <MiniText mono>[1][2]</MiniText> },
+  { name: 'Agent avatar', tag: 'status dot', cat: 'AI', to: '/components/agent-avatar', mini: <MiniText>✦●</MiniText> },
+  { name: 'Token counter', tag: 'usage + cost', cat: 'AI', to: '/components/token-counter', mini: <MiniText mono>162k · $2.43</MiniText> },
+  { name: 'Suggestion chips', tag: 'quick prompts', cat: 'AI', to: '/components/suggestion-chips', mini: <MiniText>▭ ▭ ▭</MiniText> },
+  { name: 'Thinking indicator', tag: 'pulse dots', cat: 'AI', to: '/components/thinking-indicator', mini: <MiniText>• • •</MiniText> },
+  { name: 'Diff viewer', tag: 'unified diff', cat: 'AI', to: '/components/diff-viewer', mini: <MiniText mono>+ 2  − 1</MiniText> },
 ]
 
 function MiniText({ children, mono }: { children: ReactNode; mono?: boolean }) {

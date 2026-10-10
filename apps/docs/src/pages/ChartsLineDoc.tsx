@@ -2,6 +2,7 @@ import { useRef, useState, type CSSProperties, type KeyboardEvent, type MouseEve
 import { LineChart } from 'veloce-ui'
 import { ChartsShell, ChartsBreadcrumb, ChartsTitle } from './charts/ChartsShell'
 import { AccentSwitcher } from '../components/AccentSwitcher'
+import { CodeBlock } from '../components/CodeBlock'
 import { useTheme } from '../theme'
 
 const mono: CSSProperties = { fontFamily: 'var(--font-mono)' }
@@ -116,10 +117,6 @@ function LiveLineExample() {
 const h2Style: CSSProperties = { margin: 0, fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em' }
 const proseStyle: CSSProperties = { margin: 0, fontSize: 13.5, lineHeight: 1.6, color: 'var(--fg-2)', maxWidth: 760 }
 const sectionStyle: CSSProperties = { scrollMarginTop: 20, display: 'flex', flexDirection: 'column', gap: 14 }
-const codeBoxStyle: CSSProperties = {
-  ...mono, margin: 0, padding: '18px 20px', border: '1px solid var(--line)', borderRadius: 10,
-  background: 'var(--bg-1)', fontSize: 13, lineHeight: 1.65, color: 'var(--fg)', overflowX: 'auto',
-}
 
 // ---------------------------------------------------------------------------
 // Interactive anatomy tree
@@ -599,13 +596,11 @@ export default function ChartsLineDoc() {
           component. Click a node in the tree to isolate the part it renders.
         </p>
         <AnatomyPanel />
-        <pre style={codeBoxStyle}>
-{`<ChartContainer data={rows} motion="draw">
+        <CodeBlock lang="tsx" code={`<ChartContainer data={rows} motion="draw">
   <XAxis dataKey="month" />  <YAxis format="compact" />
   <AreaSeries dataKey="revenue" />  <LineSeries dataKey="costs" color="neutral" />
   <Tooltip />  <Crosshair />  <Legend />
-</ChartContainer>`}
-        </pre>
+</ChartContainer>`} />
       </section>
 
       {/* ---------------- Area & stacking ---------------- */}
@@ -652,14 +647,12 @@ export default function ChartsLineDoc() {
             </div>
           </div>
         </div>
-        <pre style={codeBoxStyle}>
-{`// overlay — magnitude of one series
+        <CodeBlock lang="tsx" code={`// overlay — magnitude of one series
 <AreaSeries dataKey="revenue" />
 
 // stacked — composition of a total (order largest-first)
 <AreaSeries dataKey="costs" stackId="a" fade="none" />
-<AreaSeries dataKey="margin" stackId="a" fade="none" />`}
-        </pre>
+<AreaSeries dataKey="margin" stackId="a" fade="none" />`} />
         <p style={proseStyle}>
           Rules of thumb: stacks read best with at most three bands; keep band opacities monotonic
           (0.6 → 0.28 here) so depth encodes order; and never stack series with mixed signs — use a
@@ -699,8 +692,7 @@ export default function ChartsLineDoc() {
           </div>
           <span style={{ ...mono, fontSize: 10.5, color: 'var(--fg-3)', alignSelf: 'flex-end' }}>multi · minimal · rich (custom render)</span>
         </div>
-        <pre style={codeBoxStyle}>
-{`<Tooltip variant="multi" snap="nearest" />
+        <CodeBlock lang="tsx" code={`<Tooltip variant="multi" snap="nearest" />
 <Crosshair labels />
 
 // custom render — add derived rows
@@ -709,8 +701,7 @@ export default function ChartsLineDoc() {
     <Row label="Revenue" value={row.revenue} />
     <Row label="Margin" value={pct(row.revenue - row.costs, row.revenue)} />
   </Card>
-)} />`}
-        </pre>
+)} />`} />
         <p style={proseStyle}>
           The crosshair is also the keyboard cursor: ← → steps through points, ↑ ↓ switches series,
           Home/End jump to the range edges, and every move is announced via a live region — the mouse
@@ -729,13 +720,11 @@ export default function ChartsLineDoc() {
           frame crossfades in 120ms instead — flip the switch in the sidebar footer and replay.
         </p>
         <DrawInDemo />
-        <pre style={codeBoxStyle}>
-{`<ChartContainer data={rows} motion="draw">   // "draw" | "rise" | "pop" | "none"
+        <CodeBlock lang="tsx" code={`<ChartContainer data={rows} motion="draw">   // "draw" | "rise" | "pop" | "none"
   <LineSeries dataKey="revenue" />           // leads the choreography
   <LineSeries dataKey="costs" color="neutral" />  // +80ms stagger
   <Markers show="end" />                     // fades in after the line lands
-</ChartContainer>`}
-        </pre>
+</ChartContainer>`} />
       </section>
 
       {/* ---------------- Components & API ---------------- */}

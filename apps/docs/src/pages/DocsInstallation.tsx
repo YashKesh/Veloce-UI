@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { DocsShell, RightRail } from '../components/DocsShell'
 import type { TocItem } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
 
@@ -171,12 +172,9 @@ export default function DocsInstallation() {
               At your app root (e.g. <Code>main.tsx</Code>, <Code>app/layout.tsx</Code>, or <Code>_app.tsx</Code>).
               The CSS lives inside <Code>@layer veloce-ui</Code> so your own styles beat it without <Code>!important</Code>.
             </p>
-            <pre
-              className="vl-code"
-              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
-            >
+            <CodeBlock lang="tsx">
               <span className="p">import</span> <span className="s">"veloce-ui/styles.css"</span>
-            </pre>
+            </CodeBlock>
           </Step>
 
           <Step badge="3" title="Set theme attributes" id="step-3">
@@ -184,19 +182,13 @@ export default function DocsInstallation() {
               On your <Code>&lt;html&gt;</Code> tag (or any ancestor), set the mode and accent. Seven palettes ship:{' '}
               <Code>violet</Code>, <Code>lime</Code>, <Code>cyan</Code>, <Code>blue</Code>, <Code>emerald</Code>, <Code>amber</Code>, <Code>rose</Code>. Override any OKLCH token with CSS variables.
             </p>
-            <pre
-              className="vl-code"
-              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
-            >
+            <CodeBlock lang="html">
               <span className="p">&lt;html</span> <span className="p">data-mode=</span><span className="s">"dark"</span> <span className="p">data-accent=</span><span className="s">"violet"</span><span className="p">&gt;</span>
-            </pre>
+            </CodeBlock>
           </Step>
 
           <Step badge="✓" accent title="Import and use" last id="step-4">
-            <pre
-              className="vl-code"
-              style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0 }}
-            >
+            <CodeBlock lang="tsx">
               <span className="p">import</span> {'{ Button, DataGrid, LineChart }'} <span className="p">from</span>{' '}
               <span className="s">"veloce-ui"</span>
               {'\n\n'}
@@ -204,7 +196,7 @@ export default function DocsInstallation() {
               <span className="p">variant=</span><span className="s">"primary"</span>{' '}
               <span className="p">size=</span><span className="s">"lg"</span><span className="p">&gt;</span>
               Deploy<span className="p">&lt;/</span><span style={{ color: 'var(--fg)' }}>Button</span><span className="p">&gt;</span>
-            </pre>
+            </CodeBlock>
           </Step>
         </div>
 

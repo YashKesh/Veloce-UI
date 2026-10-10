@@ -7,25 +7,42 @@
 /* Subtle dot-grid, fades out toward edges + bottom so it never fights the content */
 .lp__grid{
   position:absolute;inset:-40px;
-  background-image:radial-gradient(color-mix(in oklch,var(--fg) 10%,transparent) 1px,transparent 1.4px);
+  background-image:radial-gradient(color-mix(in oklch,var(--fg) 16%,transparent) 1px,transparent 1.4px);
   background-size:22px 22px;
   background-position:0 0;
-  mask-image:radial-gradient(ellipse 80% 70% at 50% 35%,#000 55%,transparent 100%);
-  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 35%,#000 55%,transparent 100%);
-  opacity:.55;
+  mask-image:radial-gradient(ellipse 85% 75% at 50% 35%,#000 60%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 85% 75% at 50% 35%,#000 60%,transparent 100%);
+  opacity:.75;
+}
+/* Base ambient wash — subtle accent-tinted gradient top → bottom, keeps the page from feeling flat */
+.lp__wash{position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(180deg,
+    color-mix(in oklch,var(--ac) 9%,transparent) 0%,
+    transparent 24%,
+    transparent 70%,
+    color-mix(in oklch,var(--ac) 6%,transparent) 100%);
 }
 /* Accent glow — top-right (original hero glow) */
 .lp__glow{position:absolute;pointer-events:none;filter:blur(8px)}
-.lp__glow--tr{inset:-120px -120px auto auto;width:900px;height:520px;background:radial-gradient(60% 60% at 70% 30%,color-mix(in oklch,var(--ac) 35%,transparent),transparent 70%)}
-.lp__glow--bl{inset:auto auto -140px -120px;width:720px;height:460px;background:radial-gradient(60% 60% at 30% 70%,color-mix(in oklch,var(--ac) 22%,transparent),transparent 70%)}
+.lp__glow--tr{inset:-120px -120px auto auto;width:1000px;height:600px;background:radial-gradient(60% 60% at 70% 30%,color-mix(in oklch,var(--ac) 50%,transparent),transparent 70%)}
+.lp__glow--bl{inset:auto auto -160px -140px;width:820px;height:520px;background:radial-gradient(60% 60% at 30% 70%,color-mix(in oklch,var(--ac) 32%,transparent),transparent 70%)}
 /* Soft colored orbs for depth — low opacity, heavily blurred */
-.lp__orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.42}
-.lp__orb--a{top:-80px;left:38%;width:380px;height:380px;background:radial-gradient(circle,color-mix(in oklch,var(--ac) 55%,transparent),transparent 70%)}
-.lp__orb--b{top:360px;right:14%;width:300px;height:300px;background:radial-gradient(circle,color-mix(in oklch,var(--ac) 40%,var(--bg)),transparent 68%);opacity:.3}
+.lp__orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.6}
+.lp__orb--a{top:-80px;left:38%;width:420px;height:420px;background:radial-gradient(circle,color-mix(in oklch,var(--ac) 65%,transparent),transparent 70%)}
+.lp__orb--b{top:360px;right:14%;width:340px;height:340px;background:radial-gradient(circle,color-mix(in oklch,var(--ac) 55%,var(--bg)),transparent 68%);opacity:.45}
+.lp__orb--c{top:auto;bottom:12%;left:8%;width:360px;height:360px;background:radial-gradient(circle,color-mix(in oklch,var(--ac) 42%,transparent),transparent 70%);opacity:.35;filter:blur(80px)}
 
-:root[data-mode="light"] .lp__grid{opacity:.75}
-:root[data-mode="light"] .lp__orb{opacity:.28}
-:root[data-mode="light"] .lp__orb--b{opacity:.2}
+:root[data-mode="light"] .lp__grid{opacity:.9}
+:root[data-mode="light"] .lp__orb{opacity:.4}
+:root[data-mode="light"] .lp__orb--b{opacity:.3}
+:root[data-mode="light"] .lp__orb--c{opacity:.22}
+:root[data-mode="light"] .lp__wash{background:
+  linear-gradient(180deg,
+    color-mix(in oklch,var(--ac) 6%,transparent) 0%,
+    transparent 28%,
+    transparent 70%,
+    color-mix(in oklch,var(--ac) 4%,transparent) 100%);
+}
 
 .lp__hero{display:grid;grid-template-columns:660px 1fr;gap:48px;padding:96px 48px 72px;align-items:center}
 .lp__left{display:flex;flex-direction:column;gap:28px}

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DocsShell, RightRail } from './DocsShell'
 import type { TocItem } from './DocsShell'
@@ -81,12 +81,48 @@ const TOC: TocItem[] = [
 
 export function CodeBlock({ children }: { children: ReactNode }) {
   return (
-    <pre
-      className="vl-code"
-      style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0, overflowX: 'auto' }}
+    <div style={{ position: 'relative' }}>
+      <CopyButton />
+      <pre
+        className="vl-code"
+        style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0, overflowX: 'auto' }}
+      >
+        {children}
+      </pre>
+    </div>
+  )
+}
+
+function CopyButton() {
+  const [copied, setCopied] = useState(false)
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        const pre = e.currentTarget.parentElement?.querySelector('pre')
+        const text = pre?.innerText ?? ''
+        if (!text) return
+        navigator.clipboard.writeText(text).then(
+          () => {
+            setCopied(true)
+            window.setTimeout(() => setCopied(false), 1400)
+          },
+          () => {}
+        )
+      }}
+      aria-label={copied ? 'Copied' : 'Copy code'}
+      style={{
+        position: 'absolute', top: 8, right: 8, zIndex: 2,
+        padding: '4px 10px', fontSize: 11.5, borderRadius: 6,
+        border: '1px solid var(--line-2)',
+        background: copied ? 'color-mix(in oklch, var(--ok) 15%, var(--bg-1))' : 'var(--bg-1)',
+        color: copied ? 'var(--ok)' : 'var(--fg-2)',
+        cursor: 'pointer', fontFamily: 'inherit',
+        transition: 'background 150ms, color 150ms',
+      }}
     >
-      {children}
-    </pre>
+      {copied ? '✓ Copied' : 'Copy'}
+    </button>
   )
 }
 

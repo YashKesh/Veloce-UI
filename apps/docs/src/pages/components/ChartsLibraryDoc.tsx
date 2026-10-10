@@ -1,5 +1,6 @@
 import { LineChart, AreaChart, BarChart, PieChart, SparklineChart, GaugeChart, ScatterChart, CandleChart, RadarChart, FunnelChart, WaterfallChart, TreemapChart, HeatmapChart } from 'veloce-ui'
 import { ComponentDoc, Section } from '../../components/ComponentDoc'
+import { CodeBlock } from '../../components/CodeBlock'
 
 const TOC = [
   { label: 'Live example', id: 'preview', active: true },
@@ -253,8 +254,7 @@ export default function ChartsLibraryDoc() {
       </Section>
 
       <Section id="api" title="API">
-        <pre className="vl-code" style={{ padding: '14px 16px', fontSize: 12.5, lineHeight: 1.65 }}>
-{`LineChart     { data, series?, width, height, showGrid, showDots, smooth, strokeWidth, color?, yFormat? }
+        <CodeBlock lang="ts" code={`LineChart     { data, series?, width, height, showGrid, showDots, smooth, strokeWidth, color?, yFormat? }
 AreaChart     { data, series?, width, height, showGrid, smooth, color?, yFormat? }
 BarChart      { data, series?, width, height, barGap, groupGap, showGrid, showValues, color?, yFormat? }
 PieChart      { data: { label, value, color? }[], size, innerRadius?, padAngle, showLabels?, centerLabel?, centerSublabel? }
@@ -266,8 +266,7 @@ FunnelChart   { data: { label, value, color? }[], width, height, gap }
 WaterfallChart{ data: { label, value, type?: 'bar'|'total' }[], width, height, showValues }
 TreemapChart  { data: { label, value, color? }[], width, height, padding }
 HeatmapChart  { data: { x, y, value }[], width, height, color? }
-GaugeChart    { value, max, size, thickness, color?, thresholds?, label?, sublabel?, format?, animated?, showHoverTooltip?, showNeedle?, showTicks?, showEndLabels? }`}
-        </pre>
+GaugeChart    { value, max, size, thickness, color?, thresholds?, label?, sublabel?, format?, animated?, showHoverTooltip?, showNeedle?, showTicks?, showEndLabels? }`} />
         <p style={{ marginTop: 10, color: 'var(--fg-3)', fontSize: 12.5 }}>
           All components forward refs to the underlying <code className="s">&lt;svg&gt;</code> and carry <code className="s">data-vl-chart</code> for style hooks.
         </p>

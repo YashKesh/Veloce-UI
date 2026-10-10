@@ -1,6 +1,7 @@
 import { useState, type CSSProperties } from 'react'
 import { Button, Switch, Checkbox, Card } from 'veloce-ui'
 import { DocsShell, RightRail } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
 
@@ -15,25 +16,8 @@ const TOC = [
   { label: 'Writing your own', id: 'wrap' },
 ]
 
-function Code({ children }: { children: React.ReactNode }) {
-  return (
-    <pre
-      style={{
-        ...mono,
-        margin: 0,
-        padding: '14px 16px',
-        background: 'var(--bg-1)',
-        border: '1px solid var(--line)',
-        borderRadius: 10,
-        fontSize: 12.5,
-        color: 'var(--fg)',
-        overflow: 'auto',
-        lineHeight: 1.55,
-      }}
-    >
-      {children}
-    </pre>
-  )
+function Code({ children }: { children: string }) {
+  return <CodeBlock lang="tsx" code={children} />
 }
 
 function H2({ children, id }: { children: React.ReactNode; id: string }) {

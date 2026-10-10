@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import { DocsShell } from '../components/DocsShell'
+import { CodeBlock } from '../components/CodeBlock'
 import { DOCS_SIDEBAR } from '../docsNav'
 import { Seo } from '../Seo'
 
@@ -37,7 +38,7 @@ function PrimitiveCard({
         </div>
         <div style={{ fontSize: 12.5, lineHeight: 1.5, color: 'var(--fg-2)' }}>{copy}</div>
         {api && (
-          <pre style={{ ...mono, margin: 0, marginTop: 4, fontSize: 11.5, lineHeight: 1.5, color: 'var(--fg-3)', whiteSpace: 'pre-wrap' }}>{api}</pre>
+          <CodeBlock lang="tsx" code={api} style={{ marginTop: 4 }} />
         )}
       </div>
     </div>
