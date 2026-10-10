@@ -11,7 +11,7 @@ export default function PinInputDoc() {
       description="OTP-style multi-cell input for codes. Auto-advances on digit entry, Backspace moves back, paste fills all cells."
       preview={
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
-          <PinInput length={6} value={code} onValueChange={setCode} onComplete={(v) => alert(`Entered: ${v}`)} />
+          <PinInput length={6} value={code} onValueChange={setCode} onComplete={(v: string) => alert(`Entered: ${v}`)} />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--fg-3)' }}>
             {code.length} / 6 digits
           </span>
