@@ -97,8 +97,85 @@ const HASH_FRAMEWORK: Record<string, (typeof FRAMEWORKS)[number]> = {
   '#frameworks-astro': 'Astro',
 }
 
+type FwSetup = {
+  styleFile: string
+  styleLang: string
+  styleCode: string
+  htmlFile: string
+  htmlLang: string
+  htmlCode: string
+}
+
+const FW_SETUP: Record<(typeof FRAMEWORKS)[number], FwSetup> = {
+  'Next.js': {
+    styleFile: 'app/layout.tsx',
+    styleLang: 'tsx',
+    styleCode: 'import "veloce-ui/styles.css"',
+    htmlFile: 'app/layout.tsx',
+    htmlLang: 'tsx',
+    htmlCode: `export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" data-mode="dark" data-accent="violet">
+      <body>{children}</body>
+    </html>
+  )
+}`,
+  },
+  Vite: {
+    styleFile: 'src/main.tsx',
+    styleLang: 'tsx',
+    styleCode: 'import "veloce-ui/styles.css"',
+    htmlFile: 'index.html',
+    htmlLang: 'html',
+    htmlCode: '<html lang="en" data-mode="dark" data-accent="violet">',
+  },
+  Remix: {
+    styleFile: 'app/root.tsx',
+    styleLang: 'tsx',
+    styleCode: 'import "veloce-ui/styles.css"',
+    htmlFile: 'app/root.tsx',
+    htmlLang: 'tsx',
+    // Remix is now React Router v7, which supports React 19 (Remix v2 pins React 18).
+    htmlCode: `import { Links, Meta, Outlet, Scripts } from "react-router"
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" data-mode="dark" data-accent="violet">
+      <head><Meta /><Links /></head>
+      <body>{children}<Scripts /></body>
+    </html>
+  )
+}
+
+export default function App() {
+  return <Outlet />
+}`,
+  },
+  Astro: {
+    styleFile: 'src/layouts/Layout.astro',
+    styleLang: 'astro',
+    styleCode: `---
+import "veloce-ui/styles.css"
+---`,
+    htmlFile: 'src/layouts/Layout.astro',
+    htmlLang: 'astro',
+    htmlCode: `<html lang="en" data-mode="dark" data-accent="violet">
+  <body><slot /></body>
+</html>`,
+  },
+  Manual: {
+    styleFile: 'your app entry',
+    styleLang: 'tsx',
+    styleCode: 'import "veloce-ui/styles.css"',
+    htmlFile: 'your root HTML document',
+    htmlLang: 'html',
+    htmlCode: '<html data-mode="dark" data-accent="violet">',
+  },
+}
+
 export default function DocsInstallation() {
   const [framework, setFramework] = useState<(typeof FRAMEWORKS)[number]>('Next.js')
+  const fw = FW_SETUP[framework]
   const { hash } = useLocation()
 
   useEffect(() => {
@@ -169,22 +246,17 @@ export default function DocsInstallation() {
 
           <Step badge="2" title="Import the stylesheet once" id="step-2">
             <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-              At your app root (e.g. <Code>main.tsx</Code>, <Code>app/layout.tsx</Code>, or <Code>_app.tsx</Code>).
-              The CSS lives inside <Code>@layer veloce-ui</Code> so your own styles beat it without <Code>!important</Code>.
+              In <Code>{fw.styleFile}</Code> for {framework}. The CSS lives inside <Code>@layer veloce-ui</Code> so your own styles beat it without <Code>!important</Code>.
             </p>
-            <CodeBlock lang="tsx">
-              <span className="p">import</span> <span className="s">"veloce-ui/styles.css"</span>
-            </CodeBlock>
+            <CodeBlock lang={fw.styleLang} code={fw.styleCode} />
           </Step>
 
           <Step badge="3" title="Set theme attributes" id="step-3">
             <p style={{ fontSize: 14, lineHeight: 1.55, color: 'var(--fg-2)' }}>
-              On your <Code>&lt;html&gt;</Code> tag (or any ancestor), set the mode and accent. Seven palettes ship:{' '}
+              On the <Code>&lt;html&gt;</Code> tag in <Code>{fw.htmlFile}</Code> (or any ancestor), set the mode and accent. Seven palettes ship:{' '}
               <Code>violet</Code>, <Code>lime</Code>, <Code>cyan</Code>, <Code>blue</Code>, <Code>emerald</Code>, <Code>amber</Code>, <Code>rose</Code>. Override any OKLCH token with CSS variables.
             </p>
-            <CodeBlock lang="html">
-              <span className="p">&lt;html</span> <span className="p">data-mode=</span><span className="s">"dark"</span> <span className="p">data-accent=</span><span className="s">"violet"</span><span className="p">&gt;</span>
-            </CodeBlock>
+            <CodeBlock lang={fw.htmlLang} code={fw.htmlCode} />
           </Step>
 
           <Step badge="✓" accent title="Import and use" last id="step-4">
