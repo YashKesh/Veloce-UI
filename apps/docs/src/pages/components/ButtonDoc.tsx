@@ -29,14 +29,10 @@ export default function ButtonDoc() {
       preview={
         <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
           <Button data-testid="veloce-ui-button" variant="primary">Deploy</Button>
-          <button className="vl-btn vl-btn--md vl-btn--soft">Deploy</button>
-          <button className="vl-btn vl-btn--md vl-btn--outline">Deploy</button>
-          <button className="vl-btn vl-btn--md vl-btn--ghost">Deploy</button>
-          <button className="vl-btn vl-btn--md vl-btn--destructive">Delete</button>
-          <span className="vl-btn vl-btn--md vl-btn--solid" style={{ boxShadow: 'none', opacity: 0.85 }}>
-            <span className="vl-spinner" style={{ width: 14, height: 14, borderColor: 'var(--ac-fg)', borderRightColor: 'transparent' }} />
-            Deploying
-          </span>
+          <Button variant="outline">Deploy</Button>
+          <Button variant="ghost">Deploy</Button>
+          <Button variant="destructive">Delete</Button>
+          <Button variant="primary" disabled>Deploying…</Button>
         </div>
       }
       usage={
@@ -57,54 +53,49 @@ export default function ButtonDoc() {
     >
       <Section id="variants" title="Variants & sizes">
         <div
-          className="vl-panel"
-          style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 18 }}
+          style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 18, border: '1px solid var(--line)', borderRadius: 12, background: 'var(--bg-1)' }}
         >
-          <Row label="sm · 30">
-            <button className="vl-btn vl-btn--sm vl-btn--solid">Deploy</button>
-            <button className="vl-btn vl-btn--sm vl-btn--soft">Deploy</button>
-            <button className="vl-btn vl-btn--sm vl-btn--outline">Deploy</button>
-            <button className="vl-btn vl-btn--sm vl-btn--ghost">Deploy</button>
+          <Row label="sm">
+            <Button variant="primary" size="sm">Deploy</Button>
+            <Button variant="outline" size="sm">Deploy</Button>
+            <Button variant="ghost" size="sm">Deploy</Button>
+            <Button variant="destructive" size="sm">Delete</Button>
           </Row>
-          <Row label="md · 36">
-            <button className="vl-btn vl-btn--md vl-btn--solid">Deploy</button>
-            <button className="vl-btn vl-btn--md vl-btn--soft">Deploy</button>
-            <button className="vl-btn vl-btn--md vl-btn--outline">Deploy</button>
-            <button className="vl-btn vl-btn--md vl-btn--ghost">Deploy</button>
+          <Row label="md">
+            <Button variant="primary">Deploy</Button>
+            <Button variant="outline">Deploy</Button>
+            <Button variant="ghost">Deploy</Button>
+            <Button variant="destructive">Delete</Button>
           </Row>
-          <Row label="lg · 44">
-            <button className="vl-btn vl-btn--lg vl-btn--solid">Deploy</button>
-            <button className="vl-btn vl-btn--lg vl-btn--soft">Deploy</button>
-            <button className="vl-btn vl-btn--lg vl-btn--outline">Deploy</button>
-            <button className="vl-btn vl-btn--lg vl-btn--ghost">Deploy</button>
+          <Row label="lg">
+            <Button variant="primary" size="lg">Deploy</Button>
+            <Button variant="outline" size="lg">Deploy</Button>
+            <Button variant="ghost" size="lg">Deploy</Button>
+            <Button variant="destructive" size="lg">Delete</Button>
           </Row>
           <Row label="states">
-            <span
-              className="vl-btn vl-btn--md vl-btn--solid"
-              style={{ transform: 'scale(.97)', boxShadow: 'inset 0 1px 2px oklch(0 0 0/.3)' }}
-            >
-              Pressed
-            </span>
-            <span className="vl-btn vl-btn--md vl-btn--solid vl-btn--focus">Focused</span>
-            <span className="vl-btn vl-btn--md vl-btn--solid" style={{ opacity: 0.85 }}>
+            <Button variant="primary" disabled>Disabled</Button>
+            <Button variant="outline" disabled>Disabled</Button>
+            <Button variant="primary" style={{ opacity: 0.9 }}>
               <span
+                aria-hidden
                 style={{
                   display: 'inline-block',
-                  width: 13,
-                  height: 13,
+                  width: 12,
+                  height: 12,
                   borderRadius: '50%',
-                  border: '2px solid var(--ac-fg)',
+                  border: '2px solid currentColor',
                   borderRightColor: 'transparent',
                   animation: 'vl-spin .7s linear infinite',
+                  marginRight: 8,
+                  verticalAlign: '-2px',
                 }}
               />
               Deploying
-            </span>
-            <span className="vl-btn vl-btn--md vl-btn--outline" style={{ padding: '0 14px 0 12px' }}>
-              <span style={{ fontSize: 13 }}>↗</span>With icon
-            </span>
-            <button className="vl-btn vl-btn--md vl-btn--disabled" disabled>Disabled</button>
-            <button className="vl-btn vl-btn--md vl-btn--destructive">Destructive</button>
+            </Button>
+            <Button variant="outline">
+              <span style={{ fontSize: 13, marginRight: 6 }}>↗</span>With icon
+            </Button>
           </Row>
         </div>
       </Section>
