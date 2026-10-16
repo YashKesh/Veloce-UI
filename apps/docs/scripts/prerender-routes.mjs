@@ -108,3 +108,34 @@ for (const [path, meta] of Object.entries(ROUTE_META)) {
   written++
 }
 console.log(`[prerender-routes] wrote ${written} HTML files (${skipped} skipped)`)
+
+/* ─── Sitemap ───────────────────────────────────────────────────────────────
+ * Also regenerate public/sitemap.xml from the same route list so SEO stays
+ * in sync with the router. Keeps lastmod aligned with today's build date.
+ */
+const today = new Date().toISOString().slice(0, 10)
+const publicDir = join(here, '..', 'public')
+const priorityFor = (path) => {
+  if (path === '/') return '1.0'
+  if (path === '/components' || path === '/charts') return '0.9'
+  if (path.startsWith('/components/') || path.startsWith('/docs/charts/')) return '0.8'
+  if (path.startsWith('/docs/') || path.startsWith('/dashboards')) return '0.7'
+  return '0.6'
+}
+const urlEntries = Object.keys(ROUTE_META)
+  .sort()
+  .map((p) => {
+    const loc = `${SITE}${p === '/' ? '/' : p}`
+    return `  <url><loc>${loc}</loc><lastmod>${today}</lastmod><priority>${priorityFor(p)}</priority></url>`
+  })
+  .join('\n')
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urlEntries}
+</urlset>
+`
+const sitemapSrc = join(publicDir, 'sitemap.xml')
+const sitemapOut = join(distDir, 'sitemap.xml')
+writeFileSync(sitemapSrc, sitemap)
+writeFileSync(sitemapOut, sitemap)
+console.log(`[prerender-routes] wrote sitemap.xml with ${Object.keys(ROUTE_META).length} URLs`)
