@@ -220,17 +220,19 @@ const ridgeline = makePage({
   id: 'ridgeline', name: 'Ridgeline',
   tagline: 'Overlapping density curves offset down the page — a "joyplot". Shared x-axis lets you track how a distribution shifts across many groups without a dense heatmap.',
   tree: tree(
-    [['∿', 'RidgeSeries', 'values', 'active', 'series-0']],
+    rowLabels.map((lbl, i): import('../chartsData').SeriesEntry =>
+      ['∿', 'RidgeSeries', lbl.toLowerCase(), i === 0 ? 'active' : '', `series-${i}`],
+    ),
     [['▭', 'Tooltip', 1]],
   ),
   shapes: [
     ...grid(),
     ...rowLabels.map((_, i) => {
       const baseY = T + rGap * (i + 1)
-      return sh(ridge(baseY, i * 1.4), { fill: mix(30), op: 0.75, stroke: AC, sw: 1.25, role: 'series-0' })
+      return sh(ridge(baseY, i * 1.4), { fill: mix(30), op: 0.75, stroke: AC, sw: 1.25, role: `series-${i}` })
     }),
   ],
-  texts: rowLabels.map((lbl, i) => tx(24, T + rGap * (i + 1) + 3, lbl, { a: 'end', role: 'yaxis' })),
+  texts: rowLabels.map((lbl, i) => tx(24, T + rGap * (i + 1) + 3, lbl, { a: 'end', role: `series-${i}` })),
   xlabels: ['-10', '0', '10', '20', '30', '40'],
   tip: {
     left: '54.0%',

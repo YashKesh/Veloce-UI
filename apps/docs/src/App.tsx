@@ -61,6 +61,17 @@ const TokenCounterDoc = lazy(() => import('./pages/components/TokenCounterDoc'))
 const SuggestionChipsDoc = lazy(() => import('./pages/components/SuggestionChipsDoc'))
 const ThinkingIndicatorDoc = lazy(() => import('./pages/components/ThinkingIndicatorDoc'))
 const DiffViewerDoc = lazy(() => import('./pages/components/DiffViewerDoc'))
+const ColorPickerDoc = lazy(() => import('./pages/components/ColorPickerDoc'))
+const ColorInputDoc = lazy(() => import('./pages/components/ColorInputDoc'))
+const ColorSwatchDoc = lazy(() => import('./pages/components/ColorSwatchDoc'))
+const ContrastCheckerDoc = lazy(() => import('./pages/components/ContrastCheckerDoc'))
+const ChartsSparklineGridDoc = lazy(() => import('./pages/charts/ChartsSparklineGridDoc'))
+const ChartsAnnotationsDoc = lazy(() => import('./pages/charts/ChartsAnnotationsDoc'))
+const ChartsBrushDoc = lazy(() => import('./pages/charts/ChartsBrushDoc'))
+const ChartsLiveLineDoc = lazy(() => import('./pages/charts/ChartsLiveLineDoc'))
+const ChartsComparisonDoc = lazy(() => import('./pages/charts/ChartsComparisonDoc'))
+const GradientBuilderDoc = lazy(() => import('./pages/components/GradientBuilderDoc'))
+const ShadowBuilderDoc = lazy(() => import('./pages/components/ShadowBuilderDoc'))
 const MarketingBlocksDoc = lazy(() => import('./pages/components/MarketingBlocksDoc'))
 const MarketingBlockDoc = lazy(() => import('./pages/components/MarketingBlockDoc'))
 const DashboardIndex = lazy(() => import('./pages/dashboards/DashboardIndex'))
@@ -215,6 +226,22 @@ export default function App() {
           <Route path="/components/suggestion-chips" element={<SuggestionChipsDoc />} />
           <Route path="/components/thinking-indicator" element={<ThinkingIndicatorDoc />} />
           <Route path="/components/diff-viewer" element={<DiffViewerDoc />} />
+          <Route path="/components/color-picker" element={<ColorPickerDoc />} />
+          <Route path="/components/color-input" element={<ColorInputDoc />} />
+          <Route path="/components/color-swatch" element={<ColorSwatchDoc />} />
+          <Route path="/components/contrast-checker" element={<ContrastCheckerDoc />} />
+          <Route path="/components/gradient-builder" element={<GradientBuilderDoc />} />
+          <Route path="/components/shadow-builder" element={<ShadowBuilderDoc />} />
+          <Route path="/docs/charts/sparkline-grid" element={<ChartsSparklineGridDoc />} />
+          <Route path="/docs/charts/annotations" element={<ChartsAnnotationsDoc />} />
+          <Route path="/docs/charts/brush" element={<ChartsBrushDoc />} />
+          <Route path="/docs/charts/live-line" element={<ChartsLiveLineDoc />} />
+          <Route path="/docs/charts/comparison" element={<ChartsComparisonDoc />} />
+          <Route path="/components/sparkline-grid" element={<Navigate to="/docs/charts/sparkline-grid" replace />} />
+          <Route path="/components/annotations-layer" element={<Navigate to="/docs/charts/annotations" replace />} />
+          <Route path="/components/brush-chart" element={<Navigate to="/docs/charts/brush" replace />} />
+          <Route path="/components/live-line-chart" element={<Navigate to="/docs/charts/live-line" replace />} />
+          <Route path="/components/comparison-line-chart" element={<Navigate to="/docs/charts/comparison" replace />} />
           <Route path="/components/marketing-blocks" element={<MarketingBlocksDoc />} />
           <Route path="/components/marketing/:slug" element={<MarketingBlockDoc />} />
           <Route path="/dashboards" element={<DashboardIndex />} />

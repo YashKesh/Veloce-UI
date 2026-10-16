@@ -279,6 +279,27 @@ export type { BarChartProps, BarChartSeries } from './components/charts/BarChart
 export { SparklineChart } from './components/charts/SparklineChart'
 export type { SparklineChartProps, SparklineChartType } from './components/charts/SparklineChart'
 
+export { SparklineGrid } from './components/charts/SparklineGrid'
+export type { SparklineGridProps, SparklineGridRow } from './components/charts/SparklineGrid'
+
+export { AnnotationsLayer } from './components/charts/AnnotationsLayer'
+export type {
+  AnnotationsLayerProps,
+  Annotation,
+  AnnotationPoint,
+  AnnotationThreshold,
+  AnnotationRange,
+} from './components/charts/AnnotationsLayer'
+
+export { BrushChart } from './components/charts/BrushChart'
+export type { BrushChartProps, BrushRange } from './components/charts/BrushChart'
+
+export { LiveLineChart, decimate } from './components/charts/LiveLineChart'
+export type { LiveLineChartProps, LiveLineChartHandle } from './components/charts/LiveLineChart'
+
+export { ComparisonLineChart } from './components/charts/ComparisonLineChart'
+export type { ComparisonLineChartProps, ComparisonSeries } from './components/charts/ComparisonLineChart'
+
 export { PieChart } from './components/charts/PieChart'
 export type { PieChartProps, PieChartDatum } from './components/charts/PieChart'
 
@@ -400,3 +421,47 @@ export type {
   DashboardBuilderWidgetKind,
   DashboardBuilderRow,
 } from './components/DashboardBuilder'
+
+export { ColorSwatch } from './components/ColorSwatch'
+export type { ColorSwatchProps, ColorSwatchSize, ColorSwatchShape } from './components/ColorSwatch'
+
+export { ColorPicker } from './components/ColorPicker'
+export type { ColorPickerProps, ColorPickerSize, ColorFormat } from './components/ColorPicker'
+
+export { ColorInput } from './components/ColorInput'
+export type { ColorInputProps, ColorInputSize } from './components/ColorInput'
+
+export { ContrastChecker } from './components/ContrastChecker'
+export type { ContrastCheckerProps } from './components/ContrastChecker'
+
+export { GradientBuilder } from './components/GradientBuilder'
+export type {
+  GradientBuilderProps,
+  GradientValue,
+  GradientStop,
+  GradientType,
+  GradientExportFormat,
+} from './components/GradientBuilder'
+
+export { ShadowBuilder } from './components/ShadowBuilder'
+export type { ShadowBuilderProps, ShadowLayer, ShadowExportFormat } from './components/ShadowBuilder'
+
+export {
+  parseColor,
+  fromRgb,
+  parseHex,
+  rgbToHex,
+  parseRgbString,
+  formatRgb,
+  rgbToHsl,
+  hslToRgb,
+  parseHslString,
+  formatHsl,
+  rgbToOklch,
+  oklchToRgb,
+  parseOklchString,
+  formatOklch,
+  getContrastRatio,
+  wcagLevel,
+} from './utils/color'
+export type { ColorValue, Rgb, Hsl, Oklch, WcagLevel } from './utils/color'

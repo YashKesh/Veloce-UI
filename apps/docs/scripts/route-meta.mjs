@@ -142,6 +142,21 @@ export const ROUTE_META = Object.fromEntries([
   comp('Layout primitives', 'layout', 'Four zero-runtime layout components — Container, Grid, Stack, AspectRatio — that compile to flex and grid.'),
   comp('Motion utilities', 'motion-utilities', 'Three JS helpers for exit animations, stagger choreography, and value tweening. Each respects prefers-reduced-motion.'),
 
+  // Color pack
+  comp('Color picker', 'color-picker', 'Full-featured color picker with HEX, RGB, HSL, and OKLCH tabs, SV square, hue + alpha sliders, EyeDropper API, and preset palette.'),
+  comp('Color input', 'color-input', 'Compact form field with inline swatch trigger that opens a ColorPicker in a popover. Supports HEX, RGB, HSL, and OKLCH output.'),
+  comp('Color swatch', 'color-swatch', 'Primitive readonly chip that displays a color. Automatically renders a checkered background behind translucent values.'),
+  comp('Contrast checker', 'contrast-checker', 'WCAG 2.1 contrast calculator with live ratio and AA / AAA pass/fail badges for both normal and large text sizes.'),
+  comp('Gradient builder', 'gradient-builder', 'Multi-stop gradient editor (linear / radial / conic) with draggable stops, OKLCH-ready export, and copy-to-clipboard in CSS or Tailwind.'),
+  comp('Shadow builder', 'shadow-builder', 'Layered box-shadow editor with per-layer offset, blur, spread, inset, and color controls. Exports as CSS, Tailwind arbitrary value, or CSS variable.'),
+
+  // Chart extras pack (full chart-doc layout under /docs/charts/*)
+  chartDoc('Sparkline grid', 'sparkline-grid', 'Grid of mini sparklines for dashboards, tables, and metric panels. Each row renders label, sparkline, current value, and delta badge.'),
+  chartDoc('Annotations layer', 'annotations', 'Composable overlay for LineChart. Renders point markers, horizontal threshold lines, and vertical range bands using the same coordinate space.'),
+  chartDoc('Brush chart', 'brush', 'LineChart with a draggable brush selector below for panning and resizing the visible range.'),
+  chartDoc('Live line chart', 'live-line', 'Streaming line chart with a ring buffer, imperative push API, and pause/resume + clear controls.'),
+  chartDoc('Comparison line chart', 'comparison', 'Overlay the current period against a previous period with a dashed muted line and a delta badge computed by a configurable aggregate.'),
+
   // 13 chart detail pages
   chartDoc('Line', 'line', 'Smooth multi-series line chart with gradient underfill, grid lines, and configurable axis labels.'),
   chartDoc('Area · stacked', 'area', 'Area chart with stronger fill than Line. Supports stacking multiple series.'),

@@ -43,17 +43,31 @@ const sunburst = makePage({
   id: 'sunburst', name: 'Sunburst chart',
   tagline: 'Concentric rings turn a value-weighted hierarchy into nested arcs. Each ring is a level; sweep angle encodes the rolled-up share, and children inherit a lighter tint of the parent.',
   tree: tree(
-    [['◔', 'SunburstChart', 'traffic', 'active', 'series-0']],
+    [
+      ['◔', 'SunburstRing', 'channels', 'active', 'series-0'],
+      ['◔', 'SunburstRing', 'sub-channels', '', 'series-1'],
+    ],
     [['▭', 'Tooltip', 1]],
     false,
   ),
   shapes: [
     sh(`M${CX - 24} ${CY}a24 24 0 1 0 48 0a24 24 0 1 0 -48 0`, { fill: 'var(--bg)', stroke: 'var(--line-2)', sw: 1, role: 'polar' }),
     ...sbInner.map(([a0, a1, c]) => sh(ringSector(24, 54, a0 + sbRot, a1 + sbRot), { fill: c, stroke: 'var(--bg)', sw: 1, role: 'series-0' })),
-    ...sbOuter.map(([a0, a1, c]) => sh(ringSector(54, 86, a0 + sbRot, a1 + sbRot), { fill: c, stroke: 'var(--bg)', sw: 1, role: 'series-0' })),
+    ...sbOuter.map(([a0, a1, c]) => sh(ringSector(54, 86, a0 + sbRot, a1 + sbRot), { fill: c, stroke: 'var(--bg)', sw: 1, role: 'series-1' })),
     sh(wedge(86, TAU * 0.1 + sbRot, TAU * 0.2 + sbRot), { fill: 'none', stroke: 'var(--fg-2)', sw: 1.5, dash: '3 3', role: 'tooltip-anchor' }),
   ],
-  texts: [tx(CX, CY + 3, 'traffic', { a: 'middle', fill: N, size: 9 })],
+  texts: [
+    tx(CX, CY + 3, 'traffic', { a: 'middle', fill: N, size: 9 }),
+    // Inner-ring (channels) labels, placed at the mid-radius of each arc
+    ...sbInner.map(([a0, a1, _c], i) => {
+      const names = ['Organic', 'Paid', 'Referral']
+      const aMid = (a0 + a1) / 2 + sbRot
+      const r = (24 + 54) / 2
+      return tx(CX + r * Math.cos(aMid), CY + r * Math.sin(aMid) + 3, names[i], {
+        a: 'middle', fill: 'var(--fg)', size: 10, w: 500, sans: true, role: 'series-0',
+      })
+    }),
+  ],
   xlabels: [],
   tip: {
     left: '58.0%', title: 'Organic › Search',
@@ -213,8 +227,9 @@ const wCounts: [number, string, string][] = [
   [15, AC35, 'Transport'],
   [20, mix(20), 'Savings'],
 ]
-const wCellColors: string[] = []
-wCounts.forEach(([n, c]) => { for (let k = 0; k < n; k++) wCellColors.push(c) })
+// Build an array of [color, categoryIndex] per cell so each cell knows its series.
+const wCellMeta: [string, number][] = []
+wCounts.forEach(([n, c], ci) => { for (let k = 0; k < n; k++) wCellMeta.push([c, ci]) })
 const wGap = 2.4, wCell = 15, wStep = wCell + wGap
 const wX0 = CX - (10 * wStep - wGap) / 2
 const wY0 = CY - (10 * wStep - wGap) / 2
@@ -225,17 +240,20 @@ for (let idx = 0; idx < 100; idx++) {
   const x = wX0 + col * wStep
   const y = wY0 + (9 - row) * wStep
   const hot = idx === 55
+  const [fill, ci] = wCellMeta[idx]
   waffleCells.push(sh(`M${x.toFixed(1)} ${y.toFixed(1)}h${wCell}v${wCell}h${-wCell}z`, {
-    fill: wCellColors[idx], op: hot ? 1 : 0.92,
+    fill, op: hot ? 1 : 0.92,
     stroke: hot ? 'var(--fg-2)' : 'none', sw: hot ? 1.5 : 0,
-    role: hot ? 'tooltip-anchor' : 'series-0',
+    role: hot ? 'tooltip-anchor' : `series-${ci}`,
   }))
 }
 const waffle = makePage({
   id: 'waffle', name: 'Waffle chart',
   tagline: 'A 10×10 grid where every cell is one percent. Categories claim contiguous blocks of cells so part-to-whole shares read as filled area without a single dominant arc.',
   tree: tree(
-    [['▦', 'WaffleChart', 'budget', 'active', 'series-0']],
+    wCounts.map(([, , label], i): import('../chartsData').SeriesEntry =>
+      ['▦', 'WaffleCategory', label.toLowerCase(), i === 0 ? 'active' : '', `series-${i}`],
+    ),
     [['▭', 'Tooltip', 1], ['≡', 'Legend']],
   ),
   shapes: waffleCells,

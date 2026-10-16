@@ -12,6 +12,10 @@ export interface SunburstNode {
 export interface SunburstChartProps extends Omit<SVGProps<SVGSVGElement>, 'width' | 'height'> {
   data: SunburstNode
   size?: number
+  /** Render arc names on sectors wider than ~15°. Default true. */
+  showLabels?: boolean
+  /** Render a horizontal legend below the chart with top-level child names + colors. Default true. */
+  showLegend?: boolean
   className?: string
   style?: CSSProperties
 }
@@ -53,8 +57,12 @@ function ringSector(ox: number, oy: number, rIn: number, rOut: number, a0: numbe
   return `M${x0} ${y0}A${rOut} ${rOut} 0 ${large} 1 ${x1} ${y1}L${x2} ${y2}A${rIn} ${rIn} 0 ${large} 0 ${x3} ${y3}Z`
 }
 
+const LEGEND_H = 28
+const LEGEND_SWATCH = 10
+const LEGEND_GAP = 14
+
 export const SunburstChart = forwardRef<SVGSVGElement, SunburstChartProps>(function SunburstChart(
-  { data, size = 300, className, style, ...rest },
+  { data, size = 300, showLabels = true, showLegend = true, className, style, ...rest },
   ref,
 ) {
   if (!data || !data.children || data.children.length === 0) {
@@ -71,10 +79,12 @@ export const SunburstChart = forwardRef<SVGSVGElement, SunburstChartProps>(funct
     )
   }
 
+  const legendRows = showLegend ? LEGEND_H : 0
+  const chartH = size - legendRows
   const ox = size / 2
-  const oy = size / 2
+  const oy = chartH / 2
   const pad = 6
-  const rMax = size / 2 - pad
+  const rMax = Math.min(size, chartH) / 2 - pad
 
   // Determine max depth to size the rings.
   function maxDepth(node: SunburstNode, d: number): number {
@@ -101,6 +111,20 @@ export const SunburstChart = forwardRef<SVGSVGElement, SunburstChartProps>(funct
   }
   walk(data, 0, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2, PALETTE[0])
 
+  const total = nodeValue(data) || 1
+  // Top-level children drive the legend; cache their resolved colors.
+  const legendItems: { name: string; color: string }[] = (data.children ?? []).map((c, i) => {
+    const match = arcs.find((a) => a.depth === 1 && a.name === c.name)
+    return { name: c.name, color: match?.color ?? PALETTE[i % PALETTE.length] }
+  })
+
+  // Horizontal centring of the legend row.
+  const CHAR_W = 6.3
+  const itemW = (label: string) => LEGEND_SWATCH + 6 + label.length * CHAR_W
+  const totalLegendW = legendItems.reduce((s, l, i) => s + itemW(l.name) + (i ? LEGEND_GAP : 0), 0)
+  let legendCursor = (size - totalLegendW) / 2
+  const legendY = chartH + LEGEND_H / 2
+
   return (
     <svg
       ref={ref}
@@ -118,8 +142,62 @@ export const SunburstChart = forwardRef<SVGSVGElement, SunburstChartProps>(funct
         if (arc.a1 - arc.a0 < 0.004) return null
         return (
           <path key={i} d={ringSector(ox, oy, rIn, rOut, arc.a0, arc.a1)} fill={arc.color} stroke="var(--bg-1)" strokeWidth={1}>
-            <title>{`${arc.name}: ${arc.value}`}</title>
+            <title>{`${arc.name}: ${arc.value} (${((arc.value / total) * 100).toFixed(1)}%)`}</title>
           </path>
+        )
+      })}
+
+      {showLabels && arcs.map((arc, i) => {
+        const span = arc.a1 - arc.a0
+        if (span < 0.26) return null // skip slivers (<~15°)
+        const rIn = (arc.depth - 1) * ringW
+        const rOut = arc.depth * ringW
+        const rMid = (rIn + rOut) / 2
+        const aMid = (arc.a0 + arc.a1) / 2
+        const lx = ox + rMid * Math.cos(aMid)
+        const ly = oy + rMid * Math.sin(aMid)
+        // Use dark text on light fills and vice versa — color-mix handles both.
+        const fontSize = Math.max(9, Math.min(12, (rOut - rIn) / 2.4))
+        return (
+          <text
+            key={`l${i}`}
+            x={lx}
+            y={ly}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={fontSize}
+            fill="var(--fg)"
+            style={{ pointerEvents: 'none', paintOrder: 'stroke', stroke: 'var(--bg-1)', strokeWidth: 2.5, strokeLinejoin: 'round' }}
+          >
+            {arc.name}
+          </text>
+        )
+      })}
+
+      {showLegend && legendItems.map((item) => {
+        const w = itemW(item.name)
+        const x = legendCursor
+        legendCursor += w + LEGEND_GAP
+        return (
+          <g key={item.name}>
+            <rect
+              x={x}
+              y={legendY - LEGEND_SWATCH / 2}
+              width={LEGEND_SWATCH}
+              height={LEGEND_SWATCH}
+              rx={2}
+              fill={item.color}
+            />
+            <text
+              x={x + LEGEND_SWATCH + 6}
+              y={legendY}
+              fontSize={11}
+              fill="var(--fg-2)"
+              dominantBaseline="middle"
+            >
+              {item.name}
+            </text>
+          </g>
         )
       })}
     </svg>

@@ -85,6 +85,7 @@ function LiveExample({
         }}
       >
         <Component
+          key={variantIdx}
           {...activeProps}
           style={{
             width: '100%',

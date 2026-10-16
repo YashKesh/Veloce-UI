@@ -3,6 +3,7 @@
 // representative data so users can see the component respond to theme changes
 // and prop variants. Merged into CHART_PAGES by chartsAll.ts.
 
+import type { CSSProperties } from 'react'
 import {
   AreaChart,
   BarChart,
@@ -44,6 +45,12 @@ import {
   ViolinChart,
   WaffleChart,
   WordCloudChart,
+  SparklineGrid,
+  AnnotationsLayer,
+  BrushChart,
+  LiveLineChart,
+  ComparisonLineChart,
+  type Annotation,
 } from 'veloce-ui'
 import type { LiveSample } from './chartsData'
 
@@ -150,6 +157,81 @@ const heatmapData = Array.from({ length: 7 }, (_, y) =>
 ).flat()
 
 const sparkData = [12, 14, 11, 18, 22, 19, 28, 24, 32, 30, 38, 42, 40, 48, 54]
+
+/* ─── Chart extras — shared data + inline preview wrappers ─────────────── */
+
+function brushGen(n: number, seed = 1): { label: string; value: number }[] {
+  let s = seed
+  const out: { label: string; value: number }[] = []
+  let v = 50
+  for (let i = 0; i < n; i++) {
+    s = (s * 9301 + 49297) % 233280
+    const r = s / 233280
+    v = Math.max(5, v + (r - 0.5) * 10 + Math.sin(i / 7) * 2)
+    out.push({ label: `D${i + 1}`, value: Math.round(v) })
+  }
+  return out
+}
+const brushData = brushGen(90)
+
+const CMP_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+const comparisonCurrent = CMP_DAYS.map((label, i) => ({
+  label,
+  value: [120, 148, 165, 180, 210, 192, 174][i],
+}))
+const comparisonPrevious = [100, 118, 132, 150, 172, 160, 148]
+
+const annotationsData = [
+  { label: 'Mon', value: 42 }, { label: 'Tue', value: 48 }, { label: 'Wed', value: 55 },
+  { label: 'Thu', value: 110 }, { label: 'Fri', value: 92 }, { label: 'Sat', value: 70 },
+  { label: 'Sun', value: 58 },
+]
+
+const ALL_ANNOTATIONS: Annotation[] = [
+  { type: 'threshold', y: 100, label: 'SLA', color: 'var(--err)' },
+  { type: 'point', x: 3, y: 110, label: 'spike' },
+  { type: 'range', from: 1, to: 2, label: 'deploy', color: 'var(--ac)' },
+]
+
+function AnnotationsPreview({ which, style }: { which?: 'all' | 'threshold' | 'range' | 'points'; style?: CSSProperties }) {
+  const W = 560, H = 240
+  const annotations =
+    which === 'threshold' ? ALL_ANNOTATIONS.filter((a) => a.type === 'threshold') :
+    which === 'range'     ? ALL_ANNOTATIONS.filter((a) => a.type === 'range') :
+    which === 'points'    ? ALL_ANNOTATIONS.filter((a) => a.type === 'point') :
+                            ALL_ANNOTATIONS
+  return (
+    <div style={{ position: 'relative', width: W, height: H, ...style }}>
+      <LineChart data={annotationsData} width={W} height={H} yMin={0} yMax={120} />
+      <AnnotationsLayer
+        width={W}
+        height={H}
+        dataLength={annotationsData.length}
+        yMin={0}
+        yMax={120}
+        annotations={annotations}
+      />
+    </div>
+  )
+}
+
+function LiveLinePreview(props: { intervalMs?: number; maxPoints?: number; style?: CSSProperties }) {
+  let value = 60
+  const source = () => {
+    value = Math.max(20, Math.min(100, value + (Math.random() - 0.5) * 12))
+    return Math.round(value)
+  }
+  return (
+    <LiveLineChart
+      source={source}
+      intervalMs={props.intervalMs ?? 700}
+      maxPoints={props.maxPoints ?? 40}
+      width={560}
+      height={220}
+      style={props.style}
+    />
+  )
+}
 
 export const LIVE_SAMPLES: Record<string, Entry> = {
   area: {
@@ -800,6 +882,140 @@ export const LIVE_SAMPLES: Record<string, Entry> = {
           { text: 'Palette', value: 30 }, { text: 'Grid', value: 20 },
         ],
       },
+    },
+  },
+
+  /* ─── Chart extras ───────────────────────────────────────────────────── */
+
+  'sparkline-grid': {
+    Component: SparklineGrid,
+    sample: {
+      props: {
+        rows: [
+          { label: 'Monthly revenue', meta: 'Last 12 months', data: [42, 48, 55, 51, 60, 72, 70, 82, 95, 88, 102, 118] },
+          { label: 'Signups', meta: 'Last 12 months', data: [320, 410, 390, 480, 530, 620, 580, 710, 760, 820, 790, 912] },
+          { label: 'Error rate', meta: 'per 1K requests', data: [2.1, 1.8, 2.4, 1.5, 1.2, 0.9, 1.1, 0.8, 0.6, 0.9, 0.7, 0.5] },
+          { label: 'p95 latency', meta: 'ms', data: [120, 118, 124, 130, 128, 115, 110, 105, 108, 102, 100, 95] },
+        ],
+      },
+      variants: [
+        {
+          label: 'Line',
+          props: {
+            type: 'line',
+            rows: [
+              { label: 'Monthly revenue', data: [42, 48, 55, 51, 60, 72, 70, 82, 95, 88, 102, 118] },
+              { label: 'Signups', data: [320, 410, 390, 480, 530, 620, 580, 710, 760, 820, 790, 912] },
+            ],
+          },
+        },
+        {
+          label: 'Bar',
+          props: {
+            type: 'bar',
+            rows: [
+              { label: 'Signups', data: [320, 410, 390, 480, 530, 620, 580, 710, 760, 820, 790, 912] },
+              { label: 'Error rate', data: [2.1, 1.8, 2.4, 1.5, 1.2, 0.9, 1.1, 0.8, 0.6, 0.9, 0.7, 0.5] },
+            ],
+          },
+        },
+        {
+          label: '2 columns',
+          props: {
+            columns: 2,
+            rows: [
+              { label: 'Revenue', data: [42, 48, 55, 51, 60, 72, 70, 82, 95, 88, 102, 118] },
+              { label: 'Signups', data: [320, 410, 390, 480, 530, 620, 580, 710, 760, 820, 790, 912] },
+              { label: 'Errors', data: [2.1, 1.8, 2.4, 1.5, 1.2, 0.9, 1.1, 0.8, 0.6, 0.9, 0.7, 0.5] },
+              { label: 'Latency', data: [120, 118, 124, 130, 128, 115, 110, 105, 108, 102, 100, 95] },
+            ],
+          },
+        },
+      ],
+      height: 260,
+    },
+  },
+
+  annotations: {
+    // Composes a LineChart + AnnotationsLayer in a positioned wrapper.
+    Component: AnnotationsPreview,
+    sample: {
+      props: {},
+      variants: [
+        { label: 'All annotations', props: { which: 'all' } },
+        { label: 'Threshold only', props: { which: 'threshold' } },
+        { label: 'Range only', props: { which: 'range' } },
+        { label: 'Points only', props: { which: 'points' } },
+      ],
+      height: 280,
+    },
+  },
+
+  brush: {
+    Component: BrushChart,
+    sample: {
+      props: {
+        data: brushData,
+        defaultRange: { from: 20, to: 60 },
+        width: 560,
+        height: 220,
+      },
+      variants: [
+        { label: 'Wide window', props: { data: brushData, defaultRange: { from: 10, to: 80 }, width: 560, height: 220 } },
+        { label: 'Narrow window', props: { data: brushData, defaultRange: { from: 40, to: 55 }, width: 560, height: 220 } },
+      ],
+      height: 300,
+    },
+  },
+
+  'live-line': {
+    Component: LiveLinePreview,
+    sample: {
+      props: {},
+      variants: [
+        { label: 'Polling (fast)', props: { intervalMs: 500, maxPoints: 40 } },
+        { label: 'Polling (slow)', props: { intervalMs: 1500, maxPoints: 30 } },
+      ],
+      height: 260,
+    },
+  },
+
+  comparison: {
+    Component: ComparisonLineChart,
+    sample: {
+      props: {
+        current: comparisonCurrent,
+        previous: comparisonPrevious,
+        currentLabel: 'This week',
+        previousLabel: 'Last week',
+        width: 560,
+        height: 220,
+      },
+      variants: [
+        {
+          label: 'Rising',
+          props: {
+            current: comparisonCurrent,
+            previous: comparisonPrevious,
+            currentLabel: 'This week',
+            previousLabel: 'Last week',
+            width: 560,
+            height: 220,
+          },
+        },
+        {
+          label: 'Declining',
+          props: {
+            current: comparisonCurrent.map((d) => ({ ...d, value: Math.round(d.value * 0.75) })),
+            previous: comparisonPrevious,
+            currentLabel: 'This week',
+            previousLabel: 'Last week',
+            width: 560,
+            height: 220,
+          },
+        },
+      ],
+      height: 260,
     },
   },
 }

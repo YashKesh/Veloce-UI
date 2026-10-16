@@ -36,6 +36,12 @@ const SHIPPED_IN_UI: Record<string, string> = {
   tooltip: 'Tooltip, TooltipProvider',
   popover: 'Popover',
   dropdown: 'DropdownMenu',
+  'color-picker': 'ColorPicker',
+  'color-input': 'ColorInput',
+  'color-swatch': 'ColorSwatch',
+  'contrast-checker': 'ContrastChecker',
+  'gradient-builder': 'GradientBuilder',
+  'shadow-builder': 'ShadowBuilder',
 }
 
 function ShipsCallout({ exportName }: { exportName: string }) {

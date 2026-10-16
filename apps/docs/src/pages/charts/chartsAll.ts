@@ -7,6 +7,7 @@ import { HIERARCHY_PAGES } from './data/hierarchy'
 import { DISTRIBUTION_PAGES } from './data/distribution'
 import { TEMPORAL_PAGES } from './data/temporal'
 import { FLOW_PAGES } from './data/flow'
+import { EXTRAS_PAGES } from './data/extras'
 import { LIVE_SAMPLES } from './liveSamples'
 
 export type { ChartPage }
@@ -18,6 +19,7 @@ const MERGED: Record<string, ChartPage> = {
   ...DISTRIBUTION_PAGES,
   ...TEMPORAL_PAGES,
   ...FLOW_PAGES,
+  ...EXTRAS_PAGES,
 }
 
 // Attach live Component + sample to each page where available.
@@ -42,4 +44,6 @@ export const CHART_PAGE_ORDER = [
   'stream-graph', 'bump', 'gantt', 'horizon',
   // Flow / relational / geo
   'sankey', 'chord', 'network', 'tile-map', 'word-cloud',
+  // Chart extras
+  'sparkline-grid', 'annotations', 'brush', 'live-line', 'comparison',
 ] as const
