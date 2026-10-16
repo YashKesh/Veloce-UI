@@ -24,12 +24,101 @@ const esc = (s) =>
 
 const template = readFileSync(templatePath, 'utf8')
 
-function render(meta, canonical) {
+/* ─── SEO helpers ─────────────────────────────────────────────────────────── */
+
+const BASE_KEYWORDS = ['react', 'typescript', 'open source', 'veloce ui']
+
+/** Derive a tight, non-stuffed keyword list for a route. */
+function keywordsFor(path, meta) {
+  const kw = new Set(BASE_KEYWORDS)
+  if (path === '/') {
+    ;['react component library', 'react 19', 'motion ui', 'chart library', 'OKLCH', 'shadcn alternative', 'design system'].forEach((k) => kw.add(k))
+  } else if (path === '/components') {
+    ;['react components', 'ui library', 'headless components', 'component library', 'react 19 ui'].forEach((k) => kw.add(k))
+  } else if (path === '/charts') {
+    ;['react charts', 'data visualization', 'SVG charts', 'dashboard charts', 'chart components'].forEach((k) => kw.add(k))
+  } else if (path.startsWith('/components/')) {
+    const slug = path.replace('/components/', '').replace(/\//g, ' ')
+    const slugWords = slug.replace(/-/g, ' ')
+    ;[`${slugWords} react`, `react ${slugWords}`, `${slugWords} component`, 'ui component', 'component library'].forEach((k) => kw.add(k))
+  } else if (path.startsWith('/docs/charts/')) {
+    const slug = path.replace('/docs/charts/', '').replace(/-/g, ' ')
+    ;[`${slug} chart`, `react ${slug} chart`, `SVG ${slug} chart`, 'chart component', 'data visualization'].forEach((k) => kw.add(k))
+  } else if (path.startsWith('/dashboards')) {
+    ;['react dashboard', 'dashboard template', 'SaaS dashboard', 'admin template', 'dashboard blueprint'].forEach((k) => kw.add(k))
+  } else if (path.startsWith('/docs/')) {
+    ;['react documentation', 'guide', 'how to', 'getting started'].forEach((k) => kw.add(k))
+  }
+  return Array.from(kw).join(', ')
+}
+
+/** Build an array of {name, item} breadcrumb entries for a route. */
+function breadcrumbsFor(path, meta) {
+  const crumbs = [{ name: 'Home', item: `${SITE}/` }]
+  if (path === '/') return crumbs
+  const parts = path.split('/').filter(Boolean)
+  const label = (seg) =>
+    seg
+      .split('-')
+      .map((w) => w[0].toUpperCase() + w.slice(1))
+      .join(' ')
+  // Known hub mappings. Chart docs live under /docs/charts/* but belong to the
+  // Charts hub conceptually.
+  if (parts[0] === 'docs' && parts[1] === 'charts') {
+    crumbs.push({ name: 'Charts', item: `${SITE}/charts` })
+  } else {
+    const HUBS = {
+      components: ['Components', '/components'],
+      charts: ['Charts', '/charts'],
+      docs: ['Docs', '/docs/installation'],
+      dashboards: ['Dashboards', '/dashboards'],
+    }
+    if (HUBS[parts[0]]) {
+      const [hubLabel, url] = HUBS[parts[0]]
+      crumbs.push({ name: hubLabel, item: `${SITE}${url}` })
+    }
+  }
+  // Final crumb = the current page name.
+  const leaf = meta.h1 ?? label(parts[parts.length - 1] || 'Home')
+  crumbs.push({ name: leaf, item: `${SITE}${path}` })
+  return crumbs
+}
+
+function jsonLdFor(path, meta, canonical) {
+  const graph = []
+  // BreadcrumbList on every non-home route.
+  if (path !== '/') {
+    graph.push({
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbsFor(path, meta).map((c, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: c.name,
+        item: c.item,
+      })),
+    })
+  }
+  // WebPage anchor so canonical / isPartOf is explicit.
+  graph.push({
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: meta.title,
+    description: meta.description,
+    isPartOf: { '@id': `${SITE}/#website` },
+    inLanguage: 'en',
+  })
+  return `{"@context":"https://schema.org","@graph":${JSON.stringify(graph)}}`
+}
+
+function render(meta, canonical, path) {
   const title = esc(meta.title)
   const desc = esc(meta.description)
   const h1 = esc(meta.h1 ?? meta.title)
   const summary = esc(meta.summary ?? meta.description)
   const can = canonical
+  const keywords = esc(keywordsFor(path, meta))
+  const jsonLd = jsonLdFor(path, meta, canonical)
 
   const shell = `
       <main style="max-width: 760px; margin: 40px auto; padding: 24px; font-family: system-ui, sans-serif; color: #cbd5e1; background: #121128;">
@@ -87,6 +176,16 @@ function render(meta, canonical) {
       /<meta name="twitter:description" content="[^"]*"\s*\/?\s*>/,
       `<meta name="twitter:description" content="${desc}" />`,
     )
+    // Keywords (per-route; largely ignored by Google but harmless for other engines)
+    .replace(
+      /<meta name="keywords" content="[^"]*"\s*\/?\s*>/,
+      `<meta name="keywords" content="${keywords}" />`,
+    )
+    // Per-route JSON-LD injected before </head>, right after the global graph.
+    .replace(
+      /(<\/head>)/,
+      `    <script type="application/ld+json">${jsonLd}</script>\n  $1`,
+    )
     // Replace the ENTIRE #root content with the route-specific shell.
     // The pattern matches from <div id="root"> up to the closing </div>
     // that sits before </body>. Vite builds have no <script> immediately
@@ -101,7 +200,7 @@ let written = 0
 let skipped = 0
 for (const [path, meta] of Object.entries(ROUTE_META)) {
   const canonical = `${SITE}${path === '/' ? '' : path}`
-  const html = render(meta, canonical)
+  const html = render(meta, canonical, path)
   const outPath = path === '/' ? join(distDir, 'index.html') : join(distDir, path.replace(/^\//, ''), 'index.html')
   mkdirSync(dirname(outPath), { recursive: true })
   writeFileSync(outPath, html)

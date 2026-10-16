@@ -153,9 +153,9 @@ export const ROUTE_META = Object.fromEntries([
   // Chart extras pack (full chart-doc layout under /docs/charts/*)
   chartDoc('Sparkline grid', 'sparkline-grid', 'Grid of mini sparklines for dashboards, tables, and metric panels. Each row renders label, sparkline, current value, and delta badge.'),
   chartDoc('Annotations layer', 'annotations', 'Composable overlay for LineChart. Renders point markers, horizontal threshold lines, and vertical range bands using the same coordinate space.'),
-  chartDoc('Brush chart', 'brush', 'LineChart with a draggable brush selector below for panning and resizing the visible range.'),
-  chartDoc('Live line chart', 'live-line', 'Streaming line chart with a ring buffer, imperative push API, and pause/resume + clear controls.'),
-  chartDoc('Comparison line chart', 'comparison', 'Overlay the current period against a previous period with a dashed muted line and a delta badge computed by a configurable aggregate.'),
+  chartDoc('Brush', 'brush', 'LineChart with a draggable brush selector below for panning and resizing the visible range.'),
+  chartDoc('Live line', 'live-line', 'Streaming line chart with a ring buffer, imperative push API, and pause/resume + clear controls.'),
+  chartDoc('Comparison line', 'comparison', 'Overlay the current period against a previous period with a dashed muted line and a delta badge computed by a configurable aggregate.'),
 
   // 13 chart detail pages
   chartDoc('Line', 'line', 'Smooth multi-series line chart with gradient underfill, grid lines, and configurable axis labels.'),
@@ -246,6 +246,48 @@ export const ROUTE_META = Object.fromEntries([
     description: 'Multi-platform post scheduler — weekly calendar grid, draft queue, recent engagement analytics, compose panel.',
     h1: 'Social · Scheduler',
     summary: 'Social-media scheduling blueprint with Tabs for Calendar / Queue / Recent, a weekly grid showing scheduled posts per time-slot, multi-platform post cards (X / LinkedIn / Instagram / YouTube), compose panel with platform picker.',
+  }],
+  ['/dashboards/saas-metrics', {
+    title: `SaaS metrics dashboard · ${BRAND}`,
+    description: 'MRR, ARR, churn, LTV, cohort retention and growth-funnel blueprint. Multi-chart KPIs with motion.',
+    h1: 'SaaS metrics',
+    summary: 'Growth-focused SaaS blueprint — MRR / ARR / ARPU KPIs, cohort retention heatmap, growth funnel, churn trend, and net-dollar retention panels wired to real chart components.',
+  }],
+  ['/dashboards/analytics', {
+    title: `Analytics dashboard · ${BRAND}`,
+    description: 'Web analytics blueprint — sessions, pageviews, top pages, acquisition sources, device + country breakdowns.',
+    h1: 'Analytics',
+    summary: 'Analytics-platform blueprint showing sessions trend, top pages table, acquisition channel breakdown, device + country donuts, and a geo tile map built on Veloce UI primitives.',
+  }],
+  ['/dashboards/ecommerce-admin', {
+    title: `Ecommerce admin dashboard · ${BRAND}`,
+    description: 'Store back-office — orders, products, revenue trend, top SKUs, refunds, customer leaderboard.',
+    h1: 'Ecommerce · Admin',
+    summary: 'Ecommerce back-office blueprint with revenue trend, orders table, top-SKU bars, refunds timeline, customer leaderboard, and inventory status chips.',
+  }],
+  ['/dashboards/finance', {
+    title: `Finance dashboard · ${BRAND}`,
+    description: 'Treasury + P&L blueprint — cash runway, burn, revenue, expenses, candlestick portfolio, waterfall of month changes.',
+    h1: 'Finance',
+    summary: 'Finance blueprint showing cash runway, burn chart, revenue vs. expenses, candlestick portfolio, waterfall of month-over-month changes, and a transaction grid.',
+  }],
+  ['/dashboards/devops', {
+    title: `DevOps dashboard · ${BRAND}`,
+    description: 'SRE / platform blueprint — service uptime, latency p50/p95/p99, error rate, deploy timeline, incident log.',
+    h1: 'DevOps',
+    summary: 'DevOps / SRE blueprint with service uptime sparklines, latency percentiles, error-rate trend, deploy timeline, incident log, and alert feed.',
+  }],
+  ['/dashboards/project-management', {
+    title: `Project management dashboard · ${BRAND}`,
+    description: 'PM blueprint — sprint burndown, Gantt timeline, task kanban, team workload, velocity trend.',
+    h1: 'Project management',
+    summary: 'Project-management blueprint showing sprint burndown, Gantt timeline, task kanban board, team workload bars, velocity trend, and milestone status.',
+  }],
+  ['/dashboards/hr', {
+    title: `HR dashboard · ${BRAND}`,
+    description: 'People analytics blueprint — headcount, hires + attrition, DEI breakdown, engagement, salary bands.',
+    h1: 'HR',
+    summary: 'HR / people-analytics blueprint showing headcount trend, hires vs. attrition, DEI breakdown donuts, engagement scores, salary-band ranges, and a directory grid.',
   }],
 
   // Marketing blocks — one page each
