@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { DocsShell, RightRail } from './DocsShell'
 import type { TocItem } from './DocsShell'
@@ -85,18 +85,46 @@ const TOC: TocItem[] = [
   { label: 'Usage', id: 'usage' },
 ]
 
-export function CodeBlock({ children }: { children: ReactNode }) {
+export function CodeBlock({ children, downloadAs }: { children: ReactNode; downloadAs?: string }) {
   return (
     <div style={{ position: 'relative' }}>
-      <CopyButton />
+      <div style={{ position: 'absolute', top: 8, right: 8, zIndex: 2, display: 'flex', gap: 6 }}>
+        {downloadAs && <DownloadButton filename={downloadAs} />}
+        <CopyButton />
+      </div>
       <pre
         className="vl-code"
-        style={{ borderRadius: 10, padding: '14px 16px', fontSize: 13, lineHeight: 1.65, color: 'var(--fg-2)', margin: 0, overflowX: 'auto' }}
+        style={{
+          borderRadius: 10,
+          padding: `14px ${downloadAs ? 120 : 72}px 14px 16px`,
+          fontSize: 13,
+          lineHeight: 1.65,
+          color: 'var(--fg-2)',
+          margin: 0,
+          overflowX: 'auto',
+        }}
       >
         {children}
       </pre>
     </div>
   )
+}
+
+const toolbarBtn = (active: boolean): CSSProperties => ({
+  padding: '4px 10px',
+  fontSize: 11.5,
+  borderRadius: 6,
+  border: '1px solid var(--line-2)',
+  background: active ? 'color-mix(in oklch, var(--ok) 15%, var(--bg-1))' : 'var(--bg-1)',
+  color: active ? 'var(--ok)' : 'var(--fg-2)',
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  transition: 'background 150ms, color 150ms',
+})
+
+function readPreText(el: HTMLElement | null): string {
+  const pre = el?.closest('div')?.querySelector('pre')
+  return pre?.innerText ?? ''
 }
 
 function CopyButton() {
@@ -105,29 +133,136 @@ function CopyButton() {
     <button
       type="button"
       onClick={(e) => {
-        const pre = e.currentTarget.parentElement?.querySelector('pre')
-        const text = pre?.innerText ?? ''
+        const text = readPreText(e.currentTarget)
         if (!text) return
         navigator.clipboard.writeText(text).then(
           () => {
             setCopied(true)
             window.setTimeout(() => setCopied(false), 1400)
           },
-          () => {}
+          () => {},
         )
       }}
       aria-label={copied ? 'Copied' : 'Copy code'}
-      style={{
-        position: 'absolute', top: 8, right: 8, zIndex: 2,
-        padding: '4px 10px', fontSize: 11.5, borderRadius: 6,
-        border: '1px solid var(--line-2)',
-        background: copied ? 'color-mix(in oklch, var(--ok) 15%, var(--bg-1))' : 'var(--bg-1)',
-        color: copied ? 'var(--ok)' : 'var(--fg-2)',
-        cursor: 'pointer', fontFamily: 'inherit',
-        transition: 'background 150ms, color 150ms',
-      }}
+      style={toolbarBtn(copied)}
     >
       {copied ? '✓ Copied' : 'Copy'}
+    </button>
+  )
+}
+
+function DownloadButton({ filename }: { filename: string }) {
+  const [done, setDone] = useState(false)
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        const text = readPreText(e.currentTarget)
+        if (!text) return
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        URL.revokeObjectURL(url)
+        setDone(true)
+        window.setTimeout(() => setDone(false), 1400)
+      }}
+      aria-label={`Download ${filename}`}
+      style={toolbarBtn(done)}
+    >
+      {done ? '✓ Saved' : `↓ ${filename}`}
+    </button>
+  )
+}
+
+function StarterKitButton({ componentName, slug }: { componentName: string; slug: string }) {
+  const [busy, setBusy] = useState(false)
+  const [done, setDone] = useState(false)
+  const onClick = async () => {
+    if (busy) return
+    setBusy(true)
+    try {
+      // Pull the Usage code out of the DOM at click time (keeps us format-agnostic).
+      const section = document.getElementById('usage')
+      const pre = section?.querySelector('pre')
+      const usage = pre?.innerText ?? `<${componentName} />`
+
+      // Dynamic import — jszip is only loaded when the user actually clicks.
+      const { default: JSZip } = await import('jszip')
+      const zip = new JSZip()
+
+      zip.file(
+        'App.tsx',
+        `${usage.includes("import 'veloce-ui/styles.css'") ? '' : `import 'veloce-ui/styles.css'\n`}${usage}\n`,
+      )
+      zip.file(
+        'package.json',
+        JSON.stringify(
+          {
+            name: `veloce-ui-${slug}-starter`,
+            private: true,
+            version: '0.0.0',
+            type: 'module',
+            scripts: { dev: 'vite', build: 'vite build', preview: 'vite preview' },
+            dependencies: {
+              react: '^19.0.0',
+              'react-dom': '^19.0.0',
+              'veloce-ui': 'latest',
+            },
+            devDependencies: {
+              '@vitejs/plugin-react': '^4.0.0',
+              typescript: '^5.0.0',
+              vite: '^6.0.0',
+            },
+          },
+          null,
+          2,
+        ),
+      )
+      zip.file(
+        'README.md',
+        `# ${componentName} starter\n\nQuick-start project for the \`${componentName}\` component from [veloce-ui](https://www.npmjs.com/package/veloce-ui).\n\n## Run it\n\n\`\`\`bash\nnpm install\nnpm run dev\n\`\`\`\n\nOpen \`App.tsx\` to see the live sample. Full docs:\nhttps://veloceui.codeloomdevv.co.in/components/${slug}\n`,
+      )
+
+      const blob = await zip.generateAsync({ type: 'blob' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${slug}-starter.zip`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      setDone(true)
+      window.setTimeout(() => setDone(false), 1800)
+    } finally {
+      setBusy(false)
+    }
+  }
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={busy}
+      style={{
+        padding: '6px 12px',
+        fontSize: 12,
+        borderRadius: 6,
+        border: '1px solid var(--line-2)',
+        background: done ? 'color-mix(in oklch, var(--ok) 15%, var(--bg-1))' : 'var(--bg-1)',
+        color: done ? 'var(--ok)' : 'var(--fg-2)',
+        cursor: busy ? 'wait' : 'pointer',
+        fontFamily: 'inherit',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+      }}
+    >
+      {done ? '✓ Downloaded' : busy ? 'Packing…' : '↓ Download starter kit (.zip)'}
     </button>
   )
 }
@@ -195,7 +330,10 @@ export function ComponentDoc({
         </Section>
 
         <Section id="usage" title="Usage">
-          <CodeBlock>{usage}</CodeBlock>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: -8 }}>
+            <StarterKitButton componentName={shipped ?? name} slug={slug} />
+          </div>
+          <CodeBlock downloadAs={`${slug}-example.tsx`}>{usage}</CodeBlock>
         </Section>
 
         {children}
