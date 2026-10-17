@@ -39,6 +39,8 @@ export interface SidebarItem {
 export interface SidebarSection {
   title: string
   items: SidebarItem[]
+  /** Optional nested sub-sections — renders as another collapsible level. */
+  sections?: SidebarSection[]
 }
 export interface SidebarGroup {
   title?: string
@@ -46,8 +48,11 @@ export interface SidebarGroup {
   sections?: SidebarSection[]
 }
 
+function sectionItems(s: SidebarSection): SidebarItem[] {
+  return [...s.items, ...(s.sections?.flatMap(sectionItems) ?? [])]
+}
 function groupItems(g: SidebarGroup): SidebarItem[] {
-  return [...g.items, ...(g.sections?.flatMap((s) => s.items) ?? [])]
+  return [...g.items, ...(g.sections?.flatMap(sectionItems) ?? [])]
 }
 
 function ThemeFooter() {
@@ -176,6 +181,39 @@ export function Sidebar({ groups }: { groups: SidebarGroup[] }) {
   // Manual expand/collapse overrides; groups without an override follow the active route.
   const [overrides, setOverrides] = useState<Record<string, boolean>>({})
 
+  // Recursive section renderer so sections can nest sub-sections.
+  const renderSection = (s: SidebarSection, parentKey: string): React.ReactNode => {
+    const flattened = sectionItems(s)
+    const sectionActive = flattened.some((it) => it === firstMatch)
+    const key = `${parentKey}/${s.title}`
+    const open = overrides[key] ?? sectionActive
+    return (
+      <div key={s.title} style={{ display: 'flex', flexDirection: 'column' }}>
+        <button
+          onClick={() => setOverrides((prev) => ({ ...prev, [key]: !open }))}
+          style={{
+            display: 'flex', alignItems: 'center', padding: '7px 10px', borderRadius: 7,
+            color: open ? 'var(--fg)' : 'var(--fg-2)', fontWeight: open ? 500 : 400,
+            fontSize: 13.5, textAlign: 'left',
+          }}
+        >
+          <span style={{ width: 14, fontSize: 10, color: 'var(--fg-3)' }}>{open ? '⌄' : '›'}</span>
+          <span style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 7 }}>
+            {s.title}
+            {sectionActive && !open && <span style={{ fontSize: 6, color: 'var(--ac-text)' }}>●</span>}
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--fg-3)' }}>{flattened.length}</span>
+        </button>
+        {open && (
+          <div style={{ marginLeft: 17, paddingLeft: 12, borderLeft: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 1 }}>
+            {s.items.map(renderItem)}
+            {s.sections?.map((sub) => renderSection(sub, key))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <aside style={{ borderRight: '1px solid var(--line)', display: 'flex', flexDirection: 'column', fontSize: 13.5 }}>
       <nav style={{ padding: '20px 12px 8px', display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -211,35 +249,7 @@ export function Sidebar({ groups }: { groups: SidebarGroup[] }) {
                   }}
                 >
                   {g.items.map(renderItem)}
-                  {g.sections?.map((s) => {
-                    const sectionActive = s.items.some((it) => it === firstMatch)
-                    const key = `${g.title}/${s.title}`
-                    const open = overrides[key] ?? sectionActive
-                    return (
-                      <div key={s.title} style={{ display: 'flex', flexDirection: 'column' }}>
-                        <button
-                          onClick={() => setOverrides((prev) => ({ ...prev, [key]: !open }))}
-                          style={{
-                            display: 'flex', alignItems: 'center', padding: '7px 10px', borderRadius: 7,
-                            color: open ? 'var(--fg)' : 'var(--fg-2)', fontWeight: open ? 500 : 400,
-                            fontSize: 13.5, textAlign: 'left',
-                          }}
-                        >
-                          <span style={{ width: 14, fontSize: 10, color: 'var(--fg-3)' }}>{open ? '⌄' : '›'}</span>
-                          <span style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 7 }}>
-                            {s.title}
-                            {sectionActive && !open && <span style={{ fontSize: 6, color: 'var(--ac-text)' }}>●</span>}
-                          </span>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, color: 'var(--fg-3)' }}>{s.items.length}</span>
-                        </button>
-                        {open && (
-                          <div style={{ marginLeft: 17, paddingLeft: 12, borderLeft: '1px solid var(--line)', display: 'flex', flexDirection: 'column', gap: 1 }}>
-                            {s.items.map(renderItem)}
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
+                  {g.sections?.map((s) => renderSection(s, g.title ?? ''))}
                 </div>
               )}
             </div>
