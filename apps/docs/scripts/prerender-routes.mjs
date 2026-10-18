@@ -120,18 +120,29 @@ function render(meta, canonical, path) {
   const keywords = esc(keywordsFor(path, meta))
   const jsonLd = jsonLdFor(path, meta, canonical)
 
+  // Branded full-viewport splash that renders before React hydrates.
+  // All SEO content (h1 + summary + install hint + primary nav) stays in the
+  // DOM for crawlers, visually arranged as an intentional loading screen so
+  // users don't see a bare text block mid-load.
   const shell = `
-      <main style="max-width: 760px; margin: 40px auto; padding: 24px; font-family: system-ui, sans-serif; color: #cbd5e1; background: #121128;">
-        <h1 style="font-size: 44px; font-weight: 650; letter-spacing: -0.02em; margin: 0 0 12px; color: #f8fafc;">${h1}</h1>
-        <p style="font-size: 18px; line-height: 1.5;">${summary}</p>
-        <p style="font-family: ui-monospace, monospace; font-size: 14px; opacity: 0.8;">npm i veloce-ui</p>
-        <nav aria-label="Primary">
-          <a href="/components" style="color: #a78bfa;">Components</a> ·
-          <a href="/charts" style="color: #a78bfa;">Charts</a> ·
-          <a href="/docs/installation" style="color: #a78bfa;">Install</a> ·
-          <a href="/docs/usage" style="color: #a78bfa;">Usage</a> ·
-          <a href="https://github.com/YashKesh/Veloce-UI" style="color: #a78bfa;">GitHub</a>
-        </nav>
+      <main class="vl-ssr-shell" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: radial-gradient(ellipse at top, #1a1740 0%, #121128 55%); color: #cbd5e1;">
+        <div style="max-width: 640px; width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px;">
+          <div aria-hidden="true" style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #a78bfa, #8b5cf6); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px -8px rgba(167, 139, 250, 0.45);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12l6 6L20 6"/></svg>
+          </div>
+          <h1 style="font-size: clamp(28px, 5vw, 44px); font-weight: 650; letter-spacing: -0.02em; margin: 0; color: #f8fafc; line-height: 1.1;">${h1}</h1>
+          <p style="font-size: clamp(14px, 2vw, 17px); line-height: 1.55; margin: 0; color: #cbd5e1; max-width: 560px;">${summary}</p>
+          <code style="display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; color: #e4e4e7;">npm i veloce-ui</code>
+          <nav aria-label="Primary" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; font-size: 13.5px; padding-top: 6px;">
+            <a href="/components" style="color: #a78bfa; text-decoration: none;">Components</a>
+            <a href="/charts" style="color: #a78bfa; text-decoration: none;">Charts</a>
+            <a href="/docs/installation" style="color: #a78bfa; text-decoration: none;">Install</a>
+            <a href="/docs/usage" style="color: #a78bfa; text-decoration: none;">Usage</a>
+            <a href="https://github.com/YashKesh/Veloce-UI" style="color: #a78bfa; text-decoration: none;">GitHub</a>
+          </nav>
+          <div aria-hidden="true" style="margin-top: 14px; width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(167,139,250,0.25); border-top-color: #a78bfa; animation: vl-ssr-spin 900ms linear infinite;"></div>
+        </div>
+        <style>@keyframes vl-ssr-spin { to { transform: rotate(360deg); } }</style>
       </main>`
 
   return template
