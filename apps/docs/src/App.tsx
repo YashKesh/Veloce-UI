@@ -72,6 +72,11 @@ const ChartsLiveLineDoc = lazy(() => import('./pages/charts/ChartsLiveLineDoc'))
 const ChartsComparisonDoc = lazy(() => import('./pages/charts/ChartsComparisonDoc'))
 const GradientBuilderDoc = lazy(() => import('./pages/components/GradientBuilderDoc'))
 const ShadowBuilderDoc = lazy(() => import('./pages/components/ShadowBuilderDoc'))
+const LinkedListDoc = lazy(() => import('./pages/components/LinkedListDoc'))
+const DsaStackDoc = lazy(() => import('./pages/components/DsaStackDoc'))
+const QueueDoc = lazy(() => import('./pages/components/QueueDoc'))
+const BinaryTreeDoc = lazy(() => import('./pages/components/BinaryTreeDoc'))
+const GraphDoc = lazy(() => import('./pages/components/GraphDoc'))
 const MarketingBlocksDoc = lazy(() => import('./pages/components/MarketingBlocksDoc'))
 const MarketingBlockDoc = lazy(() => import('./pages/components/MarketingBlockDoc'))
 const DashboardIndex = lazy(() => import('./pages/dashboards/DashboardIndex'))
@@ -232,6 +237,11 @@ export default function App() {
           <Route path="/components/contrast-checker" element={<ContrastCheckerDoc />} />
           <Route path="/components/gradient-builder" element={<GradientBuilderDoc />} />
           <Route path="/components/shadow-builder" element={<ShadowBuilderDoc />} />
+          <Route path="/components/linked-list" element={<LinkedListDoc />} />
+          <Route path="/components/dsa-stack" element={<DsaStackDoc />} />
+          <Route path="/components/queue" element={<QueueDoc />} />
+          <Route path="/components/binary-tree" element={<BinaryTreeDoc />} />
+          <Route path="/components/graph" element={<GraphDoc />} />
           <Route path="/docs/charts/sparkline-grid" element={<ChartsSparklineGridDoc />} />
           <Route path="/docs/charts/annotations" element={<ChartsAnnotationsDoc />} />
           <Route path="/docs/charts/brush" element={<ChartsBrushDoc />} />

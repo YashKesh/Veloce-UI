@@ -150,6 +150,13 @@ export const ROUTE_META = Object.fromEntries([
   comp('Gradient builder', 'gradient-builder', 'Multi-stop gradient editor (linear / radial / conic) with draggable stops, OKLCH-ready export, and copy-to-clipboard in CSS or Tailwind.'),
   comp('Shadow builder', 'shadow-builder', 'Layered box-shadow editor with per-layer offset, blur, spread, inset, and color controls. Exports as CSS, Tailwind arbitrary value, or CSS variable.'),
 
+  // Data structures pack
+  comp('Linked list', 'linked-list', 'Interactive linked list component for React — singly and doubly linked variants, data + pointer cells, animated insert / delete / highlight, imperative ref API. For CS teaching and interview prep.'),
+  comp('Stack (DSA)', 'dsa-stack', 'Visual LIFO stack data structure React component with animated push and pop, top-of-stack highlight, imperative ref API. Named DsaStack to coexist with the Layout Stack primitive.'),
+  comp('Queue', 'queue', 'Visual FIFO queue plus double-ended deque React component with front and back labels, enqueue / dequeue animations, imperative ref API for pushFront / popBack on deques.'),
+  comp('Binary tree', 'binary-tree', 'Interactive binary tree React component with automatic layout, path highlighting, and animated in-order / pre-order / post-order / level-order traversal playback. BST friendly.'),
+  comp('Graph', 'graph', 'Interactive graph React component — nodes + edges with circular or layered (DAG) layout, directed / undirected / weighted edges, BFS and DFS playback, click-to-select traversal start.'),
+
   // Chart extras pack (full chart-doc layout under /docs/charts/*)
   chartDoc('Sparkline grid', 'sparkline-grid', 'Grid of mini sparklines for dashboards, tables, and metric panels. Each row renders label, sparkline, current value, and delta badge.'),
   chartDoc('Annotations layer', 'annotations', 'Composable overlay for LineChart. Renders point markers, horizontal threshold lines, and vertical range bands using the same coordinate space.'),

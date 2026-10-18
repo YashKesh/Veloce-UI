@@ -65,6 +65,11 @@ export const COMPONENTS: ComponentEntry[] = [
   { label: 'Contrast checker', slug: 'contrast-checker' },
   { label: 'Gradient builder', slug: 'gradient-builder' },
   { label: 'Shadow builder', slug: 'shadow-builder' },
+  { label: 'Linked list', slug: 'linked-list' },
+  { label: 'Stack (DSA)', slug: 'dsa-stack' },
+  { label: 'Queue', slug: 'queue' },
+  { label: 'Binary tree', slug: 'binary-tree' },
+  { label: 'Graph', slug: 'graph' },
   { label: 'Marketing blocks', slug: 'marketing-blocks' },
   { label: 'Sheet', slug: 'sheet' },
   { label: 'Dropdown menu', slug: 'dropdown' },
@@ -432,6 +437,16 @@ export const DOCS_SIDEBAR: SidebarGroup[] = [
           item('Layout primitives', 'layout'),
         ],
       },
+    ],
+  },
+  {
+    title: 'Data structures',
+    items: [
+      { label: 'Linked list', to: '/components/linked-list', chip: 'NEW' },
+      { label: 'Stack', to: '/components/dsa-stack', chip: 'NEW' },
+      { label: 'Queue', to: '/components/queue', chip: 'NEW' },
+      { label: 'Binary tree', to: '/components/binary-tree', chip: 'NEW' },
+      { label: 'Graph', to: '/components/graph', chip: 'NEW' },
     ],
   },
   {

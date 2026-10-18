@@ -42,6 +42,11 @@ const SHIPPED_IN_UI: Record<string, string> = {
   'contrast-checker': 'ContrastChecker',
   'gradient-builder': 'GradientBuilder',
   'shadow-builder': 'ShadowBuilder',
+  'linked-list': 'LinkedList',
+  'dsa-stack': 'DsaStack',
+  'queue': 'Queue',
+  'binary-tree': 'BinaryTree',
+  'graph': 'Graph',
 }
 
 function ShipsCallout({ exportName }: { exportName: string }) {

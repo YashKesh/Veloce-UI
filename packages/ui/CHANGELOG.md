@@ -5,6 +5,45 @@ All notable changes to the `veloce-ui` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] — 2026-10-18
+
+### Added — Data Structures pack
+A new chapter of veloce-ui aimed at CS education, interview-prep content,
+algorithm articles, and docs that need to show real data structures (not
+just abstract diagrams). All five components are pure SVG, SSR-safe,
+OKLCH-themed, and support both declarative data props and an imperative
+ref API for teaching-flow animations.
+
+- `LinkedList` — singly and doubly linked variants, two-cell nodes (data +
+  pointer) with directional arrows, null-terminator cell, highlight / push /
+  pop / shift / unshift / insert / remove / snapshot
+- `DsaStack` — vertical frames with top-of-stack highlight and push
+  animation. Named `DsaStack` to coexist with the existing Layout `Stack`
+  primitive. Overflow collapses older frames with a `+N hidden` indicator.
+- `Queue` — FIFO plus a `deque` variant with `pushFront` / `popBack`.
+  Explicit front / back labels; enqueue animates in from the right.
+- `BinaryTree` — automatic layout, path highlighting, animated playback of
+  in-order / pre-order / post-order / level-order traversals via
+  `ref.current.traverse(order, intervalMs)`
+- `Graph` — nodes + edges with circular or layered (DAG) layout, directed /
+  undirected / weighted edges, click-to-select traversal start, BFS / DFS
+  playback with an awaitable `ref.current.run(algorithm, start)` that
+  returns the visit order
+- Layout utilities exported for library consumers who want to roll their
+  own visuals: `layoutBinaryTree`, `circularGraphLayout`,
+  `layeredGraphLayout`, `shrinkSegment`, `SIZE_PX`, `DSA_COLORS`
+
+### Docs
+- 5 new doc pages under **Components → Data structures** (new top-level
+  sidebar group)
+- Each page has an interactive preview, variant / sizes / imperative-ref
+  sections, and the full API table
+- All five get the `Download starter kit (.zip)` button shipped in 0.4.1
+
+### Internal
+- Package d.ts grew from 99.8 KB → 107 KB.
+- All 388 tests still passing.
+
 ## [0.4.0] — 2026-10-17
 
 ### Added — Color pack

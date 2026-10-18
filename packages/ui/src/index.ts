@@ -446,6 +446,41 @@ export type {
 export { ShadowBuilder } from './components/ShadowBuilder'
 export type { ShadowBuilderProps, ShadowLayer, ShadowExportFormat } from './components/ShadowBuilder'
 
+/* Data Structures pack */
+
+export { LinkedList } from './components/dsa/LinkedList'
+export type { LinkedListProps, LinkedListHandle, LinkedListVariant } from './components/dsa/LinkedList'
+
+export { DsaStack } from './components/dsa/DsaStack'
+export type { DsaStackProps, DsaStackHandle } from './components/dsa/DsaStack'
+
+export { Queue } from './components/dsa/Queue'
+export type { QueueProps, QueueHandle, QueueVariant } from './components/dsa/Queue'
+
+export { BinaryTree } from './components/dsa/BinaryTree'
+export type { BinaryTreeProps, BinaryTreeHandle, TraversalOrder } from './components/dsa/BinaryTree'
+
+export { Graph } from './components/dsa/Graph'
+export type { GraphProps, GraphHandle, GraphLayout, GraphAlgorithm } from './components/dsa/Graph'
+
+export {
+  layoutBinaryTree,
+  circularGraphLayout,
+  layeredGraphLayout,
+  shrinkSegment,
+  SIZE_PX,
+  DSA_COLORS,
+} from './components/dsa/dsaCommon'
+export type {
+  DsaSize,
+  TreeNodeInput,
+  LaidTreeNode,
+  TreeLayoutOptions,
+  GraphNodeInput,
+  GraphEdgeInput,
+  LaidGraphNode,
+} from './components/dsa/dsaCommon'
+
 export {
   parseColor,
   fromRgb,
