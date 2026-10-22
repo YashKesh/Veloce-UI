@@ -463,6 +463,50 @@ export type { BinaryTreeProps, BinaryTreeHandle, TraversalOrder } from './compon
 export { Graph } from './components/dsa/Graph'
 export type { GraphProps, GraphHandle, GraphLayout, GraphAlgorithm } from './components/dsa/Graph'
 
+export { Heap } from './components/dsa/Heap'
+export type { HeapProps, HeapHandle, HeapKind } from './components/dsa/Heap'
+
+export { Trie } from './components/dsa/Trie'
+export type { TrieProps, TrieHandle } from './components/dsa/Trie'
+
+export { HashMap } from './components/dsa/HashMap'
+export type { HashMapProps, HashMapHandle, HashMapEntry } from './components/dsa/HashMap'
+
+export { DisjointSet } from './components/dsa/DisjointSet'
+export type { DisjointSetProps, DisjointSetHandle } from './components/dsa/DisjointSet'
+
+export { AVLTree } from './components/dsa/AVLTree'
+export type { AVLTreeProps, AVLTreeHandle } from './components/dsa/AVLTree'
+
+export { SegmentTree } from './components/dsa/SegmentTree'
+export type { SegmentTreeProps, SegmentTreeHandle, SegmentTreeOp } from './components/dsa/SegmentTree'
+
+/* Algorithm playbacks */
+
+export { usePlayback } from './components/dsa/usePlayback'
+export type { PlaybackState, PlaybackStatus, PlaybackOptions } from './components/dsa/usePlayback'
+
+export { PlaybackControls } from './components/dsa/PlaybackControls'
+export type { PlaybackControlsProps } from './components/dsa/PlaybackControls'
+
+export { SortingVisualizer } from './components/dsa/SortingVisualizer'
+export type { SortingVisualizerProps, SortingVisualizerHandle, SortAlgorithm, SortStep } from './components/dsa/SortingVisualizer'
+
+export { DijkstraVisualizer } from './components/dsa/DijkstraVisualizer'
+export type { DijkstraVisualizerProps, DijkstraVisualizerHandle, DijkstraStep } from './components/dsa/DijkstraVisualizer'
+
+export { DPTable } from './components/dsa/DPTable'
+export type { DPTableProps, DPTableHandle, DPKind, DPStep } from './components/dsa/DPTable'
+
+export { AStarVisualizer } from './components/dsa/AStarVisualizer'
+export type { AStarVisualizerProps, AStarVisualizerHandle, AStarHeuristic, AStarStep } from './components/dsa/AStarVisualizer'
+
+export { MSTVisualizer } from './components/dsa/MSTVisualizer'
+export type { MSTVisualizerProps, MSTVisualizerHandle, MSTAlgorithm, MSTStep } from './components/dsa/MSTVisualizer'
+
+export { TopologicalSortVisualizer } from './components/dsa/TopologicalSortVisualizer'
+export type { TopologicalSortVisualizerProps, TopologicalSortVisualizerHandle, TopoStep } from './components/dsa/TopologicalSortVisualizer'
+
 export {
   layoutBinaryTree,
   circularGraphLayout,

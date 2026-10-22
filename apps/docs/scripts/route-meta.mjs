@@ -157,6 +157,22 @@ export const ROUTE_META = Object.fromEntries([
   comp('Binary tree', 'binary-tree', 'Interactive binary tree React component with automatic layout, path highlighting, and animated in-order / pre-order / post-order / level-order traversal playback. BST friendly.'),
   comp('Graph', 'graph', 'Interactive graph React component — nodes + edges with circular or layered (DAG) layout, directed / undirected / weighted edges, BFS and DFS playback, click-to-select traversal start.'),
 
+  // Data structures pack 2 (advanced)
+  comp('Heap', 'heap', 'Binary min / max heap React component. Insert animates sift-up swap chain; extract animates sift-down. Array indices labelled under each node so the array-backed storage stays visible alongside the tree.'),
+  comp('Trie', 'trie', 'Prefix tree React component for autocomplete, word-break, and prefix-lookup teaching. Shared prefixes collapse into one branch; terminal word nodes get a highlighted ring.'),
+  comp('Hash map', 'hash-map', 'Hash map React component with visualised bucket array + chained collisions. put / get flashes the hashed bucket; load factor badge updates live; swap in a custom hash function to show distribution problems.'),
+  comp('Disjoint set', 'disjoint-set', 'Union-Find (disjoint-set) React component. Forest of trees per set with per-root rank badges, union-by-rank + path-compression. Perfect for Kruskal MST, connected-components, cycle-detection pedagogy.'),
+  comp('AVL tree', 'avl-tree', 'Self-balancing AVL tree React component with LL / LR / RR / RL rotations. Balance-factor chip per node highlights when a rotation is about to trigger. Pedagogical rotation examples side-by-side.'),
+  comp('Segment tree', 'segment-tree', 'Segment tree React component for range queries (sum / min / max). Point updates rebuild only affected nodes; range queries light the path of O(log n) visited segments. For algorithm-article and interview-prep docs.'),
+
+  // Algorithm playbacks pack
+  comp('Sorting visualizer', 'sorting-visualizer', 'Interactive sorting algorithm visualiser React component. Bubble, selection, insertion, quick, and merge sort with step-by-step compare / swap animations, play / pause / step / speed controls.'),
+  comp('Dijkstra visualizer', 'dijkstra-visualizer', "Dijkstra's shortest-path visualiser React component. Weighted graph with live distance / predecessor table, edge-relaxation animation, step-by-step play / pause controls."),
+  comp('DP table', 'dp-table', 'Dynamic programming table visualiser React component. Built-in LCS, edit-distance (Levenshtein), and 0/1 knapsack with cell-by-cell fill, dependency highlighting, and back-trace path.'),
+  comp('A* visualizer', 'astar-visualizer', 'A* grid pathfinding visualiser React component. Open / closed set colouring, Manhattan / Euclidean / Chebyshev heuristics, optional diagonal movement, walls, animated expansion + final path.'),
+  comp('MST visualizer', 'mst-visualizer', 'Minimum spanning tree visualiser with Kruskal and Prim playback. Shows considered / accepted / rejected edges and the running MST weight. Great for graph theory teaching.'),
+  comp('Topological sort visualizer', 'topological-sort-visualizer', "Kahn's algorithm for topological sort, visualised. Live in-degree tracking, queue state, and emerging order. Perfect for teaching build pipelines, course prerequisites, task graphs."),
+
   // Chart extras pack (full chart-doc layout under /docs/charts/*)
   chartDoc('Sparkline grid', 'sparkline-grid', 'Grid of mini sparklines for dashboards, tables, and metric panels. Each row renders label, sparkline, current value, and delta badge.'),
   chartDoc('Annotations layer', 'annotations', 'Composable overlay for LineChart. Renders point markers, horizontal threshold lines, and vertical range bands using the same coordinate space.'),

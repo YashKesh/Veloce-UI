@@ -77,6 +77,18 @@ const DsaStackDoc = lazy(() => import('./pages/components/DsaStackDoc'))
 const QueueDoc = lazy(() => import('./pages/components/QueueDoc'))
 const BinaryTreeDoc = lazy(() => import('./pages/components/BinaryTreeDoc'))
 const GraphDoc = lazy(() => import('./pages/components/GraphDoc'))
+const HeapDoc = lazy(() => import('./pages/components/HeapDoc'))
+const TrieDoc = lazy(() => import('./pages/components/TrieDoc'))
+const HashMapDoc = lazy(() => import('./pages/components/HashMapDoc'))
+const DisjointSetDoc = lazy(() => import('./pages/components/DisjointSetDoc'))
+const AVLTreeDoc = lazy(() => import('./pages/components/AVLTreeDoc'))
+const SegmentTreeDoc = lazy(() => import('./pages/components/SegmentTreeDoc'))
+const SortingVisualizerDoc = lazy(() => import('./pages/components/SortingVisualizerDoc'))
+const DijkstraVisualizerDoc = lazy(() => import('./pages/components/DijkstraVisualizerDoc'))
+const DPTableDoc = lazy(() => import('./pages/components/DPTableDoc'))
+const AStarVisualizerDoc = lazy(() => import('./pages/components/AStarVisualizerDoc'))
+const MSTVisualizerDoc = lazy(() => import('./pages/components/MSTVisualizerDoc'))
+const TopologicalSortVisualizerDoc = lazy(() => import('./pages/components/TopologicalSortVisualizerDoc'))
 const MarketingBlocksDoc = lazy(() => import('./pages/components/MarketingBlocksDoc'))
 const MarketingBlockDoc = lazy(() => import('./pages/components/MarketingBlockDoc'))
 const DashboardIndex = lazy(() => import('./pages/dashboards/DashboardIndex'))
@@ -242,6 +254,18 @@ export default function App() {
           <Route path="/components/queue" element={<QueueDoc />} />
           <Route path="/components/binary-tree" element={<BinaryTreeDoc />} />
           <Route path="/components/graph" element={<GraphDoc />} />
+          <Route path="/components/heap" element={<HeapDoc />} />
+          <Route path="/components/trie" element={<TrieDoc />} />
+          <Route path="/components/hash-map" element={<HashMapDoc />} />
+          <Route path="/components/disjoint-set" element={<DisjointSetDoc />} />
+          <Route path="/components/avl-tree" element={<AVLTreeDoc />} />
+          <Route path="/components/segment-tree" element={<SegmentTreeDoc />} />
+          <Route path="/components/sorting-visualizer" element={<SortingVisualizerDoc />} />
+          <Route path="/components/dijkstra-visualizer" element={<DijkstraVisualizerDoc />} />
+          <Route path="/components/dp-table" element={<DPTableDoc />} />
+          <Route path="/components/astar-visualizer" element={<AStarVisualizerDoc />} />
+          <Route path="/components/mst-visualizer" element={<MSTVisualizerDoc />} />
+          <Route path="/components/topological-sort-visualizer" element={<TopologicalSortVisualizerDoc />} />
           <Route path="/docs/charts/sparkline-grid" element={<ChartsSparklineGridDoc />} />
           <Route path="/docs/charts/annotations" element={<ChartsAnnotationsDoc />} />
           <Route path="/docs/charts/brush" element={<ChartsBrushDoc />} />

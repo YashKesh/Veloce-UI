@@ -1,6 +1,6 @@
 {
   "name": "veloce-ui",
-  "version": "0.5.0",
+  "version": "0.7.0",
   "description": "Motion-first React UI primitives — zero runtime, OKLCH-themed, SSR-safe.",
   "license": "MIT",
   "type": "module",

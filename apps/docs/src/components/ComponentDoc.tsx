@@ -47,6 +47,18 @@ const SHIPPED_IN_UI: Record<string, string> = {
   'queue': 'Queue',
   'binary-tree': 'BinaryTree',
   'graph': 'Graph',
+  'heap': 'Heap',
+  'trie': 'Trie',
+  'hash-map': 'HashMap',
+  'disjoint-set': 'DisjointSet',
+  'avl-tree': 'AVLTree',
+  'segment-tree': 'SegmentTree',
+  'sorting-visualizer': 'SortingVisualizer',
+  'dijkstra-visualizer': 'DijkstraVisualizer',
+  'dp-table': 'DPTable',
+  'astar-visualizer': 'AStarVisualizer',
+  'mst-visualizer': 'MSTVisualizer',
+  'topological-sort-visualizer': 'TopologicalSortVisualizer',
 }
 
 function ShipsCallout({ exportName }: { exportName: string }) {
