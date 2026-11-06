@@ -33,16 +33,16 @@ Body/UI: `'Geist',system-ui,sans-serif`; code/labels/kbd/eyebrows/table headers:
 ### Root custom properties — dark (default)
 ```css
 :root{
-  --bg:oklch(0.135 0.008 260);--bg-1:oklch(0.165 0.008 260);--bg-2:oklch(0.205 0.009 260);--bg-3:oklch(0.25 0.01 260);
-  --line:oklch(0.26 0.01 260);--line-2:oklch(0.34 0.012 260);
-  --fg:oklch(0.965 0.004 260);--fg-2:oklch(0.74 0.01 260);--fg-3:oklch(0.56 0.012 260);
-  --ac:oklch(0.64 0.24 292);--ac-h:oklch(0.69 0.24 292);--ac-fg:oklch(0.99 0.01 292);--ac-text:oklch(0.78 0.17 292);
+  --bg:oklch(0.16 0.006 250);--bg-1:oklch(0.195 0.006 250);--bg-2:oklch(0.235 0.007 250);--bg-3:oklch(0.28 0.008 250);
+  --line:oklch(0.29 0.008 250);--line-2:oklch(0.37 0.01 250);
+  --fg:oklch(0.96 0.003 250);--fg-2:oklch(0.74 0.008 250);--fg-3:oklch(0.56 0.01 250);
+  --ac:oklch(0.66 0.15 255);--ac-h:oklch(0.72 0.15 255);--ac-fg:oklch(0.99 0.01 255);--ac-text:oklch(0.78 0.12 255);
   --ac-soft:color-mix(in oklch,var(--ac) 16%,transparent);--ac-line:color-mix(in oklch,var(--ac) 40%,transparent);
-  --ok:oklch(0.76 0.17 150);--err:oklch(0.68 0.2 25);--warn:oklch(0.8 0.16 80);
+  --ok:oklch(0.74 0.15 150);--err:oklch(0.66 0.19 25);--warn:oklch(0.8 0.15 75);
   --shadow-sm:0 1px 2px oklch(0 0 0/.35);--shadow-md:0 4px 12px -2px oklch(0 0 0/.45),0 1px 2px oklch(0 0 0/.3);--shadow-lg:0 16px 40px -8px oklch(0 0 0/.6),0 2px 6px oklch(0 0 0/.3);
-  --desk:oklch(0.09 0.006 260);
+  --desk:oklch(0.11 0.005 250);
 }
-:root{--ac-text-light:oklch(0.5 0.24 292)}
+:root{--ac-text-light:oklch(0.48 0.18 255)}
 ```
 Semantics: `--bg` canvas, `--bg-1` raised surface (cards/sidebars/code), `--bg-2` panels/popovers/toasts, `--bg-3` active/hover fills; `--line` hairlines, `--line-2` interactive borders; `--fg`/`--fg-2`/`--fg-3` text tiers.
 
@@ -51,17 +51,18 @@ Semantics: `--bg` canvas, `--bg-1` raised surface (cards/sidebars/code), `--bg-2
 :root[data-accent="lime"]{--ac:oklch(0.9 0.21 128);--ac-h:oklch(0.94 0.21 128);--ac-fg:oklch(0.22 0.06 128);--ac-text:oklch(0.9 0.2 128);--ac-text-light:oklch(0.5 0.17 128)}
 :root[data-accent="cyan"]{--ac:oklch(0.8 0.13 205);--ac-h:oklch(0.85 0.13 205);--ac-fg:oklch(0.2 0.05 205);--ac-text:oklch(0.82 0.12 205);--ac-text-light:oklch(0.48 0.12 205)}
 ```
-Violet: white text on solid. Lime/cyan: dark text on solid.
+Indigo (default): white text on solid. Lime/cyan: dark text on solid.
 
 ### Light mode
 ```css
 :root[data-mode="light"]{
-  --bg:oklch(0.99 0.002 260);--bg-1:oklch(0.975 0.003 260);--bg-2:oklch(0.95 0.004 260);--bg-3:oklch(0.92 0.005 260);
-  --line:oklch(0.9 0.006 260);--line-2:oklch(0.82 0.008 260);
-  --fg:oklch(0.17 0.01 260);--fg-2:oklch(0.42 0.012 260);--fg-3:oklch(0.58 0.012 260);
-  --ac-text:oklch(0.5 0.24 292);--desk:oklch(0.94 0.004 260);
-  --shadow-sm:0 1px 2px oklch(0 0 0/.08);--shadow-md:0 4px 12px -2px oklch(0 0 0/.12),0 1px 2px oklch(0 0 0/.06);--shadow-lg:0 16px 40px -8px oklch(0 0 0/.18),0 2px 6px oklch(0 0 0/.06);
+  --bg:oklch(0.995 0.002 250);--bg-1:oklch(0.98 0.003 250);--bg-2:oklch(0.96 0.004 250);--bg-3:oklch(0.93 0.005 250);
+  --line:oklch(0.9 0.006 250);--line-2:oklch(0.82 0.008 250);
+  --fg:oklch(0.21 0.015 255);--fg-2:oklch(0.42 0.014 255);--fg-3:oklch(0.58 0.012 255);
+  --ac-text:oklch(0.48 0.18 255);--desk:oklch(0.93 0.005 250);
+  --shadow-sm:0 1px 2px oklch(0 0 0/.06);--shadow-md:0 4px 12px -2px oklch(0 0 0/.09),0 1px 2px oklch(0 0 0/.05);--shadow-lg:0 16px 40px -8px oklch(0 0 0/.14),0 2px 6px oklch(0 0 0/.05);
 }
+:root[data-mode="light"]{--ac:oklch(0.5 0.17 255);--ac-h:oklch(0.44 0.17 255)}
 :root[data-mode="light"][data-accent="lime"]{--ac-text:oklch(0.5 0.17 128)}
 :root[data-mode="light"][data-accent="cyan"]{--ac-text:oklch(0.48 0.12 205)}
 :root[data-rm="true"] *{animation:none!important}
@@ -122,7 +123,7 @@ sm/md/lg per `--shadow-*`; focus glow `var(--shadow-lg),0 0 0 1px var(--ac-line)
 const L = [0.98,0.95,0.91,0.86,0.80,0.73,0.66,0.58,0.50,0.42,0.32,0.20];
 // step i: chroma = c < 0.02 ? c : c * (0.25 + 0.75 * Math.sin(Math.PI * i / 11));
 // css: `oklch(${L[i]} ${ch} ${hue})`
-// ramps: neutral hue 260 c 0.008 (solid step index 0), violet 292/0.26 (solid 7), lime 128/0.22 (solid 2), cyan 205/0.14 (solid 4)
+// ramps: neutral hue 250 c 0.006 (solid step index 0), indigo 255/0.17 (solid 7), lime 128/0.22 (solid 2), cyan 205/0.14 (solid 4)
 ```
 Semantic aliases shown: `--vl-canvas → neutral.12`, `--vl-surface → neutral.11`, `--vl-accent → accent.solid`, `--vl-ring → accent.solid / 2px offset`. "Step 1 = lightest surface, step 12 = darkest ink. Dark mode reads the scale in reverse. ● marks the solid step."
 
@@ -168,7 +169,7 @@ Spec sheet layout (pad 56 64): H1 44px/-0.04em. Sections: Color scales (4 ramps 
 ### 1e · Close-ups (`/closeups`) — see D. Includes Light-mode strip: identical markup under light overrides (wrap in a container that sets the light token values locally).
 
 ### 1f · Accent variants (`/accents`)
-3 cards (violet/lime/cyan), each locally overriding `--ac/--ac-h/--ac-fg/--ac-text`: logo row + accent CSS value; label `A — ELECTRIC VIOLET` / `B — SIGNAL LIME` / `C — PLASMA CYAN`; 40px "Components that move."; blurb (violet "Deep, technical, premium. Reads as 'engineering tool' instantly; white text on solid." / lime "Loudest and most ownable. Highest contrast on near-black; dark text on solid." / cyan "Cool and calm, closest to the canvas tint. Most restrained; dark text on solid."); button row (solid/soft/focus/switch); "Preview ready" toast; 12-step ramp strip.
+3 cards (indigo/lime/cyan), each locally overriding `--ac/--ac-h/--ac-fg/--ac-text`: logo row + accent CSS value; label `A — INK INDIGO` / `B — SIGNAL LIME` / `C — PLASMA CYAN`; 40px "Components that move."; blurb (indigo "Editorial and calm. Reads as 'product docs,' not a template; white text on solid." / lime "Loudest and most ownable. Highest contrast on near-black; dark text on solid." / cyan "Cool and calm, closest to the canvas tint. Most restrained; dark text on solid."); button row (solid/soft/focus/switch); "Preview ready" toast; 12-step ramp strip.
 
 ### 2a · Feedback & loading (`/feedback`)
 Eyebrow `COVERAGE · ROUND 2`, H1 "Feedback, loading & navigation", pill list of 17 components (Toaster, Spinner, Progress, Skeleton, Alert, Avatar, Chip, Radio, Slider, Textarea, Toggle group, Breadcrumbs, Pagination, Stepper, Table, Sheet, Empty state). Sections per component — see D for exact specs. Toast section shows stacking (n−1 `translateY(-64px) scale(.96) op .8`, n−2 `translateY(-124px) scale(.92) op .45 blur(.6px)`, "stack 180ms"), toast.promise morph note, aria-live polite, pause on hover.

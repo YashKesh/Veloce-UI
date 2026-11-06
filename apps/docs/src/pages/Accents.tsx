@@ -28,17 +28,17 @@ interface AccentCard {
 
 const CARDS: AccentCard[] = [
   {
-    label: 'A — ELECTRIC VIOLET',
+    label: 'A — INK INDIGO',
     accent: 'violet',
-    css: 'oklch(0.64 0.24 292)',
+    css: 'oklch(0.66 0.15 255)',
     vars: {
-      '--ac': 'oklch(0.64 0.24 292)',
-      '--ac-h': 'oklch(0.69 0.24 292)',
-      '--ac-fg': 'oklch(0.99 0.01 292)',
-      '--ac-text': 'oklch(0.78 0.17 292)',
+      '--ac': 'oklch(0.66 0.15 255)',
+      '--ac-h': 'oklch(0.72 0.15 255)',
+      '--ac-fg': 'oklch(0.99 0.01 255)',
+      '--ac-text': 'oklch(0.78 0.12 255)',
     } as CSSProperties,
-    blurb: 'Deep, technical, premium. Reads as “engineering tool” instantly; white text on solid.',
-    steps: rampSteps(292, 0.26),
+    blurb: 'Editorial and calm. Reads as “product docs,” not a template; white text on solid.',
+    steps: rampSteps(255, 0.17),
   },
   {
     label: 'B — SIGNAL LIME',

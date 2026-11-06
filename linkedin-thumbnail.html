@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>veloce-ui — LinkedIn thumbnail</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Geist+Mono:wght@500;700&display=swap');
+
+  :root {
+    /* Pulled from apps/docs/src/styles/tokens.css */
+    --bg:   oklch(0.135 0.008 260);
+    --bg-1: oklch(0.165 0.008 260);
+    --bg-2: oklch(0.205 0.009 260);
+    --line: oklch(0.26 0.01 260);
+    --line-2: oklch(0.34 0.012 260);
+    --fg:   oklch(0.965 0.004 260);
+    --fg-2: oklch(0.74 0.01 260);
+    --fg-3: oklch(0.56 0.012 260);
+    --ac:   oklch(0.64 0.24 292);     /* violet */
+    --ac-h: oklch(0.69 0.24 292);
+    --ac-fg:oklch(0.99 0.01 292);
+    --ac-text:oklch(0.78 0.17 292);
+    --ac-soft: color-mix(in oklch, var(--ac) 16%, transparent);
+    --ac-line: color-mix(in oklch, var(--ac) 40%, transparent);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #000; }
+  body {
+    display: grid; place-items: center; min-height: 100vh;
+    font-family: 'Geist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    width: 1200px; height: 627px;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(1100px 600px at 85% -10%, color-mix(in oklch, var(--ac) 32%, transparent), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, color-mix(in oklch, var(--ac) 18%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--bg) 0%, oklch(0.1 0.006 260) 100%);
+    color: var(--fg);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(color-mix(in oklch, var(--ac) 22%, transparent) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.12) 60%, transparent);
+    pointer-events: none;
+  }
+
+  .inner {
+    position: absolute; inset: 0;
+    padding: 64px 72px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .brand {
+    display: flex; align-items: center; gap: 14px;
+    font-weight: 700; letter-spacing: -0.02em;
+    font-size: 22px;
+  }
+  .logo {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--ac), var(--ac-h));
+    display: grid; place-items: center;
+    color: var(--ac-fg); font-weight: 900; font-size: 20px;
+    box-shadow: 0 0 0 1px var(--ac-line), 0 10px 30px color-mix(in oklch, var(--ac) 40%, transparent);
+  }
+  .brand small { color: var(--fg-3); font-weight: 500; margin-left: 4px; }
+
+  h1 {
+    margin: 24px 0 16px;
+    font-size: 70px;
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--ac), var(--ac-text));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+
+  .sub {
+    color: var(--fg-2);
+    font-size: 20px;
+    line-height: 1.5;
+    max-width: 560px;
+    letter-spacing: -0.005em;
+  }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .chip {
+    font-size: 13px; font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    color: var(--ac-text);
+    background: var(--ac-soft);
+    border: 1px solid var(--ac-line);
+  }
+
+  .stats { display: flex; gap: 36px; margin-top: 36px; }
+  .stat .n { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; }
+  .stat .l {
+    font-size: 12px; color: var(--fg-3);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* Right-side mock */
+  .preview { position: relative; height: 100%; display: grid; place-items: center; }
+  .window {
+    width: 100%;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,0.55),
+      0 0 0 1px color-mix(in oklch, var(--ac) 12%, transparent),
+      inset 0 1px 0 rgba(255,255,255,0.03);
+    overflow: hidden;
+    transform: rotate(-1.5deg);
+  }
+  .titlebar {
+    display: flex; gap: 8px; padding: 12px 14px;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid var(--line);
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+
+  .wbody { padding: 20px; display: grid; gap: 14px; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .kpi {
+    padding: 12px; border-radius: 10px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+  }
+  .kpi .k { font-size: 10px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Geist Mono', monospace; }
+  .kpi .v { font-size: 20px; font-weight: 700; margin-top: 4px; letter-spacing: -0.02em; }
+  .kpi .d { font-size: 11px; color: var(--ac-text); margin-top: 2px; font-weight: 600; }
+
+  .chart {
+    height: 150px; border-radius: 10px;
+    background:
+      linear-gradient(180deg, var(--ac-soft), transparent 70%),
+      var(--bg-2);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .chart svg { width: 100%; height: 100%; display: block; }
+
+  .btn-row { display: flex; gap: 8px; }
+  .btn {
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    font-family: 'Geist', sans-serif;
+  }
+  .btn.primary { background: var(--ac); color: var(--ac-fg); }
+  .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--line-2); }
+
+  .footer {
+    position: absolute; left: 72px; bottom: 36px;
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 13px; color: var(--fg-3);
+  }
+  .footer .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ac);
+    box-shadow: 0 0 0 4px color-mix(in oklch, var(--ac) 25%, transparent);
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="inner">
+      <div>
+        <div class="brand">
+          <div class="logo">V</div>
+          veloce ui <small>· motion-first react library</small>
+        </div>
+        <h1>Components<br/>that <em>move.</em></h1>
+        <div class="sub">
+          A motion-first React 19 component library. 36 primitives, 13 charts,
+          OKLCH-themed, zero runtime, SSR-safe.
+        </div>
+        <div class="chips">
+          <span class="chip">React 19</span>
+          <span class="chip">OKLCH theming</span>
+          <span class="chip">Zero runtime</span>
+          <span class="chip">SSR-safe</span>
+          <span class="chip">TypeScript</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="n">36</div><div class="l">Primitives</div></div>
+          <div class="stat"><div class="n">13</div><div class="l">Charts</div></div>
+          <div class="stat"><div class="n">310</div><div class="l">Tests passing</div></div>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="window">
+          <div class="titlebar">
+            <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          </div>
+          <div class="wbody">
+            <div class="kpis">
+              <div class="kpi"><div class="k">Revenue</div><div class="v">$48.2k</div><div class="d">+12.4%</div></div>
+              <div class="kpi"><div class="k">Users</div><div class="v">2,814</div><div class="d">+8.1%</div></div>
+              <div class="kpi"><div class="k">Churn</div><div class="v">1.9%</div><div class="d">-0.3%</div></div>
+            </div>
+            <div class="chart">
+              <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%"  stop-color="oklch(0.64 0.24 292)" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="oklch(0.64 0.24 292)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,110 C40,95 70,80 110,70 C150,60 180,85 220,60 C260,35 300,55 340,30 C370,15 390,25 400,20 L400,150 L0,150 Z" fill="url(#g)"/>
+                <path d="M0,110 C40,95 70,80 110,70 C150,60 180,85 220,60 C260,35 300,55 340,30 C370,15 390,25 400,20" fill="none" stroke="oklch(0.78 0.17 292)" stroke-width="2.5"/>
+              </svg>
+            </div>
+            <div class="btn-row">
+              <div class="btn primary">Get started</div>
+              <div class="btn ghost">View docs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span class="pulse"></span>
+      <span>v0.3.0 · open source · npm i veloce-ui</span>
+    </div>
+  </div>
+</body>
+</html>

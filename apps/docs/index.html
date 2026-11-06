@@ -3,8 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#121128" />
+    <meta name="theme-color" content="#1a1d23" />
     <meta name="color-scheme" content="dark light" />
+
+    <script>
+      // Restore saved theme before first paint to avoid a flash of the wrong mode on reload.
+      (function () {
+        try {
+          var m = localStorage.getItem('vl-mode');
+          var a = localStorage.getItem('vl-accent');
+          var r = localStorage.getItem('vl-rm');
+          var el = document.documentElement;
+          if (m === 'light' || m === 'dark') el.dataset.mode = m;
+          if (a) el.dataset.accent = a;
+          if (r) el.dataset.rm = r;
+        } catch (e) {}
+      })();
+    </script>
 
     <title>Veloce UI — Components that move · Motion-first React library</title>
     <meta name="description" content="Motion-first React 19 component library. 36 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe. Install with npm i veloce-ui." />

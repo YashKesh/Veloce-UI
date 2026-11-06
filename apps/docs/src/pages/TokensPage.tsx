@@ -29,8 +29,8 @@ function ramp(name: string, hue: number, c: number, solidIndex: number): Ramp {
   }
 }
 
-// solid step index per spec: neutral 0 · violet 7 · lime 2 · cyan 4
-const RAMPS = [ramp('neutral', 260, 0.008, 0), ramp('violet', 292, 0.26, 7), ramp('lime', 128, 0.22, 2), ramp('cyan', 205, 0.14, 4)]
+// solid step index per spec: neutral 0 · indigo 7 · lime 2 · cyan 4
+const RAMPS = [ramp('neutral', 250, 0.006, 0), ramp('indigo', 255, 0.17, 7), ramp('lime', 128, 0.22, 2), ramp('cyan', 205, 0.14, 4)]
 
 const SPACING = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16].map((n) => ({
   n,

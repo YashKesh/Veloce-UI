@@ -464,7 +464,7 @@ function WhyZeroRuntime() {
 }
 
 const ACCENT_SWATCHES: Array<{ id: string; color: string }> = [
-  { id: 'violet', color: 'oklch(0.64 0.24 292)' },
+  { id: 'violet', color: 'oklch(0.66 0.15 255)' },
   { id: 'blue', color: 'oklch(0.62 0.19 255)' },
   { id: 'cyan', color: 'oklch(0.8 0.13 205)' },
   { id: 'emerald', color: 'oklch(0.72 0.16 155)' },

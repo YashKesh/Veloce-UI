@@ -3,7 +3,7 @@ import { useTheme, type Accent } from '../theme'
 const ACCENTS: Accent[] = ['violet', 'lime', 'cyan', 'blue', 'emerald', 'amber', 'rose']
 
 const SWATCH: Record<Accent, string> = {
-  violet: 'oklch(0.64 0.24 292)',
+  violet: 'oklch(0.66 0.15 255)',
   lime: 'oklch(0.9 0.21 128)',
   cyan: 'oklch(0.8 0.13 205)',
   blue: 'oklch(0.62 0.19 255)',

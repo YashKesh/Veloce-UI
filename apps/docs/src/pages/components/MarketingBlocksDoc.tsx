@@ -72,7 +72,7 @@ export default function MarketingBlocksDoc() {
           </BentoCell>
           <BentoCell colSpan={2} title="Themed" description="7 accents × 2 modes.">
             <div style={{ display: 'flex', gap: 4, marginTop: 'auto' }}>
-              {['oklch(0.64 0.24 292)', 'oklch(0.8 0.13 205)', 'oklch(0.9 0.21 128)', 'oklch(0.72 0.16 155)', 'oklch(0.83 0.16 70)', 'oklch(0.65 0.22 12)'].map((c, i) => (
+              {['oklch(0.66 0.15 255)', 'oklch(0.8 0.13 205)', 'oklch(0.9 0.21 128)', 'oklch(0.72 0.16 155)', 'oklch(0.83 0.16 70)', 'oklch(0.65 0.22 12)'].map((c, i) => (
                 <span key={i} style={{ width: 24, height: 24, borderRadius: 7, background: c }} />
               ))}
             </div>
