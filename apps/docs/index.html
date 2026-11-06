@@ -127,27 +127,54 @@
   </head>
   <body>
     <noscript>
-      <main style="max-width: 720px; margin: 48px auto; padding: 24px; font-family: system-ui, sans-serif; color: #e5e7eb; background: #121128;">
+      <main style="max-width: 720px; margin: 48px auto; padding: 24px; font-family: system-ui, sans-serif; color: #e5e7eb; background: #1a1d23;">
         <h1>Veloce UI — Components that move</h1>
         <p>Motion-first React 19 component library with 36 primitives, 13 charts, OKLCH-themed, zero runtime, SSR-safe. Install with <code>npm i veloce-ui</code>.</p>
         <p><a href="https://www.npmjs.com/package/veloce-ui">npm package</a> · <a href="https://github.com/YashKesh/Veloce-UI">GitHub</a></p>
         <p>This site renders with JavaScript. Please enable JavaScript to view the full documentation.</p>
       </main>
     </noscript>
+    <style>
+      .vl-ssr-shell{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#1a1d23;color:#f4f5f7;font-family:'Geist',system-ui,sans-serif;z-index:9999}
+      :root[data-mode="light"] .vl-ssr-shell{background:#fcfcfd;color:#262a33}
+      .vl-ssr-shell__inner{display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:vl-ssr-in .35s cubic-bezier(.16,1,.3,1) forwards}
+      .vl-ssr-shell__mark{display:flex;align-items:center;gap:10px}
+      .vl-ssr-shell__badge{width:28px;height:28px;border-radius:7px;background:#5f7cf2;display:inline-flex;align-items:center;justify-content:center}
+      .vl-ssr-shell__slash{width:4px;height:15px;background:#fff;transform:skewX(-22deg);display:inline-block}
+      .vl-ssr-shell__name{font-weight:600;font-size:18px;letter-spacing:-.01em}
+      .vl-ssr-shell__name span{color:#8a8f99;font-weight:500}
+      :root[data-mode="light"] .vl-ssr-shell__name span{color:#6b7280}
+      .vl-ssr-shell__bar{width:120px;height:2px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;position:relative}
+      :root[data-mode="light"] .vl-ssr-shell__bar{background:rgba(0,0,0,.06)}
+      .vl-ssr-shell__bar::after{content:"";position:absolute;inset:0;background:#5f7cf2;transform-origin:left;animation:vl-ssr-bar 1.1s cubic-bezier(.22,1,.36,1) infinite}
+      .vl-ssr-shell__seo{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+      @keyframes vl-ssr-in{to{opacity:1}}
+      @keyframes vl-ssr-bar{0%{transform:scaleX(0);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}50.01%{transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
+      @media (prefers-reduced-motion:reduce){.vl-ssr-shell__inner{animation:none;opacity:1}.vl-ssr-shell__bar::after{animation:none;transform:scaleX(.4)}}
+    </style>
     <div id="root">
-      <!-- Prerendered SEO/LLM shell: visible in HTML source for non-rendering crawlers, replaced by React on mount. -->
-      <main style="max-width: 760px; margin: 40px auto; padding: 24px; font-family: system-ui, sans-serif; color: #cbd5e1; background: #121128;">
-        <h1 style="font-size: 44px; font-weight: 650; letter-spacing: -0.02em; margin: 0 0 12px; color: #f8fafc;">Veloce UI — Components that move</h1>
-        <p style="font-size: 18px; line-height: 1.5;">Motion-first React 19 component library. 36 primitives, 13 chart types, Layout and Motion utilities, OKLCH-themed tokens, zero runtime, SSR-safe.</p>
-        <p style="font-family: ui-monospace, monospace; font-size: 14px; opacity: 0.8;">npm i veloce-ui</p>
-        <nav aria-label="Primary">
-          <a href="/components" style="color: #a78bfa;">Components</a> ·
-          <a href="/charts" style="color: #a78bfa;">Charts</a> ·
-          <a href="/docs/installation" style="color: #a78bfa;">Install</a> ·
-          <a href="/docs/usage" style="color: #a78bfa;">Usage</a> ·
-          <a href="https://github.com/YashKesh/Veloce-UI" style="color: #a78bfa;">GitHub</a>
-        </nav>
-      </main>
+      <!-- Branded SSR splash — shown for ~400ms before React mounts. Contains an invisible SEO/LLM text block for non-rendering crawlers. -->
+      <div class="vl-ssr-shell">
+        <div class="vl-ssr-shell__inner">
+          <div class="vl-ssr-shell__mark">
+            <span class="vl-ssr-shell__badge"><span class="vl-ssr-shell__slash"></span></span>
+            <span class="vl-ssr-shell__name">Veloce <span>UI</span></span>
+          </div>
+          <div class="vl-ssr-shell__bar" aria-hidden="true"></div>
+        </div>
+        <main class="vl-ssr-shell__seo">
+          <h1>Veloce UI — Components that move</h1>
+          <p>Motion-first React 19 component library. 36 primitives, 13 chart types, Layout and Motion utilities, OKLCH-themed tokens, zero runtime, SSR-safe.</p>
+          <p>npm i veloce-ui</p>
+          <nav aria-label="Primary">
+            <a href="/components">Components</a> ·
+            <a href="/charts">Charts</a> ·
+            <a href="/docs/installation">Install</a> ·
+            <a href="/docs/usage">Usage</a> ·
+            <a href="https://github.com/YashKesh/Veloce-UI">GitHub</a>
+          </nav>
+        </main>
+      </div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
