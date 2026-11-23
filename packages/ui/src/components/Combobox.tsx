@@ -108,7 +108,9 @@ export function Combobox({
           boxSizing: 'border-box',
         }}
       />
-      <span style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--fg-3)', pointerEvents: 'none' }}>⌄</span>
+      <svg aria-hidden width="14" height="14" viewBox="0 0 14 14" style={{ position: 'absolute', right: 10, top: '50%', marginTop: -7, color: 'var(--fg-3)', pointerEvents: 'none', display: 'block' }}>
+        <path d="M3.5 5.5l3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
       {open && (
         <ul
           role="listbox"

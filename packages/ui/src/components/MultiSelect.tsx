@@ -119,7 +119,11 @@ export function MultiSelect({
             </span>
           ))
         )}
-        <span style={{ marginLeft: 'auto', padding: '0 8px', color: 'var(--fg-3)' }}>⌄</span>
+        <span aria-hidden style={{ marginLeft: 'auto', padding: '0 8px', color: 'var(--fg-3)', display: 'inline-flex', alignItems: 'center' }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" style={{ display: 'block' }}>
+            <path d="M3.5 5.5l3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
       </div>
       {open && (
         <div style={{ position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, background: 'var(--bg-2)', border: '1px solid var(--line-2)', borderRadius: 8, boxShadow: 'var(--shadow-md)', zIndex: 50, overflow: 'hidden' }}>
